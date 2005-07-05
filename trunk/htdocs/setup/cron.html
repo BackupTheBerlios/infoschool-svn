@@ -1,0 +1,16 @@
+<p>F&uuml;r manche kommt jetzt der unangenehme Teil. Wem cron zur Verf&uuml;gung steht (unter Linux Standard) f&uuml;llt einfach das Formular aus:</p>
+<form action="cron.php" method="post">
+ <p>HTTP-Host<sup>1)</sup>: <input type="text" name="host" value="%host%" /></p>
+ <p><input type="checkbox" name="crontab" value="true"> crontab direkt eintragen<sup>2)</sup></p>
+ <p><input type="submit" value="Eintragen" /></p>
+</form>
+<p>
+ 1) Der HTTP-Host ist der Name des Servers, der erreicht werden soll. Um es kompliziert zu machen, muss man korrekterweise in diesem Fall sagen, dass es der Name ist, auf den der Server antworten soll.<br />
+ In den meisten F&auml;llen reicht hier der Domainname aus. Im Falle eines virtuellen Servers, muss hier der Name des virtuellen Servers eingetragen werden.
+</p>
+<p>
+ 2) Diese Option ist nur in seltenen F&auml;llen sinnvoll. Das Setup wird die Datei config/crontab erzeugen, in der steht, wann was ausgef&uuml;hrt werden soll.<br />
+ Wenn man diese Option nun aktiviert, werden diese Informationen automatisch in die Crontabelle des Benutzers eingetragen, mit dem der Webserver l&auml;uft. Dabei werden alle vorigen Informationen aus der Tabelle &uuml;berschrieben. Also Vorsicht, wenn der Webserver von mehreren Personen benutzt wird.<br />
+ Der Befehl <i>crontab pfad/zu/infoschool/config/crontab</i> &uuml;berschreibt die Crontabelle des aktuell eingeloggten Benutzers. Wenn kein Shell-Zugriff zur Verf&uuml;gung steht, muessen manche Skripte manuell gestartet werden.<br />
+ Unter Windows kann man die Informationen aus der Datei config/crontab ad&auml;quat in den Taskmanager eintragen.
+</p>

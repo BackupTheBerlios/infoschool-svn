@@ -1,0 +1,13 @@
+<table align="center"><tr><td>
+ <ul>
+  <tmpl:group><li><a href="group.php?id={id}">{name}</a></li></tmpl:group>
+ </ul>
+</td></tr></table>
+<h2>{new group}</h2>
+<form action="group_new.php" method="post">
+  <div align="center">
+   {Groupname}:<br />
+   <input type="text" name="name" /><br />
+   <input type="submit" value="{New}" />
+  </div>
+</form>

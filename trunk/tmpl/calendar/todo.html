@@ -1,0 +1,18 @@
+<h2>{deadline} - {name}</h2>
+<table width=100% border cellspacing=0>
+ <tr><td class="message_b" colspan=2>{text}</td></tr>
+ <tr><td class="message_d">{Created}: {created}</td><td class="message_d" align="right"><a href="todo_del.php?tid={id}"><img src="../img/rm.gif" border=0 alt="{delete}" title="{delete}" /></a>&nbsp;</td></tr>
+</table>
+<hr />
+<form action="todo_mod.php" method="post">
+ <input type="hidden" name="data[id]" value="{id}">
+ <input type="hidden" name="origin" value="{origin}">
+ <table>
+  <tr><td>{Date}:</td><td><input type="text" name="data[year]" title="{Year}" size="4" maxlength="4" value="{deadline_year}" />{deadline_month}{deadline_day}</td></tr>
+  <tr><td>{Time}:</td><td>{deadline_hour}{deadline_minute}{deadline_second}</td></tr>
+  <tr><td>{Name}:</td><td><input type="text" name="data[name]" value="{name}" /></td></tr>
+ </table>
+ {textarea}
+ <p><input type="checkbox" name="data[expire]" value="1"<tmpl:expire> checked</tmpl:expire> /> {delete after expiration}
+ <p><input type="submit" value="{Change}" /></p>
+</form>

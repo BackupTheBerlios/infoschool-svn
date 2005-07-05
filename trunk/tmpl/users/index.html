@@ -1,0 +1,35 @@
+<style type="text/css">
+ li.person {
+
+ }
+ li.person_icq {
+  list-style-image:url(
+ }
+</style>
+<form action="./" method="post">
+ <table align="center" cellspacing="10">
+  <tr><th>{Person} ({person_count})</th><th>{Group} ({group_count})</th></tr>
+  <tr><td><input type="text" name="person" value="{person_name}" /></td><td><input type="text" name="group" value="{group_name}" /></td></tr>
+  <tr>
+   <td colspan="2" align="center">
+    <input type="submit" value="{Search}" /><br />
+    </form>
+    <form action="./" method="post">
+     <input type="hidden" name="person" value="%" />
+     <input type="hidden" name="group" value="%" />
+     <input type="submit" value="{show all}" />
+    </form>
+   </td></tr>
+  <tr>
+   <td valign="top">
+    <ul>
+     <tmpl:person><li><a href="person.php?id={id}">{name}</a></li></tmpl:person>
+    </ul>
+   </td>
+   <td valign="top">
+    <ul>
+     <tmpl:group><li><a href="group.php?id={id}">{name}</a></li></tmpl:group>
+    </ul>
+   </td>
+  </tr>
+ </table>

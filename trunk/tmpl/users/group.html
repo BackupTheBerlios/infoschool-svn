@@ -1,0 +1,26 @@
+<h1>{name}</h1>
+<p>{Head}: <a href="person.php?id={head_id}">{head_first_name} {head_last_name}</a></p>
+<p>{description}</p>
+<p>{Meetings}: {meetings_number}</p>
+<tmpl:meetings>
+ <table class="cells_w">
+  <tr><th>{Dow}</th><th>{Time}</th><th>{Status}</th></tr>
+  <tmpl:meeting>
+   <tr>
+    <td>{dow {dow}}</td>
+    <td>{time}</td>
+    <td><tmpl:status><font color="#ff0000">{date} {status}</font><br /></tmpl:status></td>
+   </tr>
+  </tmpl:meeting>
+ </table>
+</tmpl:meetings>
+<p>{Members}: {members_number}&nbsp;&nbsp;<a href="../messages/neu.php?typ=gruppe&id={id}"><img src="{root}img/mail.gif" border=0 alt="{send message}" title="{send message}" /></a></p>
+<ul>
+ <tmpl:member><li><a href="person.php?id={member_id}">{last_name}, {first_name}</a></li></tmpl:member>
+</ul>
+<p>
+ <form action="pg.php?gid={id}" method="post">
+  <input type="hidden" name="action" value="{pg_action}" />
+  <input type="submit" value="{{pg_action}}" />
+ </form>
+</p>

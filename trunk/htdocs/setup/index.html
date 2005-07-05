@@ -1,0 +1,14 @@
+<p>Folgende Administrationsaufgaben stehen zur Verf&uuml;gung:</p>
+<ul>
+ <li><a href="mysql_mod.php">MySQL-Daten &auml;ndern</a></li>
+ <li><a href="random.php">Zufallspasswort</a> f&uuml;r automatische Skripte erstellen</li>
+ <li>crontab einrichten</li>
+</ul>
+<p>Erl&auml;uterungen:</p>
+<p>
+ Das Zufallspasswort muss mindestens einmal erstellt werden. Es schadet nicht, es von Zeit zu Zeit neu zu generieren. Es k&ouml;nnte jedoch die Systemsicherheit erh&ouml;hen.<br>
+ <br>
+ Wenn cron zur Verf&uuml;gung steht (unter Linux Standard), sollte ein crontab eingerichtet werden. Damit werden bestimmte Skripte zu bestimmten Zeiten gestartet, sodass z.B. ein Vertretungsplan um 18:00 verschickt werden kann.<br>
+ Steht cron nicht zur Verf&uuml;gung, muss irgendein anderer Dienst daf&uuml;r genutzt werden. Unter Windows m&uuml;ssen die Skripte dann zum Beispiel mit dem Taskmanger gestartet werden. Um zu erfahren, was wann ausgef&uuml;hrt werden soll, muss man in die Datei config/crontab schauen.<br>
+ Falls es nicht automatisch m&ouml;glich ist Befehle auszuf&uuml;hren, z.B. weil kein Dienst daf&uuml;r zur Verf&uuml;gung steht, k&ouml;nnen die Befehle auch manuell gestartet werden.
+</p> .

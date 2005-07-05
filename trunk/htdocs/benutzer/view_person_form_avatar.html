@@ -1,0 +1,31 @@
+<h2>Avatar (Bild) ver&ouml;ffentlichen</h2>
+<b>erlaubte Dateiformate: GIF, JPG<br>
+max. Bildgr&ouml;&szlig;e: 300x300 Pixel<br>
+max. Dateigr&ouml;&szlig;e: 100 Kilobyte</b>
+
+<fieldset>
+<legend>lokale Datei</legend>
+	<form enctype="multipart/form-data" action="mod_person_avatar.php" method=post>
+		<input type="hidden" name="person[id]" value="%id%">
+		<input name="file" type="file" size="20" maxlength="100000" accept="text/*">
+		<input type="hidden" name="MAX_FILE_SIZE" value="".$globals["max_avatar_groesse"]."">
+		<input type="submit" value="Hochladen">
+	</form>
+</fieldset>
+
+<fieldset>
+<legend>URL</legend>
+	<form enctype="multipart/form-data" action="mod_person_avatar.php" method=post>
+		<input type="hidden" name="person[id]" value="%id%">
+		<input name="remote_file" type="text" size="35">
+		<input type="submit" value="Bild einbinden">
+	</form>
+</fieldset>
+
+<fieldset>
+<legend>L&ouml;schen</legend>
+	<form enctype="multipart/form-data" action="mod_person_avatar.php" method=post>
+		<input type="hidden" name="person[id]" value="%id%">
+		<input type="HIDDEN" name="loeschen" value="true"><input type="submit" value="Bild l&ouml;schen">
+	</form>
+</fieldset>

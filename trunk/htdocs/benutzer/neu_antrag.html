@@ -1,0 +1,15 @@
+%fehler%
+%bedingungen%
+%form%
+<form action="neu_antrag.php" method="post">
+ <p><input type="checkbox" name="person[accept]" value="1"%accept%> Ich bin mir &uuml;ber den Inhalt der oben stehenden Benutzungsbedingungen im Klaren und damit einverstanden.</input></p>
+ <table>
+  <tr><td>Vorname:</td><td><input type="text" name="person[vorname]" value="%vorname%"></input></td></tr>
+  <tr><td>Nachname:</td><td><input type="text" name="person[nachname]" value="%nachname%"></input></td></tr>
+  <tr><td>Geburtsdatum:</td><td>%gebdat%</td></tr>
+  <tr><td>E-mailadresse:</td><td><input type="text" name="person[mail]" value="%mail%"></input></td></tr>
+  <tr><td>Passwort:</td><td><input type="password" name="person[passwd1]" value="%passwd1%"></input></td></tr>
+  <tr><td>Passwort best&auml;tigen:</td><td><input type="password" name="person[passwd2]" value="%passwd2%"></input></td></tr>
+ </table>
+ <p><input type="submit" value="beantragen"></input></p>
+</form>

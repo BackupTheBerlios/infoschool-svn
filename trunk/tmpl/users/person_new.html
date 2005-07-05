@@ -1,0 +1,10 @@
+<h1>{person requests}</h1>
+<form action="person_new.php" method="post">
+ <table class="cells_w" border="1">
+  <tr><th>{first name}</th><th>{last name}</th><th>{Accept}</th><th>{Deny}</th><th>{Undecided}</th></tr>
+  <tmpl:person>
+  <tr><td>{first_name}</td><td>{last_name}</td><td><input type="radio" name="persons[{id}]" value="2" /></td><td><input type="radio" name="persons[{id}]" value="1" /></td><td><input type="radio" name="persons[{id}]" value="0" checked="checked" /></td>
+  </tmpl:person>
+ </table>
+ <p><input type="submit" value="{Change}" /></p>
+</form>

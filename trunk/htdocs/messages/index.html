@@ -1,0 +1,19 @@
+<form action="./" method="post">
+ <table align="center">
+  <tr>
+   <th><a href="./?s=%statusn%">%symboln%</a></th>
+   <th><a href="./?s=%statusd%" title="empfangen/gesendet">%symbold%</a></th>
+   <th title="Zeitraum angezeigter Messages">Tage</th>
+   <th title="Maximale Anzahl angezeigter Messages">#</th>
+   <td rowspan=2><input type="submit" name="status" value="wechseln" /></td>
+  </tr>
+  <tr>
+   <td><input type="checkbox" name="s[0]" value="1"%check0% /></td>
+   <td><input type="checkbox" name="s[1]" value="1"%check1%> <input type="checkbox" name="s[2]" value="1"%check2% /></td>
+   <td><input type="text" name="t" value="%t%" size=3 /></td>
+   <td><input type="text" name="n" value="%n%" size=2 /></td>
+  </tr>
+ </table>
+
+</form>
+%msgs%

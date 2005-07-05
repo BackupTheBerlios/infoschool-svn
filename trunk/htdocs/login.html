@@ -1,0 +1,32 @@
+<div class="menu">
+ <form action="%root%login.php" method="post" name="login">
+  <table cellpadding=0 cellspacing=0>
+   <tr><td><b>Login:</b><td>%rm_login%</td>
+   <tr><td colspan=2>
+    <input type="hidden" name="origin" value="%origin%">
+    Vorname<sup>1)</sup>:<br>
+    <input type="text" name="first_name" value="%first_name%" size=10 tabindex=0><br>
+    Nachname:<br>
+    <input type="text" name="last_name" value="%last_name%" size=10 tabindex=1 id="focus"><br>
+    Passwort:<br>
+    <input type="password" name="passwd" value="%passwd%" size=10 tabindex=2>
+   </td></tr>
+   <tr><td>Speichern<sup>2)</sup>:</td><td><input type="checkbox" name="save" value=" checked" tabindex=3%save%></td></tr>
+   <tr><td colspan=2><input type="submit" value="Login" tabindex=5 /></td></tr>
+   </table>
+  </form>
+</div>
+<div class="menu">
+  1) Der Vorname muss nur bei Mehrdeutigkeit des Nachnamens angegeben werden.
+</div>
+<div class="menu">
+  2) Speichern der Login-Daten ist nur mit aktivierten Cookies m&ouml;glich.
+</div>
+<div class="menu">
+  <a href="%root%rm_cookies.php?origin=%origin%&autologin=">Alle Cookies dieser Domain l&ouml;schen</a>
+</div>
+<script type="text/javascript">
+ <!--
+  window.document.getElementById('focus').focus();
+ //-->
+</script>
