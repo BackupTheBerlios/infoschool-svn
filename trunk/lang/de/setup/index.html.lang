@@ -1,0 +1,23 @@
+# Infoschool language file
+# Only edit something between > and < to translate!
+
+error Access denied>Der neue Benutzer konnte nicht angelegt werden, weil die root-Zugangsdaten nicht stimmen.<
+error cannot reload>Die Datenbank konnte nicht neu geladen werden, sie muss manuell neu geladen oder neu gestartet werden.<
+Todo>Hier stehen alle Aufgaben, die das Setup Ihnen gerne abnehmen würde.<
+login as admin>Alles scheint zu laufen. Sie können sich jetzt rechts mit dem Nachnamen 'admin' ohne Passwort einloggen.<
+nothing to do>Jetzt sollte dem Admin-Account ein Passwort gegeben werden. Wenn Sie oben rechts auf 'admin' klicken, gelangen Sie zu den Benutzereinstellungen. Fertig!<
+add user>Füge einen neuen MySQL-Benutzer hinzu. Nötige Informationen: {mysqladmin binary}, {mysql server}, {root password}, {user name}, {user password}, {user password confirmation}<
+create config files> Erstelle Konfigurationsdateien. Diese Funktion braucht Schreibzugriff in etc/.<
+create database>Lege eine Datenbank an.<
+create tables>Erstelle die Tabellenstruktur in der Datenbank.<
+insert data>Füge die Anfangsdaten in die Tabellen ein.<
+mysqladmin binary>mysqladmin-Programmdatei<
+mysql server>MySQL-Server<
+root name>MySQL-root-Name<
+root password>MySQL-root-Passwort<
+user name>MySQL-Benutzername<
+user password>MySQL-Benutzerpasswort<
+user password confirmation>Passwortbestätigung<
+database name>Datenbankname<
+create config>Konfigurieren<
+

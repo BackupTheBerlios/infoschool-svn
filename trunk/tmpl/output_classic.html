@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta http-equiv="expires" content="0" />
+  <meta http-equiv="pragma" content="no-cache" />
+  <meta http-equiv="content-language" content="{lang}" />
+  <meta name="description" content="{description}" />
+  <meta name="keywords" content="{keywords}" />
+  <meta name="robots" content="index,follow" />
+  <link rel="shortcut icon" href="{root}img/IS_16.png" />
+  <tmpl:nav><link rel="{nav_rel}" href="{nav_ref}" title="{nav_title}" /></tmpl:nav>
+  <tmpl:css><link rel="stylesheet" type="text/css" href="{css_root}style.css" /></tmpl:css>
+  <link rel="stylesheet" type="text/css" href="{root}style_classic.css" />
+  <title>{title0}<tmpl:title> - {title}</tmpl:title></title>
+  <!--script type="text/javascript" src="{root}js/shared.js"></script-->
+  <!--script type="text/javascript" src="{root}js/{javascript}"></script-->
+  <script type="text/javascript">
+  <!--
+   function textarea_insert(c){
+    var t = window.prompt("{insert text}","");
+    if(t!=undefined){
+     with(window.document.getElementById("edit_text")){
+      value += "["+c+"]"+t+"[/"+c+"]";
+      focus();
+     }
+    }
+   }
+
+   //var pause_time = {scr_wait};
+   //var maxspeed = {scr_delay};
+  //-->
+  </script>
+  <!-- JScript-Bereiche fuer MS Internet Explorer -->
+  <!--script for="document" event="onkeydown()" language="JScript" type="text/jscript"-->
+  <!--
+   reset_time();
+  //-->
+  <!--/script-->
+  <!--script for="document" event="onmousemove()" language="JScript" type="text/jscript"-->
+  <!--
+   reset_time();
+  //-->
+  <!--/script-->
+  <style type="text/css">
+   <!--
+    body { background-image:url({root}img/background.gif); }
+    td.menu { background-image:url({root}img/menuback.gif); }
+   //-->
+  </style>
+ </head>
+ <body id="body"><!-- onLoad="load()" //-->
+  <h1 align="center" id="titel">{headline0}</h1>
+  <table align="center" cellpadding="10" cellspacing="0" border="1" id="main">
+   <tr>
+    <td valign="top" class="menu">
+     <div class="menu"><tt><b>&#160;+++++</b></tt><br />
+     <tmpl:menu><span class="nobr"><tt><b><tmpl:menu_spacer>&nbsp;</tmpl:menu_spacer>+<tmpl:menu_entry>-</tmpl:menu_entry><tmpl:menu_dir>+</tmpl:menu_dir></b></tt>&#160;<a href="{menu_url}"><tmpl:menu_caption_this><font color="#8080b0">{menu_caption}</font></tmpl:menu_caption_this><tmpl:menu_caption>{menu_caption}</tmpl:menu_caption></a></span class="nobr"><br /></tmpl:menu>
+     <tt><b>&#160;+++++</b></tt></div>
+    </td>
+    <td valign="top" {table_width} class="border" id="inset">
+     <tmpl:headline><h{hnum}>{headline}</h{hnum}></tmpl:headline>
+     {content}
+    </td>
+    <td valign="top" class="menu" width="120">
+     {usermenu}
+    </td>
+   </tr>
+  </table>
+  <!--script type="text/javascript"-->
+  <!--
+   writeHTML();
+  //-->
+  <!--/script-->
+ </body>
+</html>

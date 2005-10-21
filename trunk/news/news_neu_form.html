@@ -1,0 +1,58 @@
+<h1>Neuer Eintrag</h1>
+<input type="hidden" name="id" value="%id%">
+<fieldset><legend>Eintrag</legend>
+<table>
+	<tr>
+		<td>Kategorie: </td>
+		<td>%kategorie%</td>
+	</tr>
+	<tr>
+		<td>Titel (max. 100 Zeichen):</td>
+		<td><input type="text" name="titel" size="40" maxlength="100" value="%titel%"></td>
+	</tr>
+	<tr>
+  		<td>Initial (max. 50 Zeichen):</td>
+		<td><input type="text" name="initial" size="40" maxlength="50" value="%initial%"></td>
+	</tr>
+	<tr>
+		<td>Mehr-Link (max. 255 Zeichen):</td>
+		<td><input type="text" name="link" size="40" maxlength="255" value="%link%"></td>
+	</tr>
+
+</table>
+</fieldset>
+
+
+<fieldset><legend>Einstellungen</legend>
+<table>
+	<tr>
+		<td>Infoschool:</td>
+		<td><input type="checkbox" name="ort_infoschool" value="infoschool" %ort_infoschool%>Infoschool
+  	</td>		
+	<tr>
+		<td>GFS-Homepage:</td>
+		<td><input type="checkbox" name="ort_homepage" value="homepage" %ort_homepage%>GFS-Homepage
+  	</td>
+	<tr>
+		<td>Freigabe-Level: </td>
+		<td>%level%</td>
+	</tr>
+	<tr>
+		<td>Status: </td>
+		<td>%status%</td>
+	</tr>	
+	<tr>
+		<td>Datum:</td>
+		<td>%datum_tag%%datum_monat%%datum_jahr% - %zeit_stunde%:%zeit_minute% Uhr</td>
+	</tr>
+
+</table>
+</fieldset>
+
+
+  
+Text des Eintrags:<br>
+%eintrag%
+
+<br>Kommentar:<br>
+<textarea name="kommentar" rows="5" cols="50" wrap=virtual>%kommentar%</textarea>

@@ -1,0 +1,50 @@
+# Infoschool language file
+# Only edit something between > and < to translate!
+
+Name>Name<
+Person>Person<
+Group>Gruppe<
+
+Date>Datum<
+Time>Uhrzeit<
+
+Year>Jahr<
+Month>Monat<
+Day>Tag<
+Hour>Stunde<
+Minute>Minute<
+Second>Sekunde<
+
+Sun>Sonntag<
+Mon>Montag<
+Tue>Dienstag<
+Wed>Mittwoch<
+Thu>Donnerstag<
+Fri>Freitag<
+Sat>Samstag<
+
+dow 0>Sonntag<
+dow 1>Montag<
+dow 2>Dienstag<
+dow 3>Mittwoch<
+dow 4>Donnerstag<
+dow 5>Freitag<
+dow 6>Samstag<
+
+January>Januar<
+February>Februar<
+March>März<
+April>April<
+May>Mai<
+June>Juni<
+July>Juli<
+August>August<
+September>September<
+October>Oktober<
+November>November<
+December>Dezember<
+
+Login>Login<
+online users>Eingeloggte Benutzer<
+please log out>Mit <b>Logout</b> surft man sicherer.<
+authentification failed>Es konnte keine Authorisierung f&uuml;r diese Seite gefunden werden.<

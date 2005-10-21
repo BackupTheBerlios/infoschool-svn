@@ -1,0 +1,23 @@
+<form action="./" method="post">
+ <table align="center" cellspacing="10">
+  <tr><th>{Person} ({person_count})</th><th>{Group} ({group_count})</th></tr>
+  <tr><td><input type="text" name="person" value="{person_name}" /></td><td><input type="text" name="group" value="{group_name}" /></td></tr>
+  <tr>
+   <td colspan="2" align="center">
+    <button type="submit" name="search" value="words">{Search}</button><br />
+    <button type="submit" name="search" value="all">{show all}</button>
+   </td></tr>
+  <tr>
+   <td valign="top">
+    <ul>
+     <tmpl:person><li><a href="person.php?id={id}">{name}</a></li></tmpl:person>
+    </ul>
+   </td>
+   <td valign="top">
+    <ul>
+     <tmpl:group><li><a href="group.php?id={id}">{name}</a></li></tmpl:group>
+    </ul>
+   </td>
+  </tr>
+ </table>
+</form>

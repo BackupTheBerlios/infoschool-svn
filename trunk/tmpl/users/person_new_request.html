@@ -1,0 +1,19 @@
+<h1>{new account}</h1>
+<tmpl:error>
+<p style="color:#ff0000">{{error}}</p>
+</tmpl:error>
+<form action="person_new_request.php" method="post">
+ <h3>{Info}</h3>
+ <p>{Information}</p>
+ <p><input type="checkbox" name="agree" value="1" <tmpl:agree>checked="checked"</tmpl:agree> /> {Agree}</p>
+ <table>
+  <tr><td>{first name}:</td><td><input type="text" name="person[first_name]" value="{first_name}" /></td><td></td></tr>
+  <tr><td>{last name}:</td><td><input type="text" name="person[last_name]" value="{last_name}" /></td><td></td></tr>
+  <tr><td>{Password}:</td><td><input type="password" name="person[passwd1]" value="{passwd1}" /></td><td></td></tr>
+  <tr><td>{confirm password}:</td><td><input type="password" name="person[passwd2]" value="{passwd2}" /></td><td></td></tr>
+  <tr><td>{e-mail address}:</td><td><input type="text" name="person[mail]" value="{mail}" /></td><td>{Optional}</td></tr>
+ </table>
+ <p><input type="submit" value="{new account}" /></p>
+</form>
+
+

@@ -1,0 +1,7 @@
+<input type="text" name="{name}[year]" value="{year}" title="{Year}" size="4" maxlength="4" />
+<select name="{name}[month]" title="{Month}">
+ <tmpl:month><option value="{value}"<tmpl:selected> selected="selected"</tmpl:selected>>{label}</option></tmpl:month>
+</select>
+<select name="{name}[day]" title="{Day}">
+ <tmpl:day><option value="{value}"<tmpl:selected> selected="selected"</tmpl:selected>>{label}</option></tmpl:day>
+</select>

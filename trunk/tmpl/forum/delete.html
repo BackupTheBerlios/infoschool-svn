@@ -1,0 +1,10 @@
+<h2>{delete entry}</h2>
+<p>{Assured?}</p>
+<table>
+ <tr><td>{Topic}:</td><td>{topic_html}</td></tr>
+ <tr><td>{number of answers}:</td><td>{num_ans}</td></tr>
+</table>
+<form action="delete.php?id={id}" method="post">
+ <input type="hidden" name="assured" value="1" />
+ <input type="submit" value="{Delete}" />
+</form>

@@ -1,0 +1,10 @@
+<form action="neu_gruppe.php" method="post">
+ <input type="hidden" name="gid" value="%gid%" />
+ <table>
+  <tr><td>Jahrgang:</td><td>%jahrgang%</td></tr>
+  <tr><td>Semester:</td><td><select name="hj"><option value="1">1. Halbjahr</option><option value="2">2. Halbjahr</option></select></td></tr>
+  <tr><td>Art:</td><td><select name="m_s"><option value="m">m&uuml;ndlich</option><option value="s">schriftlich</option></select></td></tr>
+  %mitglieder%
+ </table>
+ <p><input type="submit" value="Vergeben"></p>
+</form>

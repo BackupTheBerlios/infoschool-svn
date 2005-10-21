@@ -1,0 +1,14 @@
+<div class="message">
+ <div class="message_head">
+  <span class="from">{From}: {author_first_name_html} {author_last_name_html}, {created_html}</span>
+  <div class="to-list">{To}: <tmpl:to><tmpl:seperator>, </tmpl:seperator>{first_name} {last_name}</tmpl:to></div>
+ </div> 
+ <div class="text">{text_html}</div>
+ <tmpl:menu>
+  <div class="message_menu">
+   <a href="new.php?message={id}"><span>{Answer}</span></a>
+   <a href="mark.php?message={id}&amp;new={view_new}"><span>{{mark_un_read}}</span></a>
+   <a href="delete.php?message={id}&amp;new={view_new}"><span>{{un_delete}}</span></a>
+  </div>
+ </tmpl:menu>
+</div>
