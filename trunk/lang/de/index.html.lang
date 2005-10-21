@@ -1,7 +1,0 @@
-# Infoschool language file
-# Only edit something between > and < to translate!
-
-greeting>Hallo<
-content>Dieses Projekt erm&ouml;glicht allen Teilnehmern der Schule auf verschiedene Dienste zuzugreifen.<br />
- Man kann den aktuellen Vertretungsplan f&uuml;r die n&auml;chsten Tage einsehen, sich mit anderen Beteiligten &uuml;ber Foren und private Nachrichten miteinander unterhalten und &uuml;ber den Dateiaustausch Materialen austauschen.<br />
- Wenn noch nicht ganz klar ist, wozu das Ganze dient, hilft die <a href="dokumentation/show.php?dok=einleitung.html">Einleitung</a> der Dokumentation weiter, welche auch die Funktionen von Infoschool erl&auml;utert.<

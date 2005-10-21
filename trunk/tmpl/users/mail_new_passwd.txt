@@ -1,3 +1,0 @@
-{Info}
-
- {new password}: {passwd}
