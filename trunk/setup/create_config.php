@@ -43,11 +43,13 @@
   $mysql_cfg->data = $mysql_cfg->fdata;
   $mysql_cfg->path.= '../';
   $mysql_cfg->write();
+  $mysql_cfg->chmod(0600);
   $random = md5(random_string());
   $random_pw = new tmpl('random.php',array('random'=>$random),$config_tmpl_path);
   $random_pw->data = $random_pw->fdata;
   $random_pw->path.= '../';
   $random_pw->write();
+  $random_pw->chmod(0600);
  }
  
  $db->connect();
