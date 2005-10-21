@@ -97,6 +97,10 @@
    else $this->data.= $data;
    return $written;
   }
+  
+  function chmod($mode) {
+   chmod($this->uri(),$mode);
+  }
 
  }
 
