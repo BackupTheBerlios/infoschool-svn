@@ -41,7 +41,7 @@
  $html_nav['start'] = array($root,'Startseite');
  $html_nav['help'] = array($root.'dokumentation/','Hilfe');
  $html_nav['up'] = array('../','Hinauf');
- $html_nav['author'] = array($root.'about.php','Impressum');
+ $html_nav['author'] = array($root.'about/','Impressum');
  // Arrays fr alle Titel und �erschriften
  $html_titel[0] = 'Infoschool';
  $html_headline[0] = 'Infoschool';
@@ -111,7 +111,8 @@
  $output->nav['start'] = $root;
  $output->nav['help'] = $root.'dokumentation/';
  $output->nav['up'] = '../';
- $output->nav['author'] = $root.'about.php';
+ $output->nav['author'] = $root.'about/';
+ $output->nav['copyright'] = $root.'COPYING';
  // title and headline
  $output->title[0] = 'infoschool';
  $output->headline[0] = 'infoschool';
