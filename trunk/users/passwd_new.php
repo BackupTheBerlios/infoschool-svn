@@ -37,7 +37,7 @@
   $data = $tmpl->fdata;
   $mail = new mail($person['mail'],$to,$subject,$data,false,true);
   if ($mail->sent) {
-   $query = 'person set passwd=password("'.$v['passwd'].'") where id="'.$pid.'"';
+   $query = 'person set passwd=old_password("'.$v['passwd'].'") where id="'.$pid.'"';
    $db->update($query);
   }
   return $mail->sent;

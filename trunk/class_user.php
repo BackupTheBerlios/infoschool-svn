@@ -42,7 +42,7 @@
     $last_name = $_POST['last_name'];
     $passwd = '"'.$_POST['passwd'].'"';
     if (!(isset($_COOKIE['passwd']) && $_COOKIE['passwd'] == $_POST['passwd'])) {
-     $passwd = 'password('.$passwd.')';
+     $passwd = 'old_password('.$passwd.')';
     }
     $where = "person.passwd=$passwd AND person.last_name='$last_name'";
     if ($first_name) $where.= " AND person.first_name='$first_name'";

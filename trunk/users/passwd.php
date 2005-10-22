@@ -16,7 +16,7 @@
   }
   global $db;
   $uid = $_SESSION['userid'];
-  $update = 'person set passwd=password("'.$passwd[1].'") where id="'.$uid.'" and passwd=password("'.$passwd[0].'")';
+  $update = 'person set passwd=old_password("'.$passwd[1].'") where id="'.$uid.'" and passwd=old_password("'.$passwd[0].'")';
   $db->update($update);
   if ($db->affected_rows == 0) {
    $_SESSION['error'][] = 'password not changed';
