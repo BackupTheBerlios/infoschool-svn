@@ -550,7 +550,7 @@
    $data['topic'] = $new_data['topic'];
    $data['text'] = $new_data['text'];
    $v = $data;
-   $v['datetime'] = local_date(date_default(),'YmdHis');
+   $v['datetime'] = local_date(date_default(),'yyyy_mm_dd_hh_ii_ss');
    $tmpl = new tmpl('edit_signature.html',$v);
    $data['text'] = $tmpl->fdata;
    $id = $data['id'];

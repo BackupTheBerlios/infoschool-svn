@@ -198,7 +198,7 @@
  }
 
  // localizes date format
- function local_date($dt,$format='Ymd') {
+ function local_date($dt,$format='ymd') {
   $v = dt2array($dt);
   $tmplname =  'date_'.$format.'.tmpl';
   $tmpl = new tmpl($tmplname,$v,'../'.path_lang());
