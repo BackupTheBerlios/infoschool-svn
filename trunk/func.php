@@ -211,7 +211,7 @@
   $v['dt'] = $dt;
   $v['date'] = local_date($dt,$format);
   if (dt_is_new($dt)) {
-   $v['class'] = 'date_new';
+   $v['class'] = 'new_date';
   }
   $tmpl = new tmpl('date.html',$v,$GLOBALS['root']);
   return $tmpl->fdata;
