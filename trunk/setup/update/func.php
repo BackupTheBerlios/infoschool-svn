@@ -4,6 +4,13 @@
  * Copyright (C) 2004 Maikel Linke
  */
  
+ function update_2005_10_22_16_55() {
+  global $db;
+  $db->query('create table about (name varchar(16) not null primary key, text text not null)');
+  $db->query('insert into about (name) values ("provider")');
+  $db->query('insert into about (name) values ("admin")');
+ }
+ 
  function update_2005_09_24_14_02() {
   global $db;
   $db->select('count(id) from msg');

@@ -59,7 +59,7 @@
  if(isset($_SESSION['admin']) && $_SESSION['admin']) $html_menu['Statistik'] = 'statistics/';
  $html_menu['Hilfe'] = 'dokumentation/';
  $html_menu['FAQ'] = 'dokumentation/faq.php';
- $html_menu['Impressum'] = 'about.php';
+ $html_menu['Impressum'] = 'about/';
  if(isset($_SESSION['admin']) && $_SESSION['admin']) $html_menu['Setup'] = 'setup/';
 // $html_menu['Chat'] = 'chat/';
  // Mailheader
@@ -129,7 +129,7 @@
  if(isset($_SESSION['admin']) && $_SESSION['admin']) $output->menu['statistics/'] = 'statistics';
  $output->menu['dokumentation/'] = 'help';
  $output->menu['dokumentation/faq.php'] = 'faq';
- $output->menu['about.php'] = 'about';
+ $output->menu['about/'] = 'About';
  
  // subdir of the software
  $webdir = path_clean(path_rm_last($_SERVER['SCRIPT_NAME']).$root);
