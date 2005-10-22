@@ -28,6 +28,6 @@
  
  $entry->del_right($right_id,$type);
  
- redirect('rights?id='.$entry_id);
+ redirect('rights.php?id='.$entry_id);
  
 ?>

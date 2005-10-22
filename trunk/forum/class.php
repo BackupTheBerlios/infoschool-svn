@@ -564,15 +564,19 @@
   }
 
   function update_rights($data) {
-   foreach ($data['person'] as $id => $right_array) {
-    $rights = implode_rights($right_array);
-    $query = 'forum_rights_person set rights="'.$rights.'" where entry_id="'.$this->data['id'].'" and id="'.$id.'"';
-    $this->db->update($query);
+   if (isset($data['person'])) {
+    foreach ($data['person'] as $id => $right_array) {
+     $rights = implode_rights($right_array);
+     $query = 'forum_rights_person set rights="'.$rights.'" where entry_id="'.$this->data['id'].'" and id="'.$id.'"';
+     $this->db->update($query);
+    }
    }
-   foreach ($data['group'] as $id => $right_array) {
-    $rights = implode_rights($right_array);
-    $query = 'forum_rights_group set rights="'.$rights.'" where entry_id="'.$this->data['id'].'" and id="'.$id.'"';
-    $this->db->update($query);
+   if (isset($data['group'])) { 
+    foreach ($data['group'] as $id => $right_array) {
+     $rights = implode_rights($right_array);
+     $query = 'forum_rights_group set rights="'.$rights.'" where entry_id="'.$this->data['id'].'" and id="'.$id.'"';
+     $this->db->update($query);
+    }
    }
   }
 
