@@ -304,18 +304,25 @@
     $this->new_answers++;
     $i = 0;
     $i_max = count($entry->history);
-    $answer = &$entry;
-    do {
-     $i++;
-     $parent = &$entry->history[$i];
-     if (!isset($this->entries[$parent->id])) {
-      $this->entries[$parent->id] = $parent;
-     }
-     $parent = &$this->entries[$parent->id];
-     $parent->answers[$answer->id] = &$answer;
-     $answer = &$parent;
+    if ($i_max == 1) {
+     $parent = &$entry;
     }
-    while ($i < $i_max && $parent->new);
+    else {
+     $answer = &$entry;
+     do {
+      $i++;
+      $parent = &$entry->history[$i];
+      if (!$parent->id) {
+      }
+      if (!isset($this->entries[$parent->id])) {
+       $this->entries[$parent->id] = $parent;
+      }
+      $parent = &$this->entries[$parent->id];
+      $parent->answers[$answer->id] = &$answer;
+      $answer = &$parent;
+     }
+     while ($i < $i_max && $parent->new);
+    } 
     $this->answers[$parent->id] = &$parent;
    }
   }
