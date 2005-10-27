@@ -1,7 +1,7 @@
 <?php
 /*
  * This file is part of Infoschool - a web based school intranet.
- * Copyright (C) 2004 Maikel Linke, Christian Zedler
+ * Copyright (C) 2005 Maikel Linke
  */
  include 'var.php';
 

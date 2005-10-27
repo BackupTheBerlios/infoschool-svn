@@ -14,6 +14,7 @@
  include_once $root.'class_mail.php';
  include_once $root.'class_group.php';
  include_once $root.'class_person.php';
+ include_once $root.'class_news.php';
  include_once $root.'forum/class.php';
 
  class timetable {

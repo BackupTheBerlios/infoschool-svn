@@ -1,7 +1,7 @@
 <?php
 /*
  * This file is part of Infoschool - a web based school intranet.
- * Copyright (C) 2004 Maikel Linke, Christian Zedler
+ * Copyright (C) 2005 Maikel Linke
  */
  include 'var.php';
 
@@ -23,10 +23,8 @@
  else {
   $vars['register'] = tmpl_register_link();
  } 
-
- include 'news.php';
-
- $vars['news'] = get_news();
+ 
+ $vars['news'] = current_news();
 
  $content = new tmpl('index.html',$vars);
 

@@ -1,7 +1,7 @@
 <?php
 /*
- * Copyright (C) 2004 Maikel Linke, Christian Zedler
  * This file is part of Infoschool - a web based school intranet.
+ * Copyright (C) 2005 Maikel Linke, Christian Zedler
  */
 
  class output {
@@ -173,7 +173,7 @@
   function date2vars() {
    $this->vars['day'] = $this->mask(date('D'));
    $this->vars['time'] = date('H:i');
-   $this->vars['date'] = tmpl_date_title(date_default());
+   $this->vars['date'] = tmpl_date_title(datetime());
   }
 
   function usermenu2vars() {
@@ -238,7 +238,7 @@
    }
 
    $pantrag = $gantrag = 0;
-   if($_SESSION['admin']){
+   if (is_admin()){
     $pantrag = sizeof(get_neu_account());
    }
    $gantrag = sizeof(get_neu_pg($_SESSION['userid']));
@@ -266,13 +266,17 @@
    if($dzahl>0){
     $loggedin[]['usermenu'] = new tmpl('loggedin_file.html',array('file_num'=>$dzahl),$this->root);
    }
+   
+   if (is_admin()) {
+    $news_num = inactive_news_num();
+    if ($news_num>0) {
+     $loggedin[]['usermenu'] = new tmpl('loggedin_news.html',array('news_num'=>$news_num),$this->root);
+    }
+   } 
 
    $this->loggedin_sessinfo($loggedin,'error');
    $this->loggedin_sessinfo($loggedin,'notice');
    
-   // extra variable, old function
-   $v['loggedin_news'] = get_news_meldung($_SESSION['userid']);
-
    $v['usermenu'] = $loggedin;
    $this->vars['usermenu'] = new tmpl('loggedin.html',$v,$this->root);
   }

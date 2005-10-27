@@ -260,6 +260,61 @@ blockquote blockquote blockquote blockquote blockquote{
  margin:0px;
 }
 
+div.news {
+ margin:1em;
+}
+
+div.news span.news_head {
+ font-size:0.8em;
+ margin-left:1.5em;
+ padding: 0.2em;
+ padding-left: 0.5em;
+ padding-right: 0.5em;
+ border: 1px solid #b0b0ff;
+ border-bottom-color:#f8ffff;
+ background-color:#f8ffff;
+ position:relative;
+ top:-1px;
+}
+
+div.news div.news_head {
+ padding: 0.2em;
+ padding-left: 0.5em;
+ padding-right: 0.5em;
+ font-weight: bold;
+ border: 1px solid #b0b0ff;
+ border-bottom-style:dashed;
+ background-color:#f8ffff;
+}
+
+div.news div.news_body{
+ padding:0.5em;
+ border: 1px solid #b0b0ff;
+ border-top-width:0;
+ background-color:#f8f8ff;
+}
+
+div.news div.news_menu{
+ padding-right:1em;
+ text-align:right;
+}
+
+div.news div.news_menu span{
+ border: 1px solid #b0b0ff;
+ border-top-width:0;
+ background-color:#f8f8ff;
+ padding-left:0.5em;
+ padding-right:0.5em;
+}
+
+div.news div.news_menu span:hover{
+ border-top: 1px solid #f8f8ff;
+}
+
+div.news div.news_menu span a:hover{
+ text-decoration:none;
+}
+
 td.datei_download_title{
  border-width:0px;
  background-color:#e0e0e0;

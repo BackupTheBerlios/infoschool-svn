@@ -1,7 +1,7 @@
 <?php
 /*
  * This file is part of Infoschool - a web based school intranet.
- * Copyright (C) 2004 Maikel Linke
+ * Copyright (C) 2005 Maikel Linke
  */
 
  class entry {
@@ -557,7 +557,7 @@
    $data['topic'] = $new_data['topic'];
    $data['text'] = $new_data['text'];
    $v = $data;
-   $v['datetime'] = local_date(date_default(),'yyyy_mm_dd_hh_ii_ss');
+   $v['datetime'] = local_date(datetime(),'yyyy_mm_dd_hh_ii_ss');
    $tmpl = new tmpl('edit_signature.html',$v);
    $data['text'] = $tmpl->fdata;
    $id = $data['id'];

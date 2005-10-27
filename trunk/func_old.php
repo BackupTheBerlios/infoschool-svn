@@ -211,11 +211,10 @@ AND (d.datum >= \"".$_SESSION['last_login']."\")
 AND (d.besitzer != ".$_SESSION['userid'].")
 GROUP BY d.id";
 
-  get_mc();
+  global $db;
 
-  $result = mysql_query($query);
+  $result = $db->query($query);
   echo mysql_error();
-  mysql_close();
   return mysql_num_rows($result);
  }
 

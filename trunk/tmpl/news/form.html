@@ -1,0 +1,12 @@
+<form action="edit.php" method="post">
+ <input type="hidden" name="news_data[id]" value="{id}" />
+ <table>
+  <tr><td>{Author}:</td><td><a href="{root}users/person.php?id={author}">{author_first_name} {author_last_name}</a></td></tr>
+  <tr><td>{Start}:</td><td>{input_start}</td></tr>
+  <tr><td>{End}:</td><td>{input_end}</td></tr>
+  <tr><td>{Topic}:</td><td><input type="text" name="news_data[topic]" value="{topic}" maxlength="64" size="30" /></td></tr>
+ </table>
+ <textarea name="news_data[text]" cols="50" rows="20">{text}</textarea>
+ <p><input type="submit" value="{Save}" /></p>
+</form>
+

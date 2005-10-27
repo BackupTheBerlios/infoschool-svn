@@ -180,9 +180,13 @@
   exit;
  }
 
- // returns default date format (ISO 8601)
- function date_default() {
-  return date('Y-m-d H:i:s');
+ // returns default date and time format (ISO 8601)
+ function datetime($timestamp=null) {
+  if ($timestamp === null) {
+   $timestamp = time();
+  }
+  $datetime = date('Y-m-d H:i:s',$timestamp);
+  return $datetime;
  }
 
  // sorts information of a datetime-string in an array
@@ -202,6 +206,11 @@
   $v = dt2array($dt);
   $tmplname =  'date_'.$format.'.tmpl';
   $tmpl = new tmpl($tmplname,$v,'../'.path_lang());
+  return $tmpl->fdata;
+ }
+ 
+ function local_datetime_title($dt) {
+  $tmpl = tmpl_date_title($dt,'ymdHis');
   return $tmpl->fdata;
  }
  
@@ -239,8 +248,7 @@
 
  // adds title (standard format) to date
  function tmpl_date_title($dt,$format='ymd') {
-  $date = substr($dt,0,10);
-  $v['date'] = $date;
+  $v['date'] = $dt;
   $v['fdate'] = local_date($dt,$format);
   return new tmpl('date_title.html',$v,$GLOBALS['root']);
  }
@@ -279,6 +287,25 @@
   }
   $tmpl = new tmpl('date_input.html',$v,$GLOBALS['root']);
   return $tmpl->fdata;
+ }
+ 
+ function datetime_input($name,$datetime='0000-00-00 00:00:00') {
+  list($date,$time) = explode(' ',$datetime);
+  $v['name'] = $name;
+  $v['date_input'] = date_input($name,$date);
+  $v['time'] = $time;
+  $tmpl = new tmpl('datetime_input.html',$v,$GLOBALS['root']);
+  return $tmpl->fdata;
+ }
+ 
+ function implode_datetime($a) {
+  $date = $a['year'].'-'.$a['month'].'-'.$a['day'];
+  $time = '00:00:00';
+  if (isset($a['time'])) {
+   $time = $a['time'];
+  }
+  $datetime = $date.' '.$time;
+  return $datetime; 
  }
 
  // link to a new account
@@ -530,5 +557,25 @@
   return $m;
  }
 
+ function current_news() {
+  include_once $GLOBALS['root'].'news/func.php';
+  $news_data = select_news('now');
+  $content = '';
+  foreach ($news_data as $i => $data) {
+   $news = new news($data);
+   $news->format();
+   $content.= $news->tmpl();
+  }
+  return $content;
+ }
+ 
+ function inactive_news_num() {
+  global $db;
+  $query = 'count(id) from news where active="0"';
+  $db->select($query);
+  $num = $db->data[0][0];
+  return $num;
+ }
+ 
 
 ?>

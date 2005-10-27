@@ -1,8 +1,47 @@
 <?php
 /*
  * This file is part of Infoschool - a web based school intranet.
- * Copyright (C) 2004 Maikel Linke
+ * Copyright (C) 2005 Maikel Linke
  */
+ 
+ function update_2005_10_23_17_32() {
+  global $db;
+  $db->select('titel,eintrag,datum,ersteller_id,status,level,link from news_eintraege where ort_infoschool=1');
+  $old_news = $db->data;
+  $db->query('create table news (id int unsigned auto_increment primary key, 
+  				 active tinyint(1) not null, 
+  				 start datetime not null, 
+  				 end datetime not null, 
+  				 author smallint(5) unsigned not null, 
+  				 topic varchar(64) not null, 
+  				 text text not null)');
+  $text_html = get_html_translation_table(HTML_ENTITIES);
+  foreach ($text_html as $text_tag => $html_tag) {
+   $html_text[$html_tag] = utf8_encode($text_tag);
+  }
+  foreach ($old_news as $i => $entry) {
+   if ($entry['level'] == 2) $active = 1;
+   else $active = 0;
+   $start = $entry['datum'];
+   if ($entry['status'] == 'Aktiv') {
+    $end = date('Y-m-d H:i:s',strtotime('+1 week'));
+   }
+   else $end = '0';
+   $html = strip_tags($entry['eintrag']);
+   $text = strtr($html,$html_text);
+   $html_titel = $entry['titel'];
+   $topic = strtr($html_titel,$html_text);
+   $db->insert('news (active,start,end,author,topic,text) values (
+   	        "'.$active.'",
+   	        "'.$start.'",
+   	        "'.$end.'",
+   	        "'.$entry['ersteller_id'].'",
+   	        "'.addslashes($topic).'",
+   	        "'.addslashes($text."\n".$entry['link']).'"
+   	       )');
+  }
+  exit;
+ }
  
  function update_2005_10_22_16_55() {
   global $db;
