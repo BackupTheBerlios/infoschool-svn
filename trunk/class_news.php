@@ -90,9 +90,10 @@
    	      "'.$end.'",
    	      "'.$_SESSION['userid'].'",
    	      "'.$data['topic'].'",
-   	      "'.$data['text'].'"';
+   	      "'.$data['text'].'"
+   	     )';
    $db->insert($query);
-   if (!$db->error) $_SESSION['notice'][] = '{news inserted}';
+   if (!$db->error) $_SESSION['notice'][] = 'news inserted';
   }
  }
  
