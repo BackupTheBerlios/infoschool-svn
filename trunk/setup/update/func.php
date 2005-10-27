@@ -40,7 +40,9 @@
    	        "'.addslashes($text."\n".$entry['link']).'"
    	       )');
   }
-  exit;
+  $db->query('drop table news_eintraege');
+  $db->query('drop table news_level_gruppe');
+  $db->query('drop table news_level_person');
  }
  
  function update_2005_10_22_16_55() {
