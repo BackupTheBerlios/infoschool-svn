@@ -78,7 +78,7 @@
    $sel_person = $found['person'];
    $sel_group = $found['group'];
   }
-  if (isset($_POST['text'])) $text = $_POST['text'];
+  if (isset($_POST['text'])) $text = stripslashes($_POST['text']);
   $msg = new message();
   $msg->create($text,$sel_person,$sel_group);
   if ($action == 'send') {
