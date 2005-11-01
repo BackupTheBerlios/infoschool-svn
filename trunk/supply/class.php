@@ -65,6 +65,7 @@
    foreach ($this->list as $day => $schedule) {
     $date = $schedule['date'];
     $entry[0] = array(
+      'dow' => day_of_week($date),
       'date' => tmpl_date_title($date,'md'),
       'day' => $day
     );
