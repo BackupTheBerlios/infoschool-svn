@@ -13,7 +13,7 @@ nothing to do>Prima! Infoschool ist jetzt installiert. Jetzt sollte aber noch au
  <li>Vielleicht wollen Sie in einer News-Meldung etwas auf der Startseite bekannt geben.</li>
 </ul><
 add user>Füge einen neuen MySQL-Benutzer hinzu. Nötige Informationen: {mysqladmin binary}, {mysql server}, {root password}, {user name}, {user password}, {user password confirmation}<
-create config files> Erstelle Konfigurationsdateien. Diese Funktion braucht Schreibzugriff in etc/.<
+create config files> Erstelle Konfigurationsdateien. Diese Funktion braucht Schreibzugriff in .htsecret/etc/.<
 create database>Lege eine Datenbank an.<
 create tables>Erstelle die Tabellenstruktur in der Datenbank.<
 insert data>Füge die Anfangsdaten in die Tabellen ein.<
