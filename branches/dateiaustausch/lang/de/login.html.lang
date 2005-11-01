@@ -1,0 +1,11 @@
+# Infoschool language file
+# Only edit something between > and < to translate!
+
+remove login data>Logindaten l&ouml;schen<
+first name>Vorname<
+last name>Nachname<
+Password>Passwort<
+Save>Speichern<
+help name>Der Vorname muss nur bei Mehrdeutigkeit des Nachnamens angegeben werden.<
+help cookies>Speichern der Login-Daten ist nur mit aktivierten Cookies m&ouml;glich.<
+remove all cookies>Alle Cookies dieser Domain l&ouml;schen<

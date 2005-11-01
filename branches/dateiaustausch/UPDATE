@@ -1,0 +1,13 @@
+ How to update
+ 
+You have a running system and important data in the database.
+So you do not want to delete the running version (with data) 
+and install a new version.
+
+1. Backup your data (files and database)
+2. Replace the old files with the new.
+3. Copy important files from your backup in the new directories.
+   - etc/*
+   - var/*
+   - htdocs/img/person/*
+4. Run htdocs/setup/update/index.php. This will update your database.

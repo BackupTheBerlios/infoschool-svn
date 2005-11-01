@@ -1,0 +1,17 @@
+# Infoschool language file
+# Only edit something between > and < to translate!
+
+no error><
+name not found>Der Name wurde nicht gefunden oder ist nicht eindeutig.<
+mail not sent>Es konnte keine E-Mail versendet werden.<
+
+step 0 info>Wenn Sie Ihr Passwort vergessen haben, ist es wirklich verloren.
+                 Auch in der Datenbank ist nur eine verschl&uuml;sselte Version gespeichert.
+                 Also brauchen Sie ein neues Passwort.
+                 &Uuml;ber das Formular unten k&ouml;nnen Sie sich ein neues Passwort an Ihre E-Mailadresse zuschicken lassen.
+                 Dazu geben Sie erstmal ihren vollst&auml;ndigen Namen an und gehen auf "Weiter".<
+step 1 info>Ihnen wurde nun eine E-Mail mit einem Best&auml;tigungslink zugesendet.
+                 Wenn Sie dem Link folgen, wird ein neues Passwort vergeben.<
+step 2 info>Das neue Passwort wurde Ihnen jetzt zugesandt.
+                 Sie sollten sich nun mit Ihrem Namen und dem neuen Passwort anmelden und sich bei Ihren Benutzereinstellungen ein eigenes Passwort einstellen.<
+Continue>Weiter<

@@ -1,0 +1,40 @@
+# Infoschool language file
+# Only edit something between > and < to translate!
+
+lang>de<
+infoschool>Infoschool<
+description>Informations- und Kommunikationsportal f&uuml;r Sch&uuml;ler und Lehrer. Angebotene Dienste: Kalender mit
+ Stunden- und Vertretungsplan, Foren, Personal Messaging, Dateiaustausch, Zensurenspeicher.<
+keywords>Infoschool, Schule, Intranet, Kalender, Stundenplan, Vertretungsplan, Foren, Forum, Personal Messaging, Dateiaustausch<
+up>Hoch<
+first>Erste<
+last>Letzte<
+prev>Vorige<
+next>N&auml;ste<
+start>Startseite<
+calendar>Kalender<
+vertretungsplan>Vertretungsplan<
+supply schedule>Vertretungsplan<
+Forum>Forum<
+file exchange>Dateiaustausch<
+Rights>Rechte<
+Admin>Verwalten<
+Messages>Messages<
+Received>Empfangen<
+Sent>Gesendet<
+new message>Neue Message<
+grades>Zensuren<
+News>News<
+new news>Neue News<
+Users>Benutzer<
+statistics>Statistik<
+help>Hilfe<
+documentation>Dokumentation<
+faq>FAQ<
+About>Impressum<
+setup>Setup<
+insert text>Hervorzuhebenden Text eingeben:<
+delete text>Text l&ouml;schen<
+current time>aktuelle Zeit<
+last login>Letzter Login<
+site loaded>Seite geladen in <

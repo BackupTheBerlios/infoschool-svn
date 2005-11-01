@@ -1,0 +1,72 @@
+<tmpl:error>
+ <p class="error">
+  {error {error}}
+ </p>
+</tmpl:error> 
+<p>
+ {{todo}}
+</p>
+<tmpl:config_database>
+ <form action="create_config.php" method="post">
+  <tmpl:create_config>
+   <p>
+    <input type="checkbox" name="create_user" value="1" checked="checked" /> {add user}
+   </p>
+   <p>
+    <input type="checkbox" name="create_config" value="1" checked="checked" /> {create config files}
+   </p>
+  </tmpl:create_config>
+  <tmpl:create_database>
+   <p>
+    <input type="checkbox" name="create_database" value="1" checked="checked" /> {create database}
+   </p>
+  </tmpl:create_database>
+  <tmpl:create_tables> 
+   <p>
+    <input type="checkbox" name="create_tables" value="1" checked="checked" /> {create tables}
+   </p>
+  </tmpl:create_tables>
+  <tmpl:insert_data> 
+   <p>
+    <input type="checkbox" name="insert_data" value="1" checked="checked" /> {insert data}
+   </p>
+  </tmpl:insert_data> 
+  <tmpl:create_config>
+   <p>
+    {mysqladmin binary}<br />
+    <input type="text" name="mysqladmin_binary" value="mysqladmin" />
+   </p>
+   <p>
+    {mysql server}<br />
+    <input type="text" name="mysql_server" value="localhost" />
+   </p>
+   <p>
+    {root name}<br />
+    <input type="text" name="root_name" value="root" />
+   </p>
+   <p>
+    {root password}<br />
+    <input type="password" name="root_passwd" value="" />
+   </p>
+   <p>
+    {user name}<br />
+    <input type="text" name="user_name" value="infoschool" />
+   </p>
+   <p>
+    {user password}<br />
+    <input type="password" name="user_passwd" value="" />
+   </p>
+   <p>
+    {user password confirmation}<br />
+    <input type="password" name="user_passwd2" value="" />
+   </p>
+   <p>
+    {database name}<br />
+    <input type="text" name="db" value="infoschool" />
+   </p>
+  </tmpl:create_config>
+  <p>
+   <input type="submit" value="{create config}" />
+  </p>
+ </form>
+</tmpl:config_database>

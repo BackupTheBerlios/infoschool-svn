@@ -1,0 +1,1 @@
+<?php/* * This file is part of Infoschool - a web based school intranet. * Copyright (C) 2005 Maikel Linke */ include 'var.php';  $output->secure('admin');  $output->out(select_format_news('future'));?>

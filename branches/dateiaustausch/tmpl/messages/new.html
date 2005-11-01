@@ -1,0 +1,14 @@
+<h1>{new message}</h1>
+<div class="preview">{Preview}</div>
+{message}
+<p>
+<form action="new.php" method="post">
+ <tmpl:sel_person><input type="hidden" name="sel_persons[{id}]" value="{name}" /></tmpl:sel_person>
+ <tmpl:sel_group><input type="hidden" name="sel_groups[{id}]" value="{name}" /></tmpl:sel_group>
+ <textarea name="text" cols="50" rows="15">{text}</textarea>
+ <div>
+  <button type="submit" name="action" value="send">{Send}</button>
+  <button type="submit" name="action" value="preview">{Preview}</button>
+ </div>
+</form>
+</p>

@@ -1,0 +1,33 @@
+<h1>{new message}</h1>
+<form action="./new.php" method="post">
+ <table align="center" cellspacing="10">
+  <tr><th>{Person} ({person_count})</th><th>{Group} ({group_count})</th></tr>
+  <tr><td><input type="text" name="person" value="{person_name}" /></td><td><input type="text" name="group" value="{group_name}" /></td></tr>
+  <tr>
+   <td colspan="2" align="center">
+    <button type="submit" name="action" value="search">{Search}</button>
+   </td>
+  </tr>
+  <tr>
+   <td valign="top">
+    <tmpl:sel_person><input type="checkbox" name="sel_persons[{id}]" value="{name}" checked="checked"><a href="../users/person.php?id={id}">{name}</a></input><br /></tmpl:sel_person>
+   </td>
+   <td valign="top">
+    <tmpl:sel_group><input type="checkbox" name="sel_groups[{id}]" value="{name}" checked="checked"><a href="../users/group.php?id={id}">{name}</a></input><br /></tmpl:sel_group>
+   </td>
+  </tr>
+  <tr>
+   <td valign="top">
+    <tmpl:person><input type="checkbox" name="sel_persons[{id}]" value="{name}"><a href="../users/person.php?id={id}">{name}</a></input><br /></tmpl:person>
+   </td>
+   <td valign="top">
+    <tmpl:group><input type="checkbox" name="sel_groups[{id}]" value="{name}"><a href="../users/group.php?id={id}">{name}</a></input><br /></tmpl:group>
+   </td>
+  </tr>
+  <tr>
+   <td colspan="2" align="center">
+    <button type="submit" name="action" value="write">{Select}</button>
+   </td>
+  </tr>
+ </table>
+</form>

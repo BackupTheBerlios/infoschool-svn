@@ -1,0 +1,8 @@
+# Infoschool language file
+# Only edit something between > and < to translate!
+
+Success>Erfolgreich angemeldet<
+invalid pass>Benutzername oder Passwort sind falsch<
+pass not unique>Der Benutzername ist nicht eindeutig<
+lost password>Passwort vergessen?<
+contact admin>Falls es den kompletten Namen mehrmals gibt, sollte ein Administrator informiert werden.<
