@@ -63,8 +63,11 @@
   $action = 'write';
  }
  
- if (isset($_POST['action'])) {
-  $action = $_POST['action'];
+ if (isset($_POST['act_search'])) {
+  $action = 'search';
+ } 
+ if (isset($_POST['act_write'])) {
+  $action = 'write';
  } 
  
 /* completing information about selected recipients */
