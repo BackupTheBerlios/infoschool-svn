@@ -50,7 +50,7 @@
  $html_menu['Kalender'] = 'calendar/';
  $html_menu['Vertretungsplan'] = 'supply/';
  $html_menu['Forum'] = 'forum/';
- $html_menu['Dateiaustausch'] = 'dateien/';
+ $html_menu['Dateiaustausch'] = 'files/';
  $html_menu['Messages'] = 'messages/';
 // $html_menu['Zensuren'] = 'zensuren/';
  $html_menu['News'] = 'news/';
@@ -121,7 +121,7 @@
  $output->menu['calendar/'] = 'calendar';
  $output->menu['supply/'] = 'supply schedule';
  $output->menu['forum/'] = 'Forum';
- $output->menu['dateien/'] = 'file exchange';
+ $output->menu['files/'] = 'file exchange';
  $output->menu['messages/'] = 'Messages';
 // $output->menu['zensuren/'] = 'grades';
  $output->menu['news/'] = 'News';
