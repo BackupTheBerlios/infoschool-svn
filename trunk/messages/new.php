@@ -69,6 +69,12 @@
  if (isset($_POST['act_write'])) {
   $action = 'write';
  } 
+ if (isset($_POST['act_preview'])) {
+  $action = 'preview';
+ } 
+ if (isset($_POST['act_send'])) {
+  $action = 'send';
+ } 
  
 /* completing information about selected recipients */
 
