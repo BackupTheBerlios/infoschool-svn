@@ -12,5 +12,5 @@ delete from about;
 insert into about (name) values ('provider');
 insert into about (name) values ('admin');
 delete from db_version;
-insert into db_version (db_version) values ('2005_10_22_16_55');
+insert into db_version (db_version) values ('2005_11_07_18_23');
 
