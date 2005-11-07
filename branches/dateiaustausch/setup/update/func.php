@@ -4,6 +4,42 @@
  * Copyright (C) 2005 Maikel Linke
  */
  
+ function update_2005_11_07_18_23() {
+  global $db;
+  $query = 't1.id as id1, t2.id as id2
+           from forum_rights_group as t1, 
+           forum_rights_group as t2 
+           where
+            t1.entry_id=t2.entry_id and 
+            t1.group_id=t1.group_id and 
+            t1.id!=t2.id';
+  $db->select($query);
+  $entries = $db->data;
+  foreach ($entries as $i => $entry) {
+   if ($entry['id1'] < $entry['id2']) {
+    $id = $entry['id1'];
+   } else $id = $entry['id2'];
+   $db->delete('forum_rights_group where id="'.$id.'"');
+  }
+  $db->query('alter table forum_rights_group add unique(entry_id,group_id)');
+  $query = 't1.id as id1, t2.id as id2
+           from forum_rights_person as t1, 
+           forum_rights_person as t2 
+           where
+            t1.entry_id=t2.entry_id and 
+            t1.person_id=t1.person_id and 
+            t1.id!=t2.id';
+  $db->select($query);
+  $entries = $db->data;
+  foreach ($entries as $i => $entry) {
+   if ($entry['id1'] < $entry['id2']) {
+    $id = $entry['id1'];
+   } else $id = $entry['id2'];
+   $db->delete('forum_rights_person where id="'.$id.'"');
+  }
+  $db->query('alter table forum_rights_person add unique(entry_id,person_id)');
+ }
+ 
  function update_2005_10_23_17_32() {
   global $db;
   $db->select('titel,eintrag,datum,ersteller_id,status,level,link from news_eintraege where ort_infoschool=1');
