@@ -4,6 +4,12 @@
  * Copyright (C) 2005 Maikel Linke
  */
  
+ function update_() {
+  global $db;
+  $query = 'create table filesystem (id bigint unsigned primary key auto_increment, rel_to bigint unsigned not null, filetype varchar(32) not null, owner smallint(5) unsigned not null, last_change datetime not null, name varchar(64) not null, data blob not null)';
+  $query = 'create table filesystem_rights_person (id bigint unsigned auto_increment primary key, fs_id bigint unsigned not null, person_id smallint(5) unsigned not null, rights tinyint unsigned not null, unique (fs_id, person_id))';
+ }
+ 
  function update_2005_11_07_18_23() {
   global $db;
   $query = 't1.id as id1, t2.id as id2

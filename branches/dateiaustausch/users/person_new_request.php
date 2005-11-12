@@ -8,7 +8,7 @@
  function person_new($data) {
   global $db;
   $query = 'neu_account (passwd,vorname,nachname,mail) values ';
-  $query.= '(password("'.$data['passwd1'].'"),"'.$data['first_name'].'","'.$data['last_name'].'","'.$data['mail'].'")';
+  $query.= '(old_password("'.$data['passwd1'].'"),"'.$data['first_name'].'","'.$data['last_name'].'","'.$data['mail'].'")';
   $db->insert($query);
  }
 
