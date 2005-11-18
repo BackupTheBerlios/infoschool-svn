@@ -1,0 +1,24 @@
+<div>
+ <tmpl:upper_dir><a href="./?dir={upper_dir_id}">{upper_dir_name} </a>/ </tmpl:upper_dir>
+</div>
+<table>
+ <tmpl:item>
+  <tr>
+   <tmpl:item_dir><td>+<a href="./?dir={item_id}">{item_name_html}</a></td></tmpl:item_dir>
+   <tmpl:item_file><td>&nbsp;-&nbsp;<a href="./file.php?id={item_id}">{item_name_html}</a></td></tmpl:item_file>
+   <td>{item_owner_first_name} {item_owner_last_name}</td>
+   <td>{item_last_change_local}</td>
+   <td>
+    <tmpl:item_rights>
+     <a href="rights.php?item={item_id}">{edit rights}</a>
+    </tmpl:item_rights>
+   </td>
+  </tr>
+ </tmpl:item>
+</table>
+
+<tmpl:upload>
+ <p><a href="mkdir.php?rel_to={id}">{make directory}</a></p>
+ <p><a href="upload.php?rel_to={id}">{upload file}</a></p>
+</tmpl:upload>
+<p>{user_rights}</p>

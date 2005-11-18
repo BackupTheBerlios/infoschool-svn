@@ -1,7 +1,7 @@
 <?php
 /*
  * This file is part of Infoschool - a web based school intranet.
- * Copyright (C) 2004 Maikel Linke, Christian Zedler
+ * Copyright (C) 2005 Maikel Linke, Christian Zedler
  *
  * main, central, shared function library
  */
@@ -577,5 +577,27 @@
   return $num;
  }
  
+ // merge two arrays, without appending, but overwriting recursivly
+ function array_overwrite($base,$ext) {
+  foreach ($ext as $key => $value) {
+   $sub_base = &$base[$key];
+   if (isset($sub_base) && is_array($value)) {
+    $value = array_overwrite($sub_base,$value);
+   }
+   $sub_base = $value;
+  }
+  return $base;
+ }
+ 
+ function implode_rights($array) {
+  $rights = 0;
+  for ($i=0;$i<8;$i++) {
+   if (isset($array[$i]) && $array[$i]) {
+    $rights+= pow(2,$i);
+   }
+  }
+  return $rights;
+ }
+
 
 ?>

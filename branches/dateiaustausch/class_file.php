@@ -53,7 +53,9 @@
    }
    if (!$this->open('r')) return false;
    if (!is_int($length)) $length = filesize($this->uri());
-   $this->data = fread($this->pointer,$length);
+   if ($length > 0) {
+    $this->data = fread($this->pointer,$length);
+   }
    $this->close();
    return $this->data;
   }
