@@ -24,7 +24,7 @@ function get_last_file($ordner_id)
 	else
 	{
 	$row = mysql_fetch_array($result);
-	$last_file["besitzer"] = "<a class=\"blind\" href=\"".$GLOBALS["root"]."/benutzer/view_person.php?pid=".$row["person_id"]."\">".$row["besitzer"]."</a>";
+	$last_file["besitzer"] = "<a class=\"blind\" href=\"".$GLOBALS["root"]."/users/person.php?id=".$row["person_id"]."\">".$row["besitzer"]."</a>";
 	$last_file["datum"] = htmlformat_datum_neu($row["datum"]);
 	}
 	
@@ -82,7 +82,7 @@ ORDER BY o.ordnername ASC";
 		else $anzahl = $anzahl." Dateien";
 		
 		$last_file = get_last_file($row["id"]);
-		$besitzer = "<a  class=\"blind\" href=\"".$GLOBALS["root"]."benutzer/view_person.php?pid=".$row["person_id"]."\">".$row["besitzer"]."</a>";
+		$besitzer = "<a  class=\"blind\" href=\"".$GLOBALS["root"]."users/person.php?id=".$row["person_id"]."\">".$row["besitzer"]."</a>";
 		
 		$inhalt .= ausgeben($string[1], array(ordner_id => $row["id"], ordnername => $row["ordnername"], anzahl => $anzahl, besitzer => $besitzer, last_file_besitzer => $last_file["besitzer"], last_file_datum => $last_file["datum"]));
 	}
