@@ -226,6 +226,9 @@
    $v['username'] = $_SESSION['first_name'].' '.$_SESSION['last_name'];
    $v['last_login_date'] = local_date($_SESSION['last_login'],'ymdHi');
    
+    /*
+     * active_sessions() is not stable
+     * and should be rewritten
    $online_users = active_sessions();
    $ou_number = count($online_users);
    if ($ou_number > 0) {
@@ -236,6 +239,7 @@
     }
     $loggedin[]['usermenu'] = new tmpl('loggedin_online_users.html',$ousers,$this->root);
    }
+   */
 
    $pantrag = $gantrag = 0;
    if (is_admin()){
