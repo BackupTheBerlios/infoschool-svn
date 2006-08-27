@@ -371,6 +371,16 @@
    		"'.$data.'")';
    $db->insert($query);
   }
+  
+  function send() {
+   //header('Content-Type: application/octet-stream'); // possibly force an download
+   header('Content-Type: '.$this->data['filetype']);
+   header('Content-Disposition: attachment; filename='.$this->data['name']);
+   global $db;
+   $query = 'data from filesystem where id="'.$this->data['id'].'"';
+   $db->select($query);
+   echo $db->data[0][0];
+  }
 
  }
 ?>
