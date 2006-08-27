@@ -13,7 +13,7 @@
  7 64	delete
  8 128	change rights
 */
-//  include 'func.php';
+ include 'func.php';
  include_once 'class.php';
  if (!isset($root)) $root = '';
  $root.= '../';
@@ -21,4 +21,5 @@
 
  $output->headline[] = 'file exchange';
 
+ $max_upload_size = get_maximum_upload_size(); // bytes
 ?>

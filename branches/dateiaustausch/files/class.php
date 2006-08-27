@@ -4,13 +4,16 @@
  * Copyright (C) 2004 Maikel Linke
  */
  
+ /*
+  * represents a directory or file
+  */
  class fs_item {
   var $data = array();
-  var $upper_dir;
+  var $upper_dir = null;
   var $admin = 0;
   var $right_arr = array();
   var $items = array();
-  var $user_rights;
+  var $user_rights = 0; // binary coded user rights
   
   function fs_item($id=null) {
    if (isset($id)) {
@@ -220,8 +223,8 @@
    $d = &$this->data;
    $d['dir'] = array();
    $d['file'] = array();
-   if ($d['filetype'] == '') $d['dir'][] = array();
-   else $d['file'][] = array();
+   if (isset($d['filetype'])) $d['file'][] = array();
+   else $d['dir'][] = array();
    $d['last_change_local'] = local_date($d['last_change']);
    $d['name_html'] = mask_html($d['name']);
    if ($prefix) {
@@ -347,12 +350,17 @@
    $db->insert($query);
   }
  
+  /* file_arr has these informations
+   * 'tmp_name': whole path to the temporary file
+   * 	in the server's filesystem, deleted at end of script
+   * 'name': filename from the client
+   * 'size': filesize in bytes
+   * 'type': mime type send by client
+   */
   function insert_file($file_arr) {
-   //$file_arr['size']
    $type = $file_arr['type'];
-   if ($type == '') $type = 'unknown';
    $data = file_data($file_arr['tmp_name']);
-   $data = addslashes($data);
+   $data = addslashes($data);	// for mysql-insertion
    global $db;
    $query = 'filesystem (rel_to, owner, last_change, name, filetype, data) values (
    		"'.$this->data['id'].'",

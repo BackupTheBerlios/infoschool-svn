@@ -6,7 +6,7 @@
  
  function update_() {
   global $db;
-  $query = 'create table filesystem (id bigint unsigned primary key auto_increment, rel_to bigint unsigned not null, filetype varchar(32) not null, owner smallint(5) unsigned not null, last_change datetime not null, name varchar(64) not null, data blob not null)';
+  $query = 'create table filesystem (id bigint unsigned primary key auto_increment, rel_to bigint unsigned not null, filetype varchar(32), owner smallint(5) unsigned not null, last_change datetime not null, name varchar(64) not null, data mediumblob not null)';
   $query = 'create table filesystem_rights_person (id bigint unsigned auto_increment primary key, fs_id bigint unsigned not null, person_id smallint(5) unsigned not null, rights tinyint unsigned not null, unique (fs_id, person_id))';
   $query = 'create table filesystem_rights_group (id bigint unsigned auto_increment primary key, fs_id bigint unsigned not null, group_id smallint(5) unsigned not null, rights tinyint unsigned not null, unique (fs_id, group_id))';
  }
