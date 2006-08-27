@@ -240,8 +240,10 @@
    $d['user_rights'] = $this->user_rights;
    $d['upload'] = array();
    $d['rights'] = array();
+   $d['delete'] = array();
    if ($this->right_upload()) $d['upload'][] = array();
    if ($this->right_rights()) $d['rights'][] = array();
+   if ($this->right_delete()) $d['delete'][] = array();
   }
   
   function format_upper_dir() {
@@ -381,6 +383,19 @@
    $query = 'data from filesystem where id="'.$this->data['id'].'"';
    $db->select($query);
    echo $db->data[0][0];
+  }
+  
+  /* deletes a file or directory with all items and rights */
+  function delete() {
+   $this->load_items();
+   foreach ($this->items as $i => $item) {
+    $item->delete();
+   }
+   $id = $this->data['id'];
+   global $db;
+   $db->delete('filesystem_rights_group where fs_id="'.$id.'"');
+   $db->delete('filesystem_rights_person where fs_id="'.$id.'"');
+   $db->delete('filesystem where id="'.$id.'"');
   }
 
  }
