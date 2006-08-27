@@ -372,6 +372,7 @@
    $db->insert($query);
   }
   
+  /* sends a file to the client for download */
   function send() {
    //header('Content-Type: application/octet-stream'); // possibly force an download
    header('Content-Type: '.$this->data['filetype']);
