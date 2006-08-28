@@ -1,16 +1,113 @@
 <?php
 /*
  * This file is part of Infoschool - a web based school intranet.
- * Copyright (C) 2005 Maikel Linke
+ * Copyright (C) 2006 Maikel Linke
  */
  
- function update_() {
+ /*
+  * module 'dateiaustausch' is no longer in use
+  * deletion of old table structure and data
+  */
+ function update_2006_08_28_12_53() {
   global $db;
-  $query = 'create table filesystem (id bigint unsigned primary key auto_increment, rel_to bigint unsigned not null, filetype varchar(32), owner smallint(5) unsigned not null, last_change datetime not null, name varchar(64) not null, data mediumblob not null)';
-  $query = 'create table filesystem_rights_person (id bigint unsigned auto_increment primary key, fs_id bigint unsigned not null, person_id smallint(5) unsigned not null, rights tinyint unsigned not null, unique (fs_id, person_id))';
-  $query = 'create table filesystem_rights_group (id bigint unsigned auto_increment primary key, fs_id bigint unsigned not null, group_id smallint(5) unsigned not null, rights tinyint unsigned not null, unique (fs_id, group_id))';
  }
  
+ /*
+  * data transfer from old to new
+  * 'dateiaustausch' -> 'files'
+  */
+ function update_2006_08_28_12_51() {
+  global $db;
+  /* 'ordner' keep their id as fs_items without filetype (directory).
+   *  All transferred directories are related to root (rel_to=0).
+   */
+  $db->select('id, ordnername, besitzer from dateien_ordner');
+  $ordner = $db->data;
+  foreach ($ordner as $i => $o) {
+   $query = 'filesystem
+   		(id,owner, name, data)
+   	values
+   		("'.$o['id'].'","'.$o['besitzer'].'","'.$o['ordnername'].'")
+   	';
+   $mysql->insert($query);
+  }
+  /* All entries below keep their rel_to ids (ordner_id=fs_id). */
+  /* Right bits have the same meaning. */
+  $db->select('ordner_id, gruppe_id, recht from dateien_recht_gruppe');
+  $rights_group = $db->data;
+  foreach ($rights_group as $i => $rg) {
+   $db->insert('filesystem_rights_group
+   		(fs_id, group_id, rights)
+   		values
+   		("'.$rg['ordner_id'].'","'.$rg['gruppe_id'].'","'.$rg['recht'].'")
+   		');
+  }
+  $db->select('ordner_id, person_id, recht from dateien_recht_person');
+  $rights_person = $db->data;
+  foreach ($rights_person as $i => $rp) {
+   $db->insert('filesystem_rights_person
+   		(fs_id, person_id, rights)
+   		values
+   		("'.$rp['ordner_id'].'","'.$rp['person_id'].'","'.$rp['recht'].'")
+   		');
+  }
+  $rights_person = $db->data;
+  /* Old file data is stored in the server's filesystem:
+   *  .htsecret/var/upload/{id}
+   */
+  $mysql->select('id, titel, dateiname, dateityp, groesse, datum, beschreibung, ordner_id, besitzer from dateien_dateien';
+  $file_infos = $db->data;
+  $file_data_path = $GLOBALS['special_dir'].'var/upload/';
+  foreach ($file_infos as $i => $fi) {
+   $file_name = addslashes($fi['dateiname']);
+   $description = '	'.addslashes($fi['titel'])."\n";
+   $description.= addslashes($fi['beschreibung']);
+   $file_data = file_data($file_data_path.$fi['id']);
+   $db->insert('filesystem
+   		(rel_to, filetype, owner, last_change, name, size, description, data)
+   		values
+   			(
+   			"'.$fi['ordner_id'].'",
+   			"'.$fi['dateityp'].'",
+   			"'.$fi['besitzer'].'",
+   			"'.$fi['datum'].'",
+   			"'.$file_name.'",
+   			"'.$fi['groesse'].'",
+   			"'.$description.'",
+   			"'.$file_data.'")
+   		');
+  }
+ }
+ 
+ /*
+  * new module 'files'
+  * creates the new table structure
+  */
+ function update_2006_08_28_12_37() {
+  global $db;
+  $query = 'create table filesystem (
+  		id bigint unsigned primary key auto_increment, 
+  		rel_to bigint unsigned not null, 
+  		filetype varchar(32), 
+  		owner smallint(5) unsigned not null, 
+  		last_change datetime not null, 
+  		name varchar(64) not null, 
+  		size int unsigned not null, 
+  		description text not null, 
+  		data longblob not null
+  	)';
+  $db->query($query);
+  $query = 'create table filesystem_rights_person (id bigint unsigned auto_increment primary key, fs_id bigint unsigned not null, person_id smallint(5) unsigned not null, rights tinyint unsigned not null, unique (fs_id, person_id))';
+  $db->query($query);
+  $query = 'create table filesystem_rights_group (id bigint unsigned auto_increment primary key, fs_id bigint unsigned not null, group_id smallint(5) unsigned not null, rights tinyint unsigned not null, unique (fs_id, group_id))';
+  $db->query($query);
+ }
+ 
+ /*
+  * forum_rights_*
+  * delete duplicate entries
+  * and adds unique key
+  */
  function update_2005_11_07_18_23() {
   global $db;
   $query = 't1.id as id1, t2.id as id2
