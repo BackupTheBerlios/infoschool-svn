@@ -364,11 +364,12 @@
    $data = file_data($file_arr['tmp_name']);
    $data = addslashes($data);	// for mysql-insertion
    global $db;
-   $query = 'filesystem (rel_to, owner, last_change, name, filetype, data) values (
+   $query = 'filesystem (rel_to, owner, last_change, name, size, filetype, data) values (
    		"'.$this->data['id'].'",
    		"'.$_SESSION['userid'].'",
    		now(),
    		"'.$file_arr['name'].'",
+   		"'.$file_arr['size'].'",
    		"'.$type.'",
    		"'.$data.'")';
    $db->insert($query);

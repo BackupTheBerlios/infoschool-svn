@@ -1,7 +1,7 @@
 <?php
 /*
  * This file is part of Infoschool - a web based school intranet.
- * Copyright (C) 2004 Maikel Linke
+ * Copyright (C) 2006 Maikel Linke
  */
 /* rights
  1 1	read
@@ -13,6 +13,16 @@
  7 64	delete
  8 128	change rights
 */
+/* 
+ * Files are stored in a mysql database.
+ * This sets a limit of the filesize
+ * to 4294967295 (2^32 - 1) bytes ~ 4 GB.
+ *
+ * In most cases the filesize will be
+ * limited by the http-server to 1-16 MB.
+ * The definite value is stored in
+ * $max_upload_size.
+ */
  include 'func.php';
  include_once 'class.php';
  if (!isset($root)) $root = '';
