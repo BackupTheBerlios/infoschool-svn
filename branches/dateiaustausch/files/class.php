@@ -376,7 +376,22 @@
   
   /* sends a file to the client for download */
   function send() {
-   //header('Content-Type: application/octet-stream'); // possibly force an download
+   /*
+    * old header
+	# Ausgabe der Header-Befehle, die fr jede Datei gleich sind
+        header("Expires: Mon, 31 Jul 2000 01:00:00 GMT");
+        header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
+        header("Cache-Control: no-store, no-cache, must-revalidate");
+        header("Cache-Control: post-check=0, pre-check=0", false);
+        header("Pragma: no-cache");
+        header("Cache-control: private");
+	# Dateigr�e ausgeben (optional)
+	header("Content-Length: $dateigroesse");
+	# 'Dateityp Bin�' ausgeben
+	header("Content-Type: application/octet-stream");
+	# 'Dateiname' ausgeben
+	header("Content-Disposition: attachment; filename=\"$dateiname\"");
+    */
    header('Content-Type: '.$this->data['filetype']);
    header('Content-Disposition: attachment; filename='.$this->data['name']);
    global $db;
