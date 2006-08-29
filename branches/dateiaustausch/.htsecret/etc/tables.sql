@@ -1,13 +1,13 @@
 -- MySQL dump 10.9
 --
--- Host: localhost    Database: infoschool
+-- Host: localhost    Database: infoschool_d
 -- ------------------------------------------------------
--- Server version	4.1.14-log
+-- Server version	4.1.21-log
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES latin1 */;
+/*!40101 SET NAMES utf8 */;
 /*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
@@ -49,26 +49,7 @@ CREATE TABLE `cron` (
   `next` datetime NOT NULL default '0000-00-00 00:00:00',
   `do` varchar(255) NOT NULL default '',
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
---
--- Table structure for table `dateien_dateien`
---
-
-DROP TABLE IF EXISTS `dateien_dateien`;
-CREATE TABLE `dateien_dateien` (
-  `id` int(11) NOT NULL auto_increment,
-  `titel` varchar(50) default NULL,
-  `dateiname` varchar(50) default NULL,
-  `dateityp` varchar(50) default NULL,
-  `groesse` int(11) default NULL,
-  `datum` datetime default NULL,
-  `beschreibung` text,
-  `ordner_id` int(11) NOT NULL default '0',
-  `besitzer` smallint(5) default NULL,
-  PRIMARY KEY  (`id`),
-  KEY `ordner_id` (`ordner_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 --
 -- Table structure for table `dateien_ordner`
@@ -83,32 +64,6 @@ CREATE TABLE `dateien_ordner` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
--- Table structure for table `dateien_recht_gruppe`
---
-
-DROP TABLE IF EXISTS `dateien_recht_gruppe`;
-CREATE TABLE `dateien_recht_gruppe` (
-  `id` int(11) NOT NULL auto_increment,
-  `ordner_id` smallint(5) default NULL,
-  `gruppe_id` smallint(5) default NULL,
-  `recht` tinyint(1) unsigned default NULL,
-  PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
---
--- Table structure for table `dateien_recht_person`
---
-
-DROP TABLE IF EXISTS `dateien_recht_person`;
-CREATE TABLE `dateien_recht_person` (
-  `id` int(11) NOT NULL auto_increment,
-  `ordner_id` smallint(5) default NULL,
-  `person_id` smallint(5) default NULL,
-  `recht` tinyint(1) unsigned default NULL,
-  PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
---
 -- Table structure for table `db_version`
 --
 
@@ -116,6 +71,52 @@ DROP TABLE IF EXISTS `db_version`;
 CREATE TABLE `db_version` (
   `db_version` varchar(16) default NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Table structure for table `filesystem`
+--
+
+DROP TABLE IF EXISTS `filesystem`;
+CREATE TABLE `filesystem` (
+  `id` bigint(20) unsigned NOT NULL auto_increment,
+  `rel_to` bigint(20) unsigned NOT NULL default '0',
+  `filetype` varchar(32) default NULL,
+  `owner` smallint(5) unsigned NOT NULL default '0',
+  `last_change` datetime NOT NULL default '0000-00-00 00:00:00',
+  `name` varchar(64) NOT NULL default '',
+  `size` bigint(20) unsigned NOT NULL default '0',
+  `description` text NOT NULL,
+  `data` mediumblob NOT NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+
+--
+-- Table structure for table `filesystem_rights_group`
+--
+
+DROP TABLE IF EXISTS `filesystem_rights_group`;
+CREATE TABLE `filesystem_rights_group` (
+  `id` bigint(20) unsigned NOT NULL auto_increment,
+  `fs_id` bigint(20) unsigned NOT NULL default '0',
+  `group_id` smallint(5) unsigned NOT NULL default '0',
+  `rights` tinyint(3) unsigned NOT NULL default '0',
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `fs_id` (`fs_id`,`group_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Table structure for table `filesystem_rights_person`
+--
+
+DROP TABLE IF EXISTS `filesystem_rights_person`;
+CREATE TABLE `filesystem_rights_person` (
+  `id` bigint(20) unsigned NOT NULL auto_increment,
+  `fs_id` bigint(20) unsigned NOT NULL default '0',
+  `person_id` smallint(5) unsigned NOT NULL default '0',
+  `rights` tinyint(3) unsigned NOT NULL default '0',
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `fs_id` (`fs_id`,`person_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 --
 -- Table structure for table `forum`
@@ -130,7 +131,7 @@ CREATE TABLE `forum` (
   `topic` varchar(32) NOT NULL default '',
   `text` text NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 
 --
 -- Table structure for table `forum_read`
@@ -166,7 +167,7 @@ CREATE TABLE `forum_rights_group` (
   `rights` tinyint(3) unsigned default NULL,
   PRIMARY KEY  (`id`),
   UNIQUE KEY `entry_id` (`entry_id`,`group_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 --
 -- Table structure for table `forum_rights_person`
@@ -180,7 +181,7 @@ CREATE TABLE `forum_rights_person` (
   `rights` tinyint(3) unsigned default NULL,
   PRIMARY KEY  (`id`),
   UNIQUE KEY `entry_id` (`entry_id`,`person_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 --
 -- Table structure for table `gruppe`
@@ -197,7 +198,7 @@ CREATE TABLE `gruppe` (
   `zensuren` tinyint(3) unsigned NOT NULL default '50',
   PRIMARY KEY  (`id`),
   KEY `id` (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 --
 -- Table structure for table `lesson`
@@ -250,7 +251,7 @@ CREATE TABLE `neu_account` (
   `gebdat` date default NULL,
   `mail` varchar(64) default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 --
 -- Table structure for table `neu_pg`
@@ -277,7 +278,7 @@ CREATE TABLE `news` (
   `topic` varchar(64) NOT NULL default '',
   `text` text NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 --
 -- Table structure for table `person`
@@ -304,7 +305,7 @@ CREATE TABLE `person` (
   PRIMARY KEY  (`id`),
   UNIQUE KEY `nk` (`nid`),
   KEY `id` (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 --
 -- Table structure for table `pg`

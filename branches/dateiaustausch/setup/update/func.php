@@ -10,6 +10,10 @@
   */
  function update_2006_08_28_12_53() {
   global $db;
+  $db->query('drop table dateien_recht_gruppe');
+  $db->query('drop table dateien_recht_person');
+  $db->query('drop table dateien_dateien');
+  echo '<p>Files in .htsecret/var/upload/ are stored in the the database. You should delete .htsecret/var/.</p>';
  }
  
  /*
@@ -25,11 +29,11 @@
   $ordner = $db->data;
   foreach ($ordner as $i => $o) {
    $query = 'filesystem
-   		(id,owner, name, data)
+   		(id, owner, name)
    	values
-   		("'.$o['id'].'","'.$o['besitzer'].'","'.$o['ordnername'].'")
+   		("'.$o['id'].'","'.$o['besitzer'].'","'.addslashes($o['ordnername']).'")
    	';
-   $mysql->insert($query);
+   $db->insert($query);
   }
   /* All entries below keep their rel_to ids (ordner_id=fs_id). */
   /* Right bits have the same meaning. */
@@ -55,7 +59,7 @@
   /* Old file data is stored in the server's filesystem:
    *  .htsecret/var/upload/{id}
    */
-  $mysql->select('id, titel, dateiname, dateityp, groesse, datum, beschreibung, ordner_id, besitzer from dateien_dateien';
+  $db->select('id, titel, dateiname, dateityp, groesse, datum, beschreibung, ordner_id, besitzer from dateien_dateien');
   $file_infos = $db->data;
   $file_data_path = $GLOBALS['special_dir'].'var/upload/';
   foreach ($file_infos as $i => $fi) {
@@ -63,6 +67,7 @@
    $description = '	'.addslashes($fi['titel'])."\n";
    $description.= addslashes($fi['beschreibung']);
    $file_data = file_data($file_data_path.$fi['id']);
+   $file_data = addslashes($file_data);
    $db->insert('filesystem
    		(rel_to, filetype, owner, last_change, name, size, description, data)
    		values
@@ -144,6 +149,7 @@
   $db->query('alter table forum_rights_person add unique(entry_id,person_id)');
  }
  
+ /* modules 'news' refactored, new tables */
  function update_2005_10_23_17_32() {
   global $db;
   $db->select('titel,eintrag,datum,ersteller_id,status,level,link from news_eintraege where ort_infoschool=1');
@@ -185,6 +191,7 @@
   $db->query('drop table news_level_person');
  }
  
+ /* new module 'about', initial table structure */
  function update_2005_10_22_16_55() {
   global $db;
   $db->query('create table about (name varchar(16) not null primary key, text text not null)');
