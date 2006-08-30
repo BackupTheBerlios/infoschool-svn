@@ -13,5 +13,5 @@
  $item = new fs_item($item_id);
  if (!$item->right_delete()) redirect('./');
  $item->delete();
- redirect('./?dir='.$item->data['rel_to']);
+ redirect('./?id='.$item->data['rel_to']);
 ?>

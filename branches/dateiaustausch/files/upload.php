@@ -1,7 +1,7 @@
 <?php
 /*
  * This file is part of Infoschool - a web based school intranet.
- * Copyright (C) 2005 Maikel Linke
+ * Copyright (C) 2006 Maikel Linke
  */
  include 'var.php';
  
@@ -20,7 +20,7 @@
   */
  if (isset($_FILES['file']['tmp_name'])) {
   $dir->insert_file($_FILES['file']);
-  redirect('./?dir='.$rel_to);
+  redirect('./?id='.$rel_to);
  }
  
  $v['rel_to'] = $rel_to;

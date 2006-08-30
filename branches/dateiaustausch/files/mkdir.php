@@ -19,7 +19,7 @@
  if (isset($_POST['dirname'])) {
   $dirname = $_POST['dirname'];
   $parent->mkdir($dirname);
-  redirect('./?dir='.$rel_to);
+  redirect('./?id='.$rel_to);
  }
  
  $v['rel_to'] = $rel_to;
