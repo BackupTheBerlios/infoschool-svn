@@ -1,24 +1,26 @@
 <?php
 /*
  * This file is part of Infoschool - a web based school intranet.
- * Copyright (C) 2004 Maikel Linke
+ * Copyright (C) 2006 Maikel Linke
  */
  include 'var.php';
  
  $output->secure();
  
- $dir_id = 0;
- if (isset($_GET['dir'])) {
-  $dir_id = (int) $_GET['dir'];
+ $item_id = 0;
+ if (isset($_GET['id'])) {
+  $item_id = (int) $_GET['id'];
  }
  
- $dir = new fs_item($dir_id);
+ $item = new fs_item($item_id);
+ if (!$item->right_read()) redirect('./');
  
- if (!$dir->right_read()) redirect('./');
+ if ($item->is_file()) {
+  $item->send();
+ } else {
+  $item->load_items();
+  $content = $item->format();
+  $output->out($content);
+ }
  
- $dir->load_items();
- 
- $content = $dir->format();
- 
- $output->out($content);
 ?>

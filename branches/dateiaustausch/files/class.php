@@ -49,6 +49,14 @@
    $this->user_rights();
   }
   
+  /* proofs the type of this filesystem item */
+  function is_file() {
+   if (isset($this->data['filetype'])) {
+    return true;
+   }
+   return false;
+  }
+  
   function create_data($d) {
    if (count($d) == 0) {
     $this->create_root();
@@ -72,7 +80,6 @@
    $data = array(
     'id' => 0,
     'rel_to' => 0,
-    'filetype' => '',
     'owner' => 0,
     'last_change' => 0,
     'name' => '{file exchange}',
@@ -223,7 +230,7 @@
    $d = &$this->data;
    $d['dir'] = array();
    $d['file'] = array();
-   if (isset($d['filetype'])) $d['file'][] = array();
+   if ($this->is_file()) $d['file'][] = array();
    else $d['dir'][] = array();
    $d['last_change_local'] = local_date($d['last_change']);
    $d['name_html'] = mask_html($d['name']);
