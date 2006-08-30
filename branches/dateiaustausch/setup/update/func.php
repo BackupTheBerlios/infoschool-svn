@@ -13,7 +13,7 @@
   $db->query('drop table dateien_recht_gruppe');
   $db->query('drop table dateien_recht_person');
   $db->query('drop table dateien_dateien');
-  echo '<p>Files in .htsecret/var/upload/ are stored in the the database. You should delete .htsecret/var/.</p>';
+  echo '<p>Notice: Files in .htsecret/var/upload/ are stored in the the database now. You should delete .htsecret/var/.</p>';
  }
  
  /*
