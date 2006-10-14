@@ -13,6 +13,7 @@
  $db->verbose = 4;
  $db->die = true;
  $updates = array();
+ $updates[] = '2006_10_14_20_16';
  $updates[] = '2005_11_07_18_23';
  $updates[] = '2005_10_23_17_32';
  $updates[] = '2005_10_22_16_55';

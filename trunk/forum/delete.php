@@ -11,7 +11,10 @@
  $id = $_GET['id'];
  
  $entry = new entry();
- $entry->load($id,null,'delete');
+ $entry->load($id,null);
+ if (!$entry->right_delete()) {
+  redirect('./');
+ }
 
  if (isset($_POST['assured']) && $_POST['assured']) {
   $entry->delete();

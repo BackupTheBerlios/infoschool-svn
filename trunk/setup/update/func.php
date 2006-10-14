@@ -1,9 +1,26 @@
 <?php
 /*
  * This file is part of Infoschool - a web based school intranet.
- * Copyright (C) 2005 Maikel Linke
+ * Copyright (C) 2006 Maikel Linke
  */
- 
+
+ function update_2006_10_14_20_16() {
+  global $db;
+  $query = 'f1.id from forum as f1 left join forum as f2 on f1.rel_to=f2.id where f1.rel_to!=0 and f2.id is null';
+  do {
+   $db->select($query);
+   $entries = $db->data;
+   foreach ($entries as $i => $e) {
+    $id = $e['id'];
+    $db->query('delete from forum_rights_group where entry_id='.$id);
+    $db->query('delete from forum_rights_person where entry_id='.$id);
+    $db->query('delete from forum_relation where entry='.$id.' or answer='.$id);
+    $db->query('delete from forum where id='.$id);
+   }
+  } 
+  while (count($entries) > 0);
+ }
+  
  function update_2005_11_07_18_23() {
   global $db;
   $query = 't1.id as id1, t2.id as id2
