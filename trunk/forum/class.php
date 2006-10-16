@@ -1,7 +1,7 @@
 <?php
 /*
  * This file is part of Infoschool - a web based school intranet.
- * Copyright (C) 2005 Maikel Linke
+ * Copyright (C) 2006 Maikel Linke
  */
 
  class entry {
@@ -30,7 +30,7 @@
    if (!isset($data)) return;
    $this->data = $data;
    $this->id = &$this->data['id'];
-   $this->add_rights($data);
+   $this->add_rights_row($data);
   }
   
   function get() {
@@ -92,7 +92,7 @@
     $this->db->query($query);
     $data = mysql_fetch_array($this->db->result);
     while ($right_data = mysql_fetch_array($this->db->result)) {
-     $this->add_rights($right_data);
+     $this->add_rights_row($right_data);
     }
    } 
    $this->set_data($data);
@@ -140,14 +140,14 @@
      $parent = new entry($data);
     }
     else {
-     $parent->add_rights($data);
+     $parent->add_rights_row($data);
     } 
    }
    $this->admin = $this->data['author'];
    for ($i=1;$i<count($this->history);$i++){
     $parent = &$this->history[$i];
     $this->admin = $parent->data['author'];
-    $this->rights+= $parent->rights;
+    $this->add_rights($parent->rights);
    }  
   }
 
@@ -203,7 +203,7 @@
       } 
      }
     }
-    $answer->add_rights($data);
+    $answer->add_rights_row($data);
    }
    $this->index();
   }
@@ -265,7 +265,7 @@
       $entry->new = true;
      } 
     }
-    $entry->add_rights($data);
+    $entry->add_rights_row($data);
    }
    $this->index_new();
   }
@@ -283,7 +283,7 @@
      else {
       $answer->admin = &$parent->admin;
      }
-     $answer->rights+= $parent->rights;
+     $answer->add_rights($parent->rights);
      $answer->user_rights();
      if ($answer->right_to($right)) {
       $parent->answers[$id] = &$answer;
@@ -334,7 +334,7 @@
    $this->db->insert($query);
   }
   
-  function add_rights($data) {
+  function add_rights_row($data) {
    if (isset($data['rights_person'])) {
     $this->rights['person'] = $data['rights_person'];
    }
@@ -346,6 +346,11 @@
      }
     }
    }
+  }
+  
+  function add_rights($rights) {
+   if (!is_array($rights)) return;
+   $this->rights += $rights;
   }
 
   function user_rights() {
