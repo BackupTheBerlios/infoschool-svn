@@ -41,6 +41,10 @@
   function close() {
    @fclose($this->pointer);
   }
+  
+  function fread($length) {
+   return fread($this->pointer,$length);
+  }
 
   function read($length=false) {
    if (!file_exists($this->uri())) {
@@ -54,7 +58,7 @@
    if (!$this->open('r')) return false;
    if (!is_int($length)) $length = filesize($this->uri());
    if ($length > 0) {
-    $this->data = fread($this->pointer,$length);
+    $this->data = $this->fread($length);
    }
    $this->close();
    return $this->data;
