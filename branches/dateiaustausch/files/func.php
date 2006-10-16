@@ -43,4 +43,17 @@
   $limits['upload'] = ini_get_bytes('upload_max_filesize');
   return array_min($limits);
  }
+ 
+ function check_config() {
+  global $file_dir;
+  $error = false;
+  if (!is_readable($file_dir)) $error = true;
+  if (!is_writeable($file_dir)) $error = true;
+  if ($error) {
+   global $output;
+   $output->out('{file dir not accessable}');
+   exit;
+  } 
+ }
+ 
 ?>

@@ -13,10 +13,10 @@
  $db->verbose = 4;
  $db->die = true;
  $updates = array();
- $updates[] = '2006_08_28_12_53'; // files: delete old tables from module 'dateiaustausch'
- $updates[] = '2006_08_28_12_51'; // files: transfer data from old in new structure
- $updates[] = '2006_08_28_12_37'; // files: initial structure
- $updates[] = '2006_10_14_20_16';
+ $updates[] = '2006_10_28_12_53'; // files: delete old tables from module 'dateiaustausch'
+ $updates[] = '2006_10_28_12_51'; // files: transfer data from old in new structure
+ $updates[] = '2006_10_28_12_37'; // files: initial structure
+ $updates[] = '2006_10_14_20_16'; // forum: deletion bug
  $updates[] = '2005_11_07_18_23'; // news: duplicate right entries
  $updates[] = '2005_10_23_17_32'; // news: initial structure
  $updates[] = '2005_10_22_16_55';

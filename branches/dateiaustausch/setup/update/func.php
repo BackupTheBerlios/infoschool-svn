@@ -4,40 +4,31 @@
  * Copyright (C) 2006 Maikel Linke
  */
 
- function update_2006_10_14_20_16() {
-  global $db;
-  $query = 'f1.id from forum as f1 left join forum as f2 on f1.rel_to=f2.id where f1.rel_to!=0 and f2.id is null';
-  do {
-   $db->select($query);
-   $entries = $db->data;
-   foreach ($entries as $i => $e) {
-    $id = $e['id'];
-    $db->query('delete from forum_rights_group where entry_id='.$id);
-    $db->query('delete from forum_rights_person where entry_id='.$id);
-    $db->query('delete from forum_relation where entry='.$id.' or answer='.$id);
-    $db->query('delete from forum where id='.$id);
-   }
-  } 
-  while (count($entries) > 0);
- }
-  
  /*
   * module 'dateiaustausch' is no longer in use
   * deletion of old table structure and data
   */
- function update_2006_08_28_12_53() {
+ function update_2006_10_28_12_53() {
   global $db;
   $db->query('drop table dateien_recht_gruppe');
   $db->query('drop table dateien_recht_person');
   $db->query('drop table dateien_dateien');
-  echo '<p>Notice: Files in .htsecret/var/upload/ are stored in the the database now. You should delete .htsecret/var/.</p>';
+  $db->query('drop table dateien_ordner');
+  echo '<p>';
+  echo 'Binary data of the stored files has been moved from '.$GLOBALS['special_dir'].'var/upload/ to '.$GLOBALS['special_dir'].'files/.<br />';
+  echo 'You can delete the old directory.';
+  echo '<p>';
  }
  
  /*
   * data transfer from old to new
   * 'dateiaustausch' -> 'files'
   */
- function update_2006_08_28_12_51() {
+ function update_2006_10_28_12_51() {
+  if (!is_writeable($GLOBALS['special_dir'])) {
+   echo '<p>This update needs write access to '.$GLOBALS['special_dir'];
+   exit;
+  }
   global $db;
   /* 'ordner' keep their id as fs_items without filetype (directory).
    *  All transferred directories are related to root (rel_to=0).
@@ -75,16 +66,14 @@
   $rights_person = $db->data;
   /* Old file data is stored in the server's filesystem:
    *  .htsecret/var/upload/{id}
+   * Files get new ids.
    */
   $db->select('id, titel, dateiname, dateityp, groesse, datum, beschreibung, ordner_id, besitzer from dateien_dateien');
   $file_infos = $db->data;
-  $file_data_path = $GLOBALS['special_dir'].'var/upload/';
   foreach ($file_infos as $i => $fi) {
    $file_name = addslashes($fi['dateiname']);
    $description = '	'.addslashes($fi['titel'])."\n";
    $description.= addslashes($fi['beschreibung']);
-   $file_data = file_data($file_data_path.$fi['id']);
-   $file_data = addslashes($file_data);
    $db->insert('filesystem
    		(rel_to, filetype, owner, last_change, name, size, description, data)
    		values
@@ -95,9 +84,18 @@
    			"'.$fi['datum'].'",
    			"'.$file_name.'",
    			"'.$fi['groesse'].'",
-   			"'.$description.'",
-   			"'.$file_data.'")
+   			"'.$description.'"
+   			")
    		');
+   $file_id = $db->insert_id;
+   $old_file_data_path = $GLOBALS['special_dir'].'var/upload/';
+   $new_file_data_path = $GLOBALS['special_dir'].'files/';
+   mkdir($new_file_data_path);
+   $f = new file($old_file_data_path);
+   $f->read();
+   $f->path = $new_file_data_path;
+   $f->name = $file_id;
+   $f->write;
   }
  }
  
@@ -105,7 +103,7 @@
   * new module 'files'
   * creates the new table structure
   */
- function update_2006_08_28_12_37() {
+ function update_2006_10_28_12_37() {
   global $db;
   $query = 'create table filesystem (
   		id bigint unsigned primary key auto_increment, 
@@ -115,16 +113,48 @@
   		last_change datetime not null, 
   		name varchar(64) not null, 
   		size int unsigned not null, 
-  		description text not null, 
-  		data longblob not null
+  		description text not null 
   	)';
   $db->query($query);
-  $query = 'create table filesystem_rights_person (id bigint unsigned auto_increment primary key, fs_id bigint unsigned not null, person_id smallint(5) unsigned not null, rights tinyint unsigned not null, unique (fs_id, person_id))';
+  $query = 'create table filesystem_rights_person (
+  		id bigint unsigned auto_increment primary key, 
+  		fs_id bigint unsigned not null, 
+  		person_id smallint(5) unsigned not null, 
+  		rights tinyint unsigned not null, 
+  		unique (fs_id, person_id)
+  	)';
   $db->query($query);
-  $query = 'create table filesystem_rights_group (id bigint unsigned auto_increment primary key, fs_id bigint unsigned not null, group_id smallint(5) unsigned not null, rights tinyint unsigned not null, unique (fs_id, group_id))';
+  $query = 'create table filesystem_rights_group (
+  		id bigint unsigned auto_increment primary key, 
+  		fs_id bigint unsigned not null, 
+  		group_id smallint(5) unsigned not null, 
+  		rights tinyint unsigned not null, 
+  		unique (fs_id, group_id)
+  	)';
   $db->query($query);
  }
  
+ /*
+  * forum deletion bug workaround
+  * bug still there!
+  */
+ function update_2006_10_14_20_16() {
+  global $db;
+  $query = 'f1.id from forum as f1 left join forum as f2 on f1.rel_to=f2.id where f1.rel_to!=0 and f2.id is null';
+  do {
+   $db->select($query);
+   $entries = $db->data;
+   foreach ($entries as $i => $e) {
+    $id = $e['id'];
+    $db->query('delete from forum_rights_group where entry_id='.$id);
+    $db->query('delete from forum_rights_person where entry_id='.$id);
+    $db->query('delete from forum_relation where entry='.$id.' or answer='.$id);
+    $db->query('delete from forum where id='.$id);
+   }
+  } 
+  while (count($entries) > 0);
+ }
+  
  /*
   * forum_rights_*
   * delete duplicate entries
