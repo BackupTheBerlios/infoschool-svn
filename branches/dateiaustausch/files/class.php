@@ -24,7 +24,7 @@
   function load($id) {
    if ($id) {
     global $db;
-    $query = 'fs.id, fs.rel_to, fs.filetype, fs.owner, fs.last_change, fs.name, fs_person.rights person_rights, pg.gid, fs_group.rights group_rights
+    $query = 'fs.id, fs.rel_to, fs.filetype, fs.owner, fs.last_change, fs.name, fs.size, fs_person.rights person_rights, pg.gid, fs_group.rights group_rights
     		from filesystem as fs 
     		left join filesystem_rights_person as fs_person on
     		 fs.id="'.$id.'" and
@@ -367,23 +367,24 @@
    * 'type': mime type send by client
    */
   function insert_file($file_arr) {
+   global $file_dir;
    $type = $file_arr['type'];
-   $data = file_data($file_arr['tmp_name']);
-   $data = addslashes($data);	// for mysql-insertion
    global $db;
-   $query = 'filesystem (rel_to, owner, last_change, name, size, filetype, data) values (
+   $query = 'filesystem (rel_to, owner, last_change, name, size, filetype) values (
    		"'.$this->data['id'].'",
    		"'.$_SESSION['userid'].'",
    		now(),
    		"'.$file_arr['name'].'",
    		"'.$file_arr['size'].'",
-   		"'.$type.'",
-   		"'.$data.'")';
+   		"'.$type.'")';
    $db->insert($query);
+   $file_id = $db->insert_id;
+   move_uploaded_file($file_arr['tmp_name'],$file_dir.$file_id);
   }
   
   /* sends a file to the client for download */
   function send() {
+   global $file_dir;
    /*
     * old header
 	# Ausgabe der Header-Befehle, die fr jede Datei gleich sind
@@ -400,12 +401,11 @@
 	# 'Dateiname' ausgeben
 	header("Content-Disposition: attachment; filename=\"$dateiname\"");
     */
+   $size = $this->data['size'];
    header('Content-Type: '.$this->data['filetype']);
+   header('Content-Length: '.$size);
    header('Content-Disposition: attachment; filename='.$this->data['name']);
-   global $db;
-   $query = 'data from filesystem where id="'.$this->data['id'].'"';
-   $db->select($query);
-   echo $db->data[0][0];
+   readfile($file_dir.$this->data['id']);
   }
   
   /* deletes a file or directory with all items and rights */

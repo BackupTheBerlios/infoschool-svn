@@ -29,6 +29,8 @@
  if (!isset($root)) $root = '';
  $root.= '../';
  include $root.'var.php';
+ 
+ $file_dir = $special_dir.'var/upload/';
 
  $output->headline[] = 'file exchange';
 
