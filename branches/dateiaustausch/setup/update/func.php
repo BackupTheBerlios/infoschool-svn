@@ -55,7 +55,7 @@
    $db->insert('filesystem_rights_group
    		(fs_id, group_id, rights)
    		values
-   		("'.$rg['ordner_id'].'","'.$rg['gruppe_id'].'","'.$rirghts.'")
+   		("'.$rg['ordner_id'].'","'.$rg['gruppe_id'].'","'.$rights.'")
    		');
   }
   $db->select('ordner_id, person_id, recht from dateien_recht_person');
@@ -68,7 +68,7 @@
    $db->insert('filesystem_rights_person
    		(fs_id, person_id, rights)
    		values
-   		("'.$rp['ordner_id'].'","'.$rp['person_id'].'","'.$rirghts.'")
+   		("'.$rp['ordner_id'].'","'.$rp['person_id'].'","'.$rights.'")
    		');
   }
   $rights_person = $db->data;
