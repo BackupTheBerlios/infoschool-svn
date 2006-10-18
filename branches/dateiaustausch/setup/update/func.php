@@ -44,23 +44,31 @@
    $db->insert($query);
   }
   /* All entries below keep their rel_to ids (ordner_id=fs_id). */
-  /* Right bits have the same meaning. */
+  /* Not all right bits have the same meaning. */
   $db->select('ordner_id, gruppe_id, recht from dateien_recht_gruppe');
   $rights_group = $db->data;
   foreach ($rights_group as $i => $rg) {
+   $rights = $rg['recht'] & (1|2|4|8); // next 3 bits have to move
+   $rights |= 2 * ($rg['recht'] & 16);
+   $rights |= 2 * ($rg['recht'] & 32);
+   $rights |= 2 * ($rg['recht'] & 64);
    $db->insert('filesystem_rights_group
    		(fs_id, group_id, rights)
    		values
-   		("'.$rg['ordner_id'].'","'.$rg['gruppe_id'].'","'.$rg['recht'].'")
+   		("'.$rg['ordner_id'].'","'.$rg['gruppe_id'].'","'.$rirghts.'")
    		');
   }
   $db->select('ordner_id, person_id, recht from dateien_recht_person');
   $rights_person = $db->data;
   foreach ($rights_person as $i => $rp) {
+   $rights = $rp['recht'] & (1|2|4|8); // next 3 bits have to move
+   $rights |= 2 * ($rp['recht'] & 16);
+   $rights |= 2 * ($rp['recht'] & 32);
+   $rights |= 2 * ($rp['recht'] & 64);
    $db->insert('filesystem_rights_person
    		(fs_id, person_id, rights)
    		values
-   		("'.$rp['ordner_id'].'","'.$rp['person_id'].'","'.$rp['recht'].'")
+   		("'.$rp['ordner_id'].'","'.$rp['person_id'].'","'.$rirghts.'")
    		');
   }
   $rights_person = $db->data;
