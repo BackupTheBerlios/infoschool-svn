@@ -66,16 +66,20 @@
   $rights_person = $db->data;
   /* Old file data is stored in the server's filesystem:
    *  .htsecret/var/upload/{id}
-   * Files get new ids.
+   * Files get new ids and a new directory.
    */
+  $old_file_data_path = $GLOBALS['special_dir'].'var/upload/';
+  $new_file_data_path = $GLOBALS['special_dir'].'files/';
+  mkdir($new_file_data_path);
   $db->select('id, titel, dateiname, dateityp, groesse, datum, beschreibung, ordner_id, besitzer from dateien_dateien');
   $file_infos = $db->data;
   foreach ($file_infos as $i => $fi) {
+   $old_file_id = $fi['id'];
    $file_name = addslashes($fi['dateiname']);
    $description = '	'.addslashes($fi['titel'])."\n";
    $description.= addslashes($fi['beschreibung']);
    $db->insert('filesystem
-   		(rel_to, filetype, owner, last_change, name, size, description, data)
+   		(rel_to, filetype, owner, last_change, name, size, description)
    		values
    			(
    			"'.$fi['ordner_id'].'",
@@ -85,17 +89,10 @@
    			"'.$file_name.'",
    			"'.$fi['groesse'].'",
    			"'.$description.'"
-   			")
+   			)
    		');
    $file_id = $db->insert_id;
-   $old_file_data_path = $GLOBALS['special_dir'].'var/upload/';
-   $new_file_data_path = $GLOBALS['special_dir'].'files/';
-   mkdir($new_file_data_path);
-   $f = new file($old_file_data_path);
-   $f->read();
-   $f->path = $new_file_data_path;
-   $f->name = $file_id;
-   $f->write;
+   copy($old_file_data_path.$old_file_id,$new_file_data_path.$file_id);
   }
  }
  
