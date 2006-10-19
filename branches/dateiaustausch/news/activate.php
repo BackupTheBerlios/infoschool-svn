@@ -1,1 +1,0 @@
-<?php/* * This file is part of Infoschool - a web based school intranet. * Copyright (C) 2005 Maikel Linke */ include 'var.php';  $output->secure('admin');  if (isset($_GET['news'])) {  $news_id = (int) $_GET['news'];  $db->update('news set active= not active where id="'.$news_id.'"'); }  repulse();?>

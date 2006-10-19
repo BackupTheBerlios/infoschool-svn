@@ -1,6 +1,0 @@
-Hallo %name%!
-%message%
-
--- 
-http://infoschool.gfs-dh.de/
-%url%

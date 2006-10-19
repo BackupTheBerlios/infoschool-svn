@@ -1,3 +1,0 @@
-# protects this directory
-Order allow,deny
-Deny from all

@@ -1,5 +1,0 @@
-{Hello}<tmpl:name> {name}</tmpl:name>!
-{data}
-
---
-{signature}

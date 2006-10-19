@@ -1,8 +1,0 @@
-# Infoschool language file
-# Only edit something between > and < to translate!
-
-Provider>Anbieter<
-Admin>Administrativer Kontakt<
-Authors>Autoren<
-content>Diese Webseite enthält dynamischen Inhalt. Viele Inhalte auf diesen Seiten wurden also von den Benutzern des Systems hervorgebracht, ohne dass der Anbieter diesen Inhalt kontrolliert hat. Richten Sie Beschwerden also direkt an den jeweiligen Autor. Bei rechtswidrigen Inhalten sollten Sie auch den Anbieter informieren, damit er entsprechend handeln kann.<
-software>Die Software 'Infoschool' wurde von Maikel Linke und Christian Zedler im Rahmen eines Schulprojekts ins Leben gerufen. Die Vervielfältigung der Software regelt die <a href="../COPYING" target="_blank">GNU General Public License</a>. Weitere Informationen zu Infoschool unter <a href="http://www.infoschool.de/" target="_blank">www.infoschool.de</a>.<

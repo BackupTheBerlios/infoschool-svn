@@ -1,6 +1,0 @@
-# Infoschool language file
-# Only edit something between > and < to translate!
-
-decision 1>Ihr Antrag auf einen Account wurde abgelehnt.<
-decision 2>Ihr Antrag auf einen Account wurde angenommen.
-Sie können sich jetzt mit Ihrem Namen und Passwort einloggen.<

@@ -1,7 +1,0 @@
-# Infoschool language file
-# Only edit something between > and < to translate!
-
-make directory>Verzeichnis erstellen<
-upload file>Datei hochladen<
-edit rights>Rechte<
-file dir not accessable>Auf das Dateiverzeichnis kann nicht zugegriffen werden. Ein Administrator muss dafür die Rechte im Dateisystem ändern.<
