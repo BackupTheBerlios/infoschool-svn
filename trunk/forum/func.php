@@ -4,16 +4,6 @@
  * Copyright (C) 2004 Maikel Linke
  */
 
- function implode_rights($array) {
-  $rights = 0;
-  for ($i=0;$i<8;$i++) {
-   if (isset($array[$i]) && $array[$i]) {
-    $rights+= pow(2,$i);
-   }
-  }
-  return $rights;
- }
-
  function thread(&$entry,$answers,$answer_number=0,$level=1) {
   $thread = '';
   global $max_depth;

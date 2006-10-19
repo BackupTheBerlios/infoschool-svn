@@ -265,12 +265,12 @@
    if($entry_num > 0){
     $loggedin[]['usermenu'] = new tmpl('loggedin_forum.html',array('entry_num'=>$entry_num),$this->root);
    }
-    
+   /* 
    $dzahl = get_neu_dateien_zahl();
    if($dzahl>0){
     $loggedin[]['usermenu'] = new tmpl('loggedin_file.html',array('file_num'=>$dzahl),$this->root);
    }
-   
+   */
    if (is_admin()) {
     $news_num = inactive_news_num();
     if ($news_num>0) {

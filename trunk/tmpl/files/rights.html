@@ -1,0 +1,63 @@
+<tmpl:upper_dir><a href="./?id={upper_dir_id}">{upper_dir_name} </a>/ </tmpl:upper_dir>
+
+<h2>{edit rights}</h2>
+
+<form action="rights.php?item={id}" method="post">
+ <h3>{Groups}</h3>
+
+ <table border="1" class="cells_w">
+  <tr><th>{Name}</th><th>{Read}</th><th>{Upload}</th><th>{rename own}</th><th>{delete own}</th><th>{change rights of own}</th><th>{Rename}</th><th>{Delete}</th><th>{change rights}</th><th>{delete right}</th></tr>
+  <tmpl:group>
+  <tr>
+   <td>{group_name}</td>
+   <input type="hidden" name="rights[group][{right_id}][8]" value="0" /><!-- to set rights to 0 -->
+   <tmpl:right>
+   <td><input type="checkbox" name="rights[group][{right_id}][{right_num}]" value="1"<tmpl:right_checked> checked="checked"</tmpl:right_checked> /></td>
+   </tmpl:right>
+   <td><a href="right_del.php?type=group&id={right_id}">{Delete}</a></td>
+  </tr>
+  </tmpl:group>
+  <tr>
+   <td><input type="text" name="new_rights[group][name]" /></td>
+   <td><input type="checkbox" name="new_rights[group][0]" value="1" /></td>
+   <td><input type="checkbox" name="new_rights[group][1]" value="1" /></td>
+   <td><input type="checkbox" name="new_rights[group][2]" value="1" /></td>
+   <td><input type="checkbox" name="new_rights[group][3]" value="1" /></td>
+   <td><input type="checkbox" name="new_rights[group][4]" value="1" /></td>
+   <td><input type="checkbox" name="new_rights[group][5]" value="1" /></td>
+   <td><input type="checkbox" name="new_rights[group][6]" value="1" /></td>
+   <td><input type="checkbox" name="new_rights[group][7]" value="1" /></td>
+   <td></td>
+  </tr>
+ </table>
+
+ <h3>{Persons}</h3>
+
+  <table border="1" class="cells_w">
+  <tr><th>{Name}</th><th>{Read}</th><th>{Upload}</th><th>{rename own}</th><th>{delete own}</th><th>{change rights of own}</th><th>{Rename}</th><th>{Delete}</th><th>{change rights}</th><th>{delete right}</th></tr>
+  <tmpl:person>
+  <tr>
+   <td>{person_first_name} {person_last_name}</td>
+   <input type="hidden" name="rights[person][{right_id}][8]" value="0" /><!-- to set rights to 0 -->
+   <tmpl:right>
+   <td><input type="checkbox" name="rights[person][{right_id}][{right_num}]" value="1"<tmpl:right_checked> checked="checked"</tmpl:right_checked> /></td>
+   </tmpl:right>
+   <td><a href="right_del.php?type=person&id={right_id}">{Delete}</a></td>
+  </tr>
+  </tmpl:person>
+  <tr>
+   <td><input type="text" name="new_rights[person][name]" /></td>
+   <td><input type="checkbox" name="new_rights[person][0]" value="1" /></td>
+   <td><input type="checkbox" name="new_rights[person][1]" value="1" /></td>
+   <td><input type="checkbox" name="new_rights[person][2]" value="1" /></td>
+   <td><input type="checkbox" name="new_rights[person][3]" value="1" /></td>
+   <td><input type="checkbox" name="new_rights[person][4]" value="1" /></td>
+   <td><input type="checkbox" name="new_rights[person][5]" value="1" /></td>
+   <td><input type="checkbox" name="new_rights[person][6]" value="1" /></td>
+   <td><input type="checkbox" name="new_rights[person][7]" value="1" /></td>
+   <td></td>
+  </tr>
+ </table>
+
+ <p><input type="submit" value="{Change}" /></p>
+</form>
