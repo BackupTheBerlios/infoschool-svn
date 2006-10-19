@@ -29,6 +29,8 @@
    echo '<p>This update needs write access to '.$GLOBALS['special_dir'];
    exit;
   }
+  $t0 = time();
+  $max_time = ini_get('max_execution_time') - 10;
   global $db;
   /* 'ordner' keep their id as fs_items without filetype (directory).
    *  All transferred directories are related to root (rel_to=0).
@@ -101,6 +103,13 @@
    		');
    $file_id = $db->insert_id;
    copy($old_file_data_path.$old_file_id,$new_file_data_path.$file_id);
+   if ((time() - $t0) > $max_time) {
+    echo '<meta http-equiv="refresh" content="5; URL=./">';
+    echo '<p>';
+    echo 'time limit reached. update aborted. try again to complete update';
+    echo '</p>';
+    exit;
+   }
   }
  }
  
