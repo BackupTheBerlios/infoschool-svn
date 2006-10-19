@@ -25,12 +25,58 @@
   * 'dateiaustausch' -> 'files'
   */
  function update_2006_10_28_12_51() {
+  $t0 = time();
+  $max_time = ini_get('max_execution_time') *0.8;
+  /* Old file data is stored in the server's filesystem:
+   *  .htsecret/var/upload/{id}
+   * Files get new ids and a new directory.
+   */
+  $old_file_data_path = $GLOBALS['special_dir'].'var/upload/';
+  $new_file_data_path = $GLOBALS['special_dir'].'files/';
   if (!is_writeable($GLOBALS['special_dir'])) {
    echo '<p>This update needs write access to '.$GLOBALS['special_dir'];
    exit;
   }
-  $t0 = time();
-  $max_time = ini_get('max_execution_time') - 10;
+  mkdir($new_file_data_path);
+  global $db;
+  $db->select('id, titel, dateiname, dateityp, groesse, datum, beschreibung, ordner_id, besitzer from dateien_dateien');
+  $file_infos = $db->data;
+  foreach ($file_infos as $i => $fi) {
+   $old_file_id = $fi['id'];
+   $file_name = addslashes($fi['dateiname']);
+   $description = '	'.addslashes($fi['titel'])."\n";
+   $description.= addslashes($fi['beschreibung']);
+   $db->insert('filesystem
+   		(rel_to, filetype, owner, last_change, name, size, description)
+   		values
+   			(
+   			"'.$fi['ordner_id'].'",
+   			"'.$fi['dateityp'].'",
+   			"'.$fi['besitzer'].'",
+   			"'.$fi['datum'].'",
+   			"'.$file_name.'",
+   			"'.$fi['groesse'].'",
+   			"'.$description.'"
+   			)
+   		');
+   $file_id = $db->insert_id;
+   $db->delete('dateien_dateien where id="'.$old_file_id.'"');
+   copy($old_file_data_path.$old_file_id,$new_file_data_path.$file_id);
+   if ((time() - $t0) > $max_time) {
+    echo '<meta http-equiv="refresh" content="5; URL=./">';
+    echo '<p>';
+    echo 'time limit reached. update aborted. try again to complete update';
+    echo '</p>';
+    exit;
+   }
+  }
+ }
+ 
+ /*
+  * data transfer from old to new
+  * 'dateiaustausch' -> 'files'
+  */
+ function update_2006_10_28_12_50() {
   global $db;
   /* 'ordner' keep their id as fs_items without filetype (directory).
    *  All transferred directories are related to root (rel_to=0).
@@ -72,45 +118,6 @@
    		values
    		("'.$rp['ordner_id'].'","'.$rp['person_id'].'","'.$rights.'")
    		');
-  }
-  $rights_person = $db->data;
-  /* Old file data is stored in the server's filesystem:
-   *  .htsecret/var/upload/{id}
-   * Files get new ids and a new directory.
-   */
-  $old_file_data_path = $GLOBALS['special_dir'].'var/upload/';
-  $new_file_data_path = $GLOBALS['special_dir'].'files/';
-  mkdir($new_file_data_path);
-  $db->select('id, titel, dateiname, dateityp, groesse, datum, beschreibung, ordner_id, besitzer from dateien_dateien');
-  $file_infos = $db->data;
-  foreach ($file_infos as $i => $fi) {
-   $old_file_id = $fi['id'];
-   $file_name = addslashes($fi['dateiname']);
-   $description = '	'.addslashes($fi['titel'])."\n";
-   $description.= addslashes($fi['beschreibung']);
-   $db->insert('filesystem
-   		(rel_to, filetype, owner, last_change, name, size, description)
-   		values
-   			(
-   			"'.$fi['ordner_id'].'",
-   			"'.$fi['dateityp'].'",
-   			"'.$fi['besitzer'].'",
-   			"'.$fi['datum'].'",
-   			"'.$file_name.'",
-   			"'.$fi['groesse'].'",
-   			"'.$description.'"
-   			)
-   		');
-   $file_id = $db->insert_id;
-   $db->delete('dateien_dateien where id="'.$old_file_id.'"');
-   copy($old_file_data_path.$old_file_id,$new_file_data_path.$file_id);
-   if ((time() - $t0) > $max_time) {
-    echo '<meta http-equiv="refresh" content="5; URL=./">';
-    echo '<p>';
-    echo 'time limit reached. update aborted. try again to complete update';
-    echo '</p>';
-    exit;
-   }
   }
  }
  
