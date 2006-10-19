@@ -102,6 +102,7 @@
    			)
    		');
    $file_id = $db->insert_id;
+   $db->delete('dateien_dateien where id="'.$old_file_id.'"');
    copy($old_file_data_path.$old_file_id,$new_file_data_path.$file_id);
    if ((time() - $t0) > $max_time) {
     echo '<meta http-equiv="refresh" content="5; URL=./">';
