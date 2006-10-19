@@ -25,7 +25,7 @@
   * 'dateiaustausch' -> 'files'
   */
  function update_2006_10_28_12_51() {
-  $t0 = time();
+  global $microtime0;
   $max_time = ini_get('max_execution_time') *0.8;
   /* Old file data is stored in the server's filesystem:
    *  .htsecret/var/upload/{id}
@@ -43,26 +43,28 @@
   $file_infos = $db->data;
   foreach ($file_infos as $i => $fi) {
    $old_file_id = $fi['id'];
-   $file_name = addslashes($fi['dateiname']);
-   $description = '	'.addslashes($fi['titel'])."\n";
-   $description.= addslashes($fi['beschreibung']);
-   $db->insert('filesystem
-   		(rel_to, filetype, owner, last_change, name, size, description)
-   		values
-   			(
-   			"'.$fi['ordner_id'].'",
-   			"'.$fi['dateityp'].'",
-   			"'.$fi['besitzer'].'",
+   if (is_readable($old_file_data_path.$old_file_id)) {
+    $file_name = addslashes($fi['dateiname']);
+    $description = '	'.addslashes($fi['titel'])."\n";
+    $description.= addslashes($fi['beschreibung']);
+    $db->insert('filesystem
+    		(rel_to, filetype, owner, last_change, name, size, description)
+    		values
+    			(
+    			"'.$fi['ordner_id'].'",
+    			"'.$fi['dateityp'].'",
+    			"'.$fi['besitzer'].'",
    			"'.$fi['datum'].'",
    			"'.$file_name.'",
    			"'.$fi['groesse'].'",
    			"'.$description.'"
    			)
    		');
-   $file_id = $db->insert_id;
+    $file_id = $db->insert_id;
+    copy($old_file_data_path.$old_file_id,$new_file_data_path.$file_id);
+   } 
    $db->delete('dateien_dateien where id="'.$old_file_id.'"');
-   copy($old_file_data_path.$old_file_id,$new_file_data_path.$file_id);
-   if ((time() - $t0) > $max_time) {
+   if ((millitimestamp() - millitimestamp($tmicrotime0)) > $max_time) {
     echo '<meta http-equiv="refresh" content="5; URL=./">';
     echo '<p>';
     echo 'time limit reached. update aborted. try again to complete update';
