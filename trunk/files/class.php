@@ -67,10 +67,12 @@
    if (isset($this->data['person_rights'])) {
     $right_arr['person'] = $this->data['person_rights'];
    }
-   if (isset($this->data['group_rights'])) {
+   if (isset($this->data['gid'])) {
     foreach ($d as $i => $r) {
-     $group_id = $r['gid'];
-     $right_arr['group'][$group_id] = $r['group_rights'];
+     if (isset($r['group_rights'])) {
+      $group_id = $r['gid'];
+      $right_arr['group'][$group_id] = $r['group_rights'];
+     } 
     }
    }
    $this->right_arr = $right_arr;
