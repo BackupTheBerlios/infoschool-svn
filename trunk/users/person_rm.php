@@ -1,14 +1,14 @@
 <?php
 /*
  * This file is part of Infoschool - a web based school intranet.
- * Copyright (C) 2004 Maikel Linke
+ * Copyright (C) 2006 Maikel Linke
  */
  include 'var.php';
 
  function person_rm($pid) {
   if (!$pid) return false;
   global $db;
-  $datei = $GLOBALS[img_person_dir][intern].$pid;
+  $datei = $GLOBALS['img_person_dir']['intern'].$pid;
   if (file_exists($datei.'.jpg')) unlink($datei.'.jpg');
   if (file_exists($datei.'.gif')) unlink($datei.'.gif');
   $db->select('id from gruppe where leiter='.$pid);
@@ -18,7 +18,7 @@
   person_rm_calendar($pid);
   person_rm_messages($pid);
   person_rm_zensuren($pid);
-  person_rm_dateien($pid);
+  person_rm_files($pid);
   person_rm_news($pid);
   $db->delete('person where id="'.$pid.'"');
   $db->delete('admin where pid='.$pid);
@@ -81,17 +81,17 @@
   $db->delete('zensuren where pid='.$pid);
  }
 
- function person_rm_dateien($pid) {
+ function person_rm_files($pid) {
+  include_once '../files/class.php';
   global $db;
-  $db->select('id from dateien_ordner where besitzer="'.$pid.'"');
-  $ordner = $db->data;
-  foreach ($ordner as $i => $o) {
-   $db->delete('dateien_recht_person where ordner_id="'.$o['id'].'"');
-   $db->delete('dateien_recht_gruppe where ordner_id="'.$o['id'].'"');
-   $db->delete('dateien_dateien where ordner_id="'.$o['id'].'"');
+  $db->select('id from filesystem where owner="'.$pid.'"');
+  $items = $db->data;
+  foreach ($items as $i => $item_row) {
+   $fs_item = new fs_item($item_row['id']);
+   if ($fs_item->data['id'] == $item_row['id']) {
+    $fs_item->delete();
+   }
   }
-  $db->delete('dateien_ordner where besitzer="'.$pid.'"');
-  $db->delete('dateien_recht_person where person_id="'.$pid.'"');
  }
 
  function person_rm_news($pid) {

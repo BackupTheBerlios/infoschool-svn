@@ -471,9 +471,13 @@ GROUP BY d.id";
   $person['vorname'] = $p['vorname'];
   $person['nachname']= $p['nachname'];
 
+  if (isset($p['icq']))
   $person['icq']= $p['icq'];
+  if (isset($p['homepage']))
   $person['homepage']= $p['homepage'];
+  if (isset($p['klasse']))
   $person['klasse']= $p['klasse'];
+  if (isset($p['beschreibung']))
   $person['beschreibung']= $p['beschreibung'];
 
   if(isset($p['nk'])) $person['nk'] = $p['nk'];
@@ -504,10 +508,12 @@ GROUP BY d.id";
       $person['opt'] = '0'.$person['opt'];
     }
     $person = complete_name($person);
+    /*
     $person['nk'] = $person['nid'];
     $person['gebdat'] = $person['birthday'];
     $person['beschreibung'] = $person['description'];
     $person['klasse'] = $person['class'];
+    */
     return $person;
    }
   }
