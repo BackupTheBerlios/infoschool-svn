@@ -406,7 +406,7 @@
    $size = $this->data['size'];
    header('Content-Type: '.$this->data['filetype']);
    header('Content-Length: '.$size);
-   header('Content-Disposition: attachment; filename='.$this->data['name']);
+   header('Content-Disposition: attachment; filename="'.$this->data['name'].'"');
    readfile($file_dir.$this->data['id']);
   }
   
