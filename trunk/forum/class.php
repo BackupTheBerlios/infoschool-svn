@@ -4,7 +4,10 @@
  * Copyright (C) 2006 Maikel Linke
  */
 
- class entry {
+ /*
+  * a normal forum entry without database connection
+  */
+ class sub_entry {
   var $id = 0;
   var $db;
   var $data;
@@ -21,9 +24,8 @@
   var $user_rights;
   var $fdata;
 
-  function entry($data=null) {
+  function sub_entry() {
    $this->db = &$GLOBALS['db'];
-   $this->set_data($data);
   }
 
   function set_data($data) {
@@ -31,300 +33,6 @@
    $this->data = $data;
    $this->id = &$this->data['id'];
    $this->add_rights_row($data);
-  }
-  
-  function get() {
-   if (isset($_GET['id'])) {
-    $id = $_GET['id'];
-   }
-   $this->load($id);
-  }
-  
-  function load($id=0,$depth=0,$right='') {
-   $this->id = $id;
-   $this->load_data();
-   $this->load_history();
-   $this->user_rights();
-   if (!$this->right_to($right)) {
-    redirect('./');
-   }
-   $this->load_read();
-   $this->load_answers($depth);
-  }
-  
-  function load_data() {
-   $data = array(
-    'id' => 0,
-    'rel_to' => 0,
-    'author' => 0,
-    'created' => '',
-    'topic' => '',
-    'text' => ''
-   );
-   if ($this->id) {
-    $pid = $_SESSION['userid'];
-    $query = 'select
-               forum.id,
-               forum.rel_to,
-               forum.author, 
-               person.first_name as author_first_name, 
-               person.last_name as author_last_name, 
-               forum.created, 
-               forum.topic, 
-               forum.text, 
-               rights_person.rights as rights_person, 
-               pg.gid, 
-               rights_group.rights as rights_group 
-              from forum 
-              left join person on
-               forum.author=person.id 
-              left join forum_rights_person as rights_person on
-               forum.id=rights_person.entry_id
-               and rights_person.person_id="'.$pid.'" 
-              left join forum_rights_group as rights_group on
-               rights_person.rights is null 
-               and forum.id=rights_group.entry_id
-              left join pg on
-               rights_group.group_id=pg.gid 
-               and pg.pid="'.$pid.'"
-              where
-               forum.id="'.$this->id.'"';
-    $this->db->query($query);
-    $data = mysql_fetch_array($this->db->result);
-    while ($right_data = mysql_fetch_array($this->db->result)) {
-     $this->add_rights_row($right_data);
-    }
-   } 
-   $this->set_data($data);
-  }
-
-  function load_history() {
-   $pid = $_SESSION['userid'];
-   $query = 'select
-              forum_relation.level, 
-              forum.id,
-              forum.rel_to,
-              forum.author, 
-              person.first_name as author_first_name, 
-              person.last_name as author_last_name, 
-              forum.created, 
-              forum.topic, 
-              forum.text, 
-              rights_person.rights as rights_person, 
-              pg.gid, 
-              rights_group.rights as rights_group 
-             from forum_relation
-             left join forum on
-              forum_relation.entry=forum.id 
-             left join person on
-              forum.author=person.id 
-             left join forum_rights_person as rights_person on
-              forum.id=rights_person.entry_id 
-              and rights_person.person_id="'.$pid.'" 
-             left join forum_rights_group as rights_group on
-              rights_person.rights is null 
-              and forum.id=rights_group.entry_id 
-             left join pg on
-              rights_group.group_id=pg.gid 
-              and pg.pid="'.$pid.'" 
-             where
-              forum_relation.answer="'.$this->id.'" 
-             order by forum_relation.level';
-   $this->db->query($query);
-   while ($data = mysql_fetch_array($this->db->result)) {
-    $level = $data['level'];
-    $id = $data['id'];
-    $parent = &$this->entries[$id];
-    $this->history[$level] = &$parent;
-    if (!isset($parent)) {
-     $parent = new entry($data);
-    }
-    else {
-     $parent->add_rights_row($data);
-    } 
-   }
-   $this->admin = $this->data['author'];
-   for ($i=1;$i<count($this->history);$i++){
-    $parent = &$this->history[$i];
-    $this->admin = $parent->data['author'];
-    $this->add_rights($parent->rights);
-   }  
-  }
-
-  function load_answers($depth=1,$right='') {
-   $pid = $_SESSION['userid'];
-   $query = 'select
-              forum_relation.level, 
-              forum.id,
-              forum.rel_to,
-              forum.author, 
-              person.first_name as author_first_name, 
-              person.last_name as author_last_name, 
-              forum.created, 
-              forum.topic, 
-              forum.text, 
-              rights_person.rights as rights_person, 
-              pg.gid, 
-              rights_group.rights as rights_group 
-             from forum_relation
-             left join forum on
-              forum_relation.answer=forum.id 
-             left join person on
-              forum.author=person.id 
-             left join forum_rights_person as rights_person on
-              forum.id=rights_person.entry_id 
-              and rights_person.person_id="'.$pid.'" 
-             left join forum_rights_group as rights_group on
-              rights_person.rights is null 
-              and forum.id=rights_group.entry_id 
-             left join pg on
-              rights_group.group_id=pg.gid 
-              and pg.pid="'.$pid.'" 
-             where
-              forum_relation.entry="'.$this->id.'"';
-   if (isset($depth)) {
-    $query.=  'and level<="'.$depth.'"';
-   }
-   $query.= 'order by
-              forum_relation.level,
-              forum.created';
-   $result = $this->db->query($query);
-   while ($data = mysql_fetch_array($result)) {
-    $level = $data['level'];
-    $id = $data['id'];
-    $answer = &$this->entries[$id];
-    if (!isset($answer)) {
-     $answer = new entry($data);
-     $answer->depth = $depth - $level;
-     $this->levels[$level][$id] = &$answer;
-     if ($data['created'] > $_SESSION['last_login']) {
-      if (!isset($this->read[$answer->id])) {
-       $answer->new = true;
-      } 
-     }
-    }
-    $answer->add_rights_row($data);
-   }
-   $this->index();
-  }
-  
-  function load_read() {
-   $query = 'select entry_id from forum_read where person_id="'.$_SESSION['userid'].'"';
-   $result = $this->db->query($query);
-   while (list($entry_id) = mysql_fetch_row($result)) {
-    $this->read[$entry_id] = true;
-   }
-   if ($this->data['created'] > $_SESSION['last_login'] && !isset($this->read[$this->id])) {
-    $this->new = true;
-   }
-  }
-
-  function load_new() {
-   $this->load_read();
-   $pid = $_SESSION['userid'];
-   $query = 'select
-              forum_relation.level, 
-              forum.id,
-              forum.rel_to,
-              forum.author, 
-              person.first_name as author_first_name, 
-              person.last_name as author_last_name, 
-              forum.created, 
-              forum.topic, 
-              forum.text, 
-              rights_person.rights as rights_person, 
-              pg.gid, 
-              rights_group.rights as rights_group 
-             from forum_relation
-             left join forum on
-              forum_relation.answer=forum.id 
-             left join person on
-              forum.author=person.id 
-             left join forum_rights_person as rights_person on
-              forum.id=rights_person.entry_id 
-              and rights_person.person_id="'.$pid.'" 
-             left join forum_rights_group as rights_group on
-              rights_person.rights is null 
-              and forum.id=rights_group.entry_id 
-             left join pg on
-              rights_group.group_id=pg.gid 
-              and pg.pid="'.$pid.'" 
-             where
-               forum.created>"'.$_SESSION['last_login'].'"';
-   $query.= 'order by
-              forum_relation.level,
-              forum.created';
-   $result = $this->db->query($query);
-   while ($data = mysql_fetch_array($result)) {
-    $level = $data['level'];
-    $id = $data['id'];
-    $entry = &$this->entries[$id];
-    if (!isset($entry)) {
-     $entry = new entry($data);
-     if (!isset($this->read[$id])) {
-      $entry->new = true;
-     } 
-    }
-    $entry->add_rights_row($data);
-   }
-   $this->index_new();
-  }
-  
-  function index($right='read') {
-   $this->entries[$this->id] = &$this;
-   for ($i=1;$i<=count($this->levels);$i++) {
-    foreach ($this->levels[$i] as $id => $entry) {
-     $answer = &$this->entries[$id];
-     $parent_id = $answer->data['rel_to'];
-     $parent = &$this->entries[$parent_id];
-     if ($parent->id == 0) {
-      $answer->admin = $answer->data['author'];
-     }
-     else {
-      $answer->admin = &$parent->admin;
-     }
-     $answer->add_rights($parent->rights);
-     $answer->user_rights();
-     if ($answer->right_to($right)) {
-      $parent->answers[$id] = &$answer;
-     }
-    }
-   }
-  }
-  
-  function index_new() {
-   $this->entries[0] = &$this;
-   $new_entries = $this->entries;
-   foreach ($new_entries as $id => $entry_copy) {
-    $entry = &$this->entries[$id];
-    if (!$entry->new) continue;
-    $entry->load_history();
-    $entry->user_rights();
-    if (!$entry->right_read()) continue;
-    $this->new_answers++;
-    $i = 0;
-    $i_max = count($entry->history);
-    if ($i_max == 1) {
-     $parent = &$entry;
-    }
-    else {
-     $answer = &$entry;
-     do {
-      $i++;
-      $parent = &$entry->history[$i];
-      if (!$parent->id) {
-      }
-      if (!isset($this->entries[$parent->id])) {
-       $this->entries[$parent->id] = $parent;
-      }
-      $parent = &$this->entries[$parent->id];
-      $parent->answers[$answer->id] = &$answer;
-      $answer = &$parent;
-     }
-     while ($i < $i_max && $parent->new);
-    } 
-    $this->answers[$parent->id] = &$parent;
-   }
   }
   
   function mark_read() {
@@ -514,7 +222,8 @@
   }
   
   function new_answer($data) {
-   $answer = new entry($data);
+   $answer = new sub_entry();
+   $answer->set_data($data);
    $answer->history = $this->history;
    $answer->history[0] = &$this;
    $answer->insert();
@@ -642,6 +351,306 @@
    $this->db->delete($query);
   }
 
+ }
+ 
+ class entry extends sub_entry {
+ 
+  function get() {
+   if (isset($_GET['id'])) {
+    $id = $_GET['id'];
+   }
+  }
+  
+  function load($id=0,$depth=0,$right='') {
+   $this->id = $id;
+   $this->load_data();
+   $this->load_history();
+   $this->user_rights();
+   if (!$this->right_to($right)) {
+    redirect('./');
+   }
+   $this->load_read();
+   $this->load_answers($depth);
+  }
+  
+  function load_data() {
+   $data = array(
+    'id' => 0,
+    'rel_to' => 0,
+    'author' => 0,
+    'created' => '',
+    'topic' => '',
+    'text' => ''
+   );
+   if ($this->id) {
+    $pid = $_SESSION['userid'];
+    $query = 'select
+               forum.id,
+               forum.rel_to,
+               forum.author, 
+               person.first_name as author_first_name, 
+               person.last_name as author_last_name, 
+               forum.created, 
+               forum.topic, 
+               forum.text, 
+               rights_person.rights as rights_person, 
+               pg.gid, 
+               rights_group.rights as rights_group 
+              from forum 
+              left join person on
+               forum.author=person.id 
+              left join forum_rights_person as rights_person on
+               forum.id=rights_person.entry_id
+               and rights_person.person_id="'.$pid.'" 
+              left join forum_rights_group as rights_group on
+               rights_person.rights is null 
+               and forum.id=rights_group.entry_id
+              left join pg on
+               rights_group.group_id=pg.gid 
+               and pg.pid="'.$pid.'"
+              where
+               forum.id="'.$this->id.'"';
+    $this->db->query($query);
+    $data = mysql_fetch_array($this->db->result);
+    while ($right_data = mysql_fetch_array($this->db->result)) {
+     $this->add_rights_row($right_data);
+    }
+   } 
+   $this->set_data($data);
+  }
+
+  function load_history() {
+   $pid = $_SESSION['userid'];
+   $query = 'select
+              forum_relation.level, 
+              forum.id,
+              forum.rel_to,
+              forum.author, 
+              person.first_name as author_first_name, 
+              person.last_name as author_last_name, 
+              forum.created, 
+              forum.topic, 
+              forum.text, 
+              rights_person.rights as rights_person, 
+              pg.gid, 
+              rights_group.rights as rights_group 
+             from forum_relation
+             left join forum on
+              forum_relation.entry=forum.id 
+             left join person on
+              forum.author=person.id 
+             left join forum_rights_person as rights_person on
+              forum.id=rights_person.entry_id 
+              and rights_person.person_id="'.$pid.'" 
+             left join forum_rights_group as rights_group on
+              rights_person.rights is null 
+              and forum.id=rights_group.entry_id 
+             left join pg on
+              rights_group.group_id=pg.gid 
+              and pg.pid="'.$pid.'" 
+             where
+              forum_relation.answer="'.$this->id.'" 
+             order by forum_relation.level';
+   $this->db->query($query);
+   while ($data = mysql_fetch_array($this->db->result)) {
+    $level = $data['level'];
+    $id = $data['id'];
+    $parent = &$this->entries[$id];
+    $this->history[$level] = &$parent;
+    if (!isset($parent)) {
+     $parent = new sub_entry();
+     $parent->set_data($data);
+    }
+    else {
+     $parent->add_rights_row($data);
+    } 
+   }
+   $this->admin = $this->data['author'];
+   for ($i=1;$i<count($this->history);$i++){
+    $parent = &$this->history[$i];
+    $this->admin = $parent->data['author'];
+    $this->add_rights($parent->rights);
+   }  
+  }
+
+  function load_answers($depth=1,$right='') {
+   $pid = $_SESSION['userid'];
+   $query = 'select
+              forum_relation.level, 
+              forum.id,
+              forum.rel_to,
+              forum.author, 
+              person.first_name as author_first_name, 
+              person.last_name as author_last_name, 
+              forum.created, 
+              forum.topic, 
+              forum.text, 
+              rights_person.rights as rights_person, 
+              pg.gid, 
+              rights_group.rights as rights_group 
+             from forum_relation
+             left join forum on
+              forum_relation.answer=forum.id 
+             left join person on
+              forum.author=person.id 
+             left join forum_rights_person as rights_person on
+              forum.id=rights_person.entry_id 
+              and rights_person.person_id="'.$pid.'" 
+             left join forum_rights_group as rights_group on
+              rights_person.rights is null 
+              and forum.id=rights_group.entry_id 
+             left join pg on
+              rights_group.group_id=pg.gid 
+              and pg.pid="'.$pid.'" 
+             where
+              forum_relation.entry="'.$this->id.'"';
+   if (isset($depth)) {
+    $query.=  'and level<="'.$depth.'"';
+   }
+   $query.= 'order by
+              forum_relation.level,
+              forum.created';
+   $result = $this->db->query($query);
+   while ($data = mysql_fetch_array($result)) {
+    $level = $data['level'];
+    $id = $data['id'];
+    $answer = &$this->entries[$id];
+    if (!isset($answer)) {
+     $answer = new sub_entry();
+     $answer->set_data($data);
+     $answer->depth = $depth - $level;
+     $this->levels[$level][$id] = &$answer;
+     if ($data['created'] > $_SESSION['last_login']) {
+      if (!isset($this->read[$answer->id])) {
+       $answer->new = true;
+      } 
+     }
+    }
+    $answer->add_rights_row($data);
+   }
+   $this->index();
+  }
+  
+  function load_read() {
+   $query = 'select entry_id from forum_read where person_id="'.$_SESSION['userid'].'"';
+   $result = $this->db->query($query);
+   while (list($entry_id) = mysql_fetch_row($result)) {
+    $this->read[$entry_id] = true;
+   }
+   if ($this->data['created'] > $_SESSION['last_login'] && !isset($this->read[$this->id])) {
+    $this->new = true;
+   }
+  }
+
+  function load_new() {
+   $this->load_read();
+   $pid = $_SESSION['userid'];
+   $query = 'select
+              forum_relation.level, 
+              forum.id,
+              forum.rel_to,
+              forum.author, 
+              person.first_name as author_first_name, 
+              person.last_name as author_last_name, 
+              forum.created, 
+              forum.topic, 
+              forum.text, 
+              rights_person.rights as rights_person, 
+              pg.gid, 
+              rights_group.rights as rights_group 
+             from forum_relation
+             left join forum on
+              forum_relation.answer=forum.id 
+             left join person on
+              forum.author=person.id 
+             left join forum_rights_person as rights_person on
+              forum.id=rights_person.entry_id 
+              and rights_person.person_id="'.$pid.'" 
+             left join forum_rights_group as rights_group on
+              rights_person.rights is null 
+              and forum.id=rights_group.entry_id 
+             left join pg on
+              rights_group.group_id=pg.gid 
+              and pg.pid="'.$pid.'" 
+             where
+               forum.created>"'.$_SESSION['last_login'].'"';
+   $query.= 'order by
+              forum_relation.level,
+              forum.created';
+   $result = $this->db->query($query);
+   while ($data = mysql_fetch_array($result)) {
+    $level = $data['level'];
+    $id = $data['id'];
+    $entry = &$this->entries[$id];
+    if (!isset($entry)) {
+     $entry = new sub_entry();
+     $entry->set_data($data);
+     if (!isset($this->read[$id])) {
+      $entry->new = true;
+     } 
+    }
+    $entry->add_rights_row($data);
+   }
+   $this->index_new();
+  }
+  
+  function index($right='read') {
+   $this->entries[$this->id] = &$this;
+   for ($i=1;$i<=count($this->levels);$i++) {
+    foreach ($this->levels[$i] as $id => $entry) {
+     $answer = &$this->entries[$id];
+     $parent_id = $answer->data['rel_to'];
+     $parent = &$this->entries[$parent_id];
+     if ($parent->id == 0) {
+      $answer->admin = $answer->data['author'];
+     }
+     else {
+      $answer->admin = &$parent->admin;
+     }
+     $answer->add_rights($parent->rights);
+     $answer->user_rights();
+     if ($answer->right_to($right)) {
+      $parent->answers[$id] = &$answer;
+     }
+    }
+   }
+  }
+  
+  function index_new() {
+   $this->entries[0] = &$this;
+   $new_entries = $this->entries;
+   foreach ($new_entries as $id => $entry_copy) {
+    $entry = &$this->entries[$id];
+    if (!$entry->new) continue;
+    $entry->load_history();
+    $entry->user_rights();
+    if (!$entry->right_read()) continue;
+    $this->new_answers++;
+    $i = 0;
+    $i_max = count($entry->history);
+    if ($i_max == 1) {
+     $parent = &$entry;
+    }
+    else {
+     $answer = &$entry;
+     do {
+      $i++;
+      $parent = &$entry->history[$i];
+      if (!$parent->id) {
+      }
+      if (!isset($this->entries[$parent->id])) {
+       $this->entries[$parent->id] = $parent;
+      }
+      $parent = &$this->entries[$parent->id];
+      $parent->answers[$answer->id] = &$answer;
+      $answer = &$parent;
+     }
+     while ($i < $i_max && $parent->new);
+    } 
+    $this->answers[$parent->id] = &$parent;
+   }
+  }
+  
  }
 
 ?>
