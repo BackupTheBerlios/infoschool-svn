@@ -3,45 +3,40 @@
  * This file is part of Infoschool - a web based school intranet.
  * Copyright (C) 2006 Maikel Linke
  */
-
+ 
  /*
-  * a normal forum entry without database connection
+  * An entry with given data.
   */
  class sub_entry {
   var $id = 0;
   var $db;
-  var $data;
-  var $new = false;
-  var $history = array();
-  var $entries = array();
-  var $answers = array();
-  var $levels = array();
-  var $read = array();
-  var $new_answers = 0;
-  var $depth = 0;
-  var $admin;
-  var $rights = array();
-  var $user_rights;
-  var $fdata;
+  var $data;			// array of properties
+  var $new = false;		// Is this a new entry?
+  var $history = array();	// array of parents
+  var $entries = array();	// all needed entries
+  var $answers = array();	// answers to this entry
+  var $levels = array();	// all answers sorted by their level to this entry
+  var $read = array();		// already read entries
+  var $new_answers = 0;		// number of new answers
+  var $depth = 0;		// depth/level related to the main entry
+  var $admin;			// person id of the admin
+  var $rights = array();	// person rights and group rights
+  var $user_rights;		// bit coded rights of the user
+  var $fdata;			// formatted data string or template
 
   function sub_entry() {
    $this->db = &$GLOBALS['db'];
   }
 
   function set_data($data) {
-   if (!isset($data)) return;
    $this->data = $data;
    $this->id = &$this->data['id'];
-   $this->add_rights_row($data);
   }
   
-  function mark_read() {
-   if (!$this->new) return;
-   $query = 'forum_read (person_id, entry_id, created)
-             values ("'.$_SESSION['userid'].'","'.$this->id.'","'.$this->data['created'].'")';
-   $this->db->insert($query);
-  }
-  
+  /*
+   * adds one data array (db row)
+   * to the right array
+   */
   function add_rights_row($data) {
    if (isset($data['rights_person'])) {
     $this->rights['person'] = $data['rights_person'];
@@ -56,171 +51,18 @@
    }
   }
   
+  /*
+   * used to adopt rights of parent
+   */
   function add_rights($rights) {
    if (!is_array($rights)) return;
    $this->rights += $rights;
   }
-
-  function user_rights() {
-   $rights = 0;
-   if (isset($this->rights['person'])) {
-    $rights = $this->rights['person'];
-   }
-   else {
-    if (isset($this->rights['group'])) {
-     foreach ($this->rights['group'] as $gid => $group_rights) {
-      $rights|= $group_rights;
-     }
-    }
-   }
-   if ($this->admin == $_SESSION['userid']) {
-    $rights|= 129;
-   }
-   $this->user_rights = $rights;
-   return $this->user_rights;
-  }
-
-  function right_to($do) {
-   if (!$do) return true;
-   $func = 'right_'.$do;
-   $allowed = $this->$func();
-   return $allowed;
-  }
-
-  function right_read() {
-   $allowed = false;
-   if (($this->user_rights & 1) == 1) $allowed = true;
-   return $allowed;
-  }
-
-  function right_answer() {
-   $allowed = false;
-   if (($this->user_rights & 2) == 2) $allowed = true;
-   return $allowed;
-  }
-
-  function right_edit() {
-   $allowed = false;
-   $uid = $_SESSION['userid'];
-   if (($this->user_rights & 4) == 4 && $this->data['author'] == $uid) $allowed = true;
-   elseif (($this->user_rights & 32) == 32) $allowed = true;
-   $allowed&= $this->right_read();
-   return $allowed;
-  }
-
-  function right_delete() {
-   $allowed = false;
-   $uid = $_SESSION['userid'];
-   if (($this->user_rights & 8) == 8 && $this->data['author'] == $uid) $allowed = true;
-   elseif (($this->user_rights & 64) == 64) $allowed = true;
-   $allowed&= $this->right_read();
-   return $allowed;
-  }
-
-  function right_rights() {
-   $allowed = false;
-   $uid = $_SESSION['userid'];
-   if (($this->user_rights & 16) == 16 && $this->data['author'] == $uid) $allowed = true;
-   elseif (($this->user_rights & 128) == 128) $allowed = true;
-   $allowed&= $this->right_read();
-   return $allowed;
-  }
   
-  function format($tmpl='entry.html',$level=0,$levelinfo=array()) {
-   $this->format_data();
-   $this->format_number_answers();
-   $this->format_level($level,$levelinfo);
-   $this->format_user_rights();
-   $this->format_history();
-   $fdata = $this->tmpl($tmpl);
-   if ($tmpl == 'entry.html') {
-    $this->mark_read();
-   }
-   return $fdata;
-  }
-
-  function format_data() {
-   $fdata = $this->data;
-   if ($fdata['topic'] == '') $fdata['topic'] = '?';
-   $fdata['topic_html'] = mask_html($fdata['topic']);
-   $fdata['text_html'] = mask_html($fdata['text']);
-   $fdata['text_html_xt'] = html_br($fdata['text']);
-   if ($this->new)  {
-    $fdata['created_html'] = local_date_new($fdata['created']);
-   } 
-   else {
-    $fdata['created_html'] = local_date($fdata['created'],'ymdHi');
-   }
-   $this->fdata = $fdata;
-  }
-
-  function format_number_answers() {
-   $num = count($this->answers);
-   $this->fdata['num_ans'] = $num;
-   $this->fdata['zero_answers'] = array();
-   $this->fdata['existing_answers'] = array();
-   if ($num) {
-    $this->fdata['existing_answers'][] = array();
-   }
-   else {
-    $this->fdata['zero_answers'][] = array();
-   }
-  }
-
-  function format_level($level,$levelinfo) {
-   $spacer = array();
-   for ($i=1;$i<=$level;$i++) {
-    $spacer[$i]['i'] =$i%2;
-    $info = 0;
-    if (isset($levelinfo[$i-1])) {
-     $info = $levelinfo[$i-1];
-    }
-    $spacer[$i]['spacer_type0'] = array();
-    $spacer[$i]['spacer_type1'] = array();
-    $spacer[$i]['spacer_type2'] = array();
-    $spacer[$i]['spacer_type3'] = array();
-    if ($info == 0) $type = 'spacer_type0';
-    if ($info >= 1) $type = 'spacer_type1';
-    if ($i == $level) $type = 'spacer_type2';
-    if ($i == $level && $info > 1) $type = 'spacer_type3';
-    $spacer[$i][$type][] = array();
-   }
-   $this->fdata['spacer'] = $spacer;
-  }
-
-  function format_user_rights() {
-   $answer = array();
-   $edit = array();
-   $delete = array();
-   $rights = array();
-   if ($this->right_answer()) $answer[] = array();
-   if ($this->right_edit()) $edit[] = array();
-   if ($this->right_delete()) $delete[] = array();
-   if ($this->right_rights()) $rights[] = array();
-   $this->fdata['answer'] = $answer;
-   $this->fdata['edit'] = $edit;
-   $this->fdata['delete'] = $delete;
-   $this->fdata['rights'] = $rights;
-  }
-  
-  function format_history() {
-   $history = array();
-   for ($i=count($this->history)-1;$i>0;$i--) {
-    $parent = $this->history[$i];
-    $parent_data = array(
-     'parent_id' => $parent->id,
-     'parent_topic' => $parent->data['topic'],
-    );
-    $history[$i] = $parent_data;
-   }
-   $this->fdata['history'] = $history;
-  }
-  
-  function tmpl($file) {
-   $tmpl = new tmpl($file,$this->fdata);
-   return $tmpl->fdata;
-  }
-  
+  /*
+   * creates a new answer (as object)
+   * and inserts it into the database
+   */
   function new_answer($data) {
    $answer = new sub_entry();
    $answer->set_data($data);
@@ -230,6 +72,16 @@
    return $answer;
   }
 
+  /*
+   * database interaction
+   */
+  function mark_read() {
+   if (!$this->new) return;
+   $query = 'forum_read (person_id, entry_id, created)
+             values ("'.$_SESSION['userid'].'","'.$this->id.'","'.$this->data['created'].'")';
+   $this->db->insert($query);
+  }
+  
   function insert($data=null) {
    if (isset($data)) {
     $this->data = $data;
@@ -350,7 +202,175 @@
    $query = 'forum_rights_'.$type.' where id="'.$id.'"';
    $this->db->delete($query);
   }
+  
+  
+  /*
+   * right evaluation
+   */
+  function user_rights() {
+   $rights = 0;
+   if (isset($this->rights['person'])) {
+    $rights = $this->rights['person'];
+   }
+   else {
+    if (isset($this->rights['group'])) {
+     foreach ($this->rights['group'] as $gid => $group_rights) {
+      $rights|= $group_rights;
+     }
+    }
+   }
+   if ($this->admin == $_SESSION['userid']) {
+    $rights|= 129;
+   }
+   $this->user_rights = $rights;
+   return $this->user_rights;
+  }
 
+  function right_to($do) {
+   if (!$do) return true;
+   $func = 'right_'.$do;
+   $allowed = $this->$func();
+   return $allowed;
+  }
+
+  function right_read() {
+   $allowed = false;
+   if (($this->user_rights & 1) == 1) $allowed = true;
+   return $allowed;
+  }
+
+  function right_answer() {
+   $allowed = false;
+   if (($this->user_rights & 2) == 2) $allowed = true;
+   return $allowed;
+  }
+
+  function right_edit() {
+   $allowed = false;
+   $uid = $_SESSION['userid'];
+   if (($this->user_rights & 4) == 4 && $this->data['author'] == $uid) $allowed = true;
+   elseif (($this->user_rights & 32) == 32) $allowed = true;
+   $allowed&= $this->right_read();
+   return $allowed;
+  }
+
+  function right_delete() {
+   $allowed = false;
+   $uid = $_SESSION['userid'];
+   if (($this->user_rights & 8) == 8 && $this->data['author'] == $uid) $allowed = true;
+   elseif (($this->user_rights & 64) == 64) $allowed = true;
+   $allowed&= $this->right_read();
+   return $allowed;
+  }
+
+  function right_rights() {
+   $allowed = false;
+   $uid = $_SESSION['userid'];
+   if (($this->user_rights & 16) == 16 && $this->data['author'] == $uid) $allowed = true;
+   elseif (($this->user_rights & 128) == 128) $allowed = true;
+   $allowed&= $this->right_read();
+   return $allowed;
+  }
+  
+  
+  /*
+   * format functions
+   */
+  function format($tmpl='entry.html',$level=0,$levelinfo=array()) {
+   $this->format_data();
+   $this->format_number_answers();
+   $this->format_level($level,$levelinfo);
+   $this->format_user_rights();
+   $this->format_history();
+   $fdata = $this->tmpl($tmpl);
+   if ($tmpl == 'entry.html') {
+    $this->mark_read();
+   }
+   return $fdata;
+  }
+
+  function format_data() {
+   $fdata = $this->data;
+   if ($fdata['topic'] == '') $fdata['topic'] = '?';
+   $fdata['topic_html'] = mask_html($fdata['topic']);
+   $fdata['text_html'] = mask_html($fdata['text']);
+   $fdata['text_html_xt'] = html_br($fdata['text']);
+   if ($this->new)  {
+    $fdata['created_html'] = local_date_new($fdata['created']);
+   } 
+   else {
+    $fdata['created_html'] = local_date($fdata['created'],'ymdHi');
+   }
+   $this->fdata = $fdata;
+  }
+
+  function format_number_answers() {
+   $num = count($this->answers);
+   $this->fdata['num_ans'] = $num;
+   $this->fdata['zero_answers'] = array();
+   $this->fdata['existing_answers'] = array();
+   if ($num) {
+    $this->fdata['existing_answers'][] = array();
+   }
+   else {
+    $this->fdata['zero_answers'][] = array();
+   }
+  }
+
+  function format_level($level,$levelinfo) {
+   $spacer = array();
+   for ($i=1;$i<=$level;$i++) {
+    $spacer[$i]['i'] =$i%2;
+    $info = 0;
+    if (isset($levelinfo[$i-1])) {
+     $info = $levelinfo[$i-1];
+    }
+    $spacer[$i]['spacer_type0'] = array();
+    $spacer[$i]['spacer_type1'] = array();
+    $spacer[$i]['spacer_type2'] = array();
+    $spacer[$i]['spacer_type3'] = array();
+    if ($info == 0) $type = 'spacer_type0';
+    if ($info >= 1) $type = 'spacer_type1';
+    if ($i == $level) $type = 'spacer_type2';
+    if ($i == $level && $info > 1) $type = 'spacer_type3';
+    $spacer[$i][$type][] = array();
+   }
+   $this->fdata['spacer'] = $spacer;
+  }
+
+  function format_user_rights() {
+   $answer = array();
+   $edit = array();
+   $delete = array();
+   $rights = array();
+   if ($this->right_answer()) $answer[] = array();
+   if ($this->right_edit()) $edit[] = array();
+   if ($this->right_delete()) $delete[] = array();
+   if ($this->right_rights()) $rights[] = array();
+   $this->fdata['answer'] = $answer;
+   $this->fdata['edit'] = $edit;
+   $this->fdata['delete'] = $delete;
+   $this->fdata['rights'] = $rights;
+  }
+  
+  function format_history() {
+   $history = array();
+   for ($i=count($this->history)-1;$i>0;$i--) {
+    $parent = $this->history[$i];
+    $parent_data = array(
+     'parent_id' => $parent->id,
+     'parent_topic' => $parent->data['topic'],
+    );
+    $history[$i] = $parent_data;
+   }
+   $this->fdata['history'] = $history;
+  }
+  
+  function tmpl($file) {
+   $tmpl = new tmpl($file,$this->fdata);
+   return $tmpl->fdata;
+  }
+  
  }
  
  class entry extends sub_entry {
@@ -374,14 +394,6 @@
   }
   
   function load_data() {
-   $data = array(
-    'id' => 0,
-    'rel_to' => 0,
-    'author' => 0,
-    'created' => '',
-    'topic' => '',
-    'text' => ''
-   );
    if ($this->id) {
     $pid = $_SESSION['userid'];
     $query = 'select
@@ -412,11 +424,22 @@
                forum.id="'.$this->id.'"';
     $this->db->query($query);
     $data = mysql_fetch_array($this->db->result);
+    $this->set_data($data);
+    $this->add_rights_row($data);
     while ($right_data = mysql_fetch_array($this->db->result)) {
      $this->add_rights_row($right_data);
     }
-   } 
-   $this->set_data($data);
+   } else {
+    $data = array(
+     'id' => 0,
+     'rel_to' => 0,
+     'author' => 0,
+     'created' => '',
+     'topic' => '',
+     'text' => ''
+    );
+    $this->set_data($data);
+   }
   }
 
   function load_history() {
@@ -461,9 +484,7 @@
      $parent = new sub_entry();
      $parent->set_data($data);
     }
-    else {
-     $parent->add_rights_row($data);
-    } 
+    $parent->add_rights_row($data);
    }
    $this->admin = $this->data['author'];
    for ($i=1;$i<count($this->history);$i++){
