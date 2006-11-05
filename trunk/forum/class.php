@@ -67,19 +67,6 @@
   }
   
   /*
-   * creates a new answer (as object)
-   * and inserts it into the database
-   */
-  function new_answer($data) {
-   $answer = new sub_entry();
-   $answer->set_data($data);
-   $answer->history = $this->history;
-   $answer->history[0] = &$this;
-   $answer->insert();
-   return $answer;
-  }
-
-  /*
    * database interaction
    */
   function mark_read() {

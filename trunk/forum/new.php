@@ -5,13 +5,34 @@
  */
  include 'var.php';
 
- function re_topic($topic) {
-  $tmpl = new tmpl('re.html');
-  $re = $tmpl->fdata;
-  if ($topic && substr($topic,0,strlen($re)) != $re) {
-   $topic = $re.$topic;
+ class entry_insert extends entry {
+ 
+  /*
+   * creates a new answer (as object)
+   * and inserts it into the database
+   */
+  function new_answer($data) {
+   $answer = new sub_entry();
+   $answer->set_data($data);
+   $answer->history = $this->history;
+   $answer->history[0] = &$this;
+   $answer->insert();
+   return $answer;
   }
-  return $topic;
+  
+  /*
+   * returns the topic with a prefix like 'Re: '
+   */
+  function re_topic() {
+   $topic = $this->data['topic'];
+   $tmpl = new tmpl('re.html');
+   $re = $tmpl->fdata;
+   if ($topic && substr($topic,0,strlen($re)) != $re) {
+    $topic = $re.$topic;
+   }
+   return $topic;
+  }
+
  }
  
  $output->secure();
@@ -20,7 +41,7 @@
  if (isset($_GET['rel_to'])) $rel_to = $_GET['rel_to'];
  if (isset($_POST['entry']['rel_to'])) $rel_to = $_POST['entry']['rel_to'];
  
- $entry = new entry();
+ $entry = new entry_insert();
  $entry->id = $rel_to;
  $entry->load();
  
@@ -28,9 +49,7 @@
   $entry->user_rights = 2;
  }
  
- if (!$entry->right_answer()) {
-  redirect('./');
- }
+ $entry->check_right('answer');
 
  if (isset($_POST['entry'])) {
   $answer = $entry->new_answer($_POST['entry']);
@@ -39,7 +58,7 @@
  }
 
  $v['rel_to'] = $rel_to;
- $v['topic'] = re_topic($entry->data['topic']);
+ $v['topic'] = $entry->re_topic();
 
  $content = new tmpl('new.html',$v);
 

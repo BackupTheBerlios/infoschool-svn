@@ -7,10 +7,17 @@
 
  $output->secure();
  
- $entry = new entry();
+ class root_entry extends entry {
  
- $entry->load_read();
- $entry->load_answers(2,'read');
+  function root_entry() {
+   $this->entry();
+   $this->load_read();
+   $this->load_answers(2,'read');
+  }
+ 
+ }
+ 
+ $entry = new root_entry();
  
  $entries = '';
  foreach ($entry->answers as $id => $answer) {
