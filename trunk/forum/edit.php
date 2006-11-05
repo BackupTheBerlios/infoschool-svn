@@ -7,10 +7,6 @@
 
  $output->secure();
 
- if (!isset($_GET['id'])) redirect('./');
- $id = $_GET['id'];
- if (!$id) redirect('./');
- 
  $entry = new entry();
  $entry->get();
  $entry->load();
