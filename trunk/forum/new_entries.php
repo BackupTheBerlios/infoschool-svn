@@ -4,10 +4,11 @@
  * Copyright (C) 2006 Maikel Linke
  */
  include 'var.php';
+ include 'class_entry_new.php';
 
  $output->secure();
  
- $entry = new entry();
+ $entry = new entry_new();
  
  $entry->load_new();
  

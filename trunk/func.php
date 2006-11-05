@@ -478,7 +478,8 @@
    $entry = &$GLOBALS['forum_new_entries'];
   }
   else {
-   $entry = new entry();
+   include_once $GLOBALS['root'].'forum/class_entry_new.php';
+   $entry = new entry_new();
    $entry->load_new();
   } 
   return $entry->new_answers;

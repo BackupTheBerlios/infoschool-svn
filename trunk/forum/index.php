@@ -15,6 +15,18 @@
    $this->load_answers(2,'read');
   }
  
+  function load_data() {
+   $data = array(
+    'id' => 0,
+    'rel_to' => 0,
+    'author' => 0,
+    'created' => '',
+    'topic' => '',
+    'text' => ''
+   );
+   $this->set_data($data);
+  }
+
  }
  
  $entry = new root_entry();
