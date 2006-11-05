@@ -36,11 +36,13 @@
 
  function person_rm_forum($pid) {
   global $db;
-  $db->select('id from forum where author='.$pid);
+  $db->select('id from forum where author='.$pid.' order by id DESC');
   $fora = $db->data;
   foreach ($fora as $i => $forum) {
-   $entry = new entry();
-   $entry->load($forum['id'],null);
+   $entry = new entry_delete();
+   $entry->id = $forum['id'];
+   $entry->load();
+   $entry->load_answers(null);
    $entry->delete();
   } 
   $db->delete('forum_rights_person where person_id="'.$pid.'"');

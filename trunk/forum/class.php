@@ -375,10 +375,11 @@
   
   function load() {
 //   $this->id = $id;
-   $this->load_data();
-   $this->load_history();
-   $this->user_rights();
-   $this->load_read();
+   if ($this->load_data()) {
+    $this->load_history();
+    $this->user_rights();
+    $this->load_read();
+   } 
 //   $this->load_answers($depth);
   }
   
@@ -418,6 +419,7 @@
     while ($right_data = mysql_fetch_array($this->db->result)) {
      $this->add_rights_row($right_data);
     }
+    return mysql_num_rows($this->db->result);
    } else {
     $data = array(
      'id' => 0,
@@ -553,7 +555,7 @@
    while (list($entry_id) = mysql_fetch_row($result)) {
     $this->read[$entry_id] = true;
    }
-   if ($this->data['created'] > $_SESSION['last_login'] && !isset($this->read[$this->id])) {
+   if ($this->id && $this->data['created'] > $_SESSION['last_login'] && !isset($this->read[$this->id])) {
     $this->new = true;
    }
   }
@@ -668,5 +670,30 @@
   }
   
  }
+ 
+ class entry_delete extends entry {
+  
+  function new_entry() {
+   return new entry_delete();
+  }
+  
+  function delete() {
+   foreach ($this->answers as $answer_id => $answer) {
+    $answer->delete();
+   }
+   $id = $this->data['id'];
+   if ($id) {
+    $query = 'forum_rights_person where entry_id="'.$id.'"';
+    $this->db->delete($query);
+    $query = 'forum_rights_group where entry_id="'.$id.'"';
+    $this->db->delete($query);
+    $query = 'forum_relation where entry="'.$id.'" or answer="'.$id.'"';
+    $this->db->delete($query);
+    $query = 'forum where id="'.$id.'"';
+    $this->db->delete($query);
+   }
+  }
 
+ }
+ 
 ?>
