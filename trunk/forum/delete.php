@@ -4,6 +4,7 @@
  * Copyright (C) 2006 Maikel Linke
  */
  include 'var.php';
+ include 'class_entry_delete.php';
 
  $output->secure();
  

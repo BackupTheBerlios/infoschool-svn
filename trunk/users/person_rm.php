@@ -35,6 +35,7 @@
  }
 
  function person_rm_forum($pid) {
+  include_once '../forum/class_entry_delete.php';
   global $db;
   $db->select('id from forum where author='.$pid.' order by id DESC');
   $fora = $db->data;
