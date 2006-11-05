@@ -360,11 +360,14 @@
    }
   }
   
+  /*
+   * loads everything important for this entry
+   */
   function load() {
-   $this->load_data();
-   $this->load_history();
-   $this->user_rights();
-   $this->load_read();
+   $this->load_data();		// redirects on fail
+   $this->load_history();	// needed for right evaluation
+   $this->user_rights();	// calc rights for the user
+   $this->load_read();		// load read entries (is this new?)
   }
   
   function load_data() {
@@ -401,11 +404,9 @@
    }
    $data = mysql_fetch_array($this->db->result);
    $this->set_data($data);
-   $this->add_rights_row($data);
-   while ($right_data = mysql_fetch_array($this->db->result)) {
-    $this->add_rights_row($right_data);
-   }
-   return mysql_num_rows($this->db->result);
+   do {
+    $this->add_rights_row($data);
+   } while ($data = mysql_fetch_array($this->db->result));
   }
 
   function load_history() {
