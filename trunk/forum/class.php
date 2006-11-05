@@ -376,7 +376,7 @@
   function load() {
 //   $this->id = $id;
    $this->load_data();
-   $this->load_history();
+   $this->load_parents();
    $this->user_rights();
    $this->load_read();
 //   $this->load_answers($depth);
@@ -431,7 +431,7 @@
    }
   }
 
-  function load_history() {
+  function load_parents() {
    $pid = $_SESSION['userid'];
    $query = 'select
               forum_relation.level, 
