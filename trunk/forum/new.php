@@ -1,7 +1,7 @@
 <?php
 /*
  * This file is part of Infoschool - a web based school intranet.
- * Copyright (C) 2004 Maikel Linke
+ * Copyright (C) 2006 Maikel Linke
  */
  include 'var.php';
 
@@ -21,7 +21,8 @@
  if (isset($_POST['entry']['rel_to'])) $rel_to = $_POST['entry']['rel_to'];
  
  $entry = new entry();
- $entry->load($rel_to);
+ $entry->id = $rel_to;
+ $entry->load();
  
  if ($rel_to == 0) {
   $entry->user_rights = 2;

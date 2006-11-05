@@ -27,6 +27,13 @@
   function sub_entry() {
    $this->db = &$GLOBALS['db'];
   }
+  
+  /*
+   * can be overwritten
+   */
+  function new_entry() {
+   return new sub_entry();
+  }
 
   function set_data($data) {
    $this->data = $data;
@@ -101,21 +108,6 @@
                )';
     $this->db->insert($query);
    }
-  }
-
-  function delete() {
-   foreach ($this->answers as $answer_id => $answer) {
-    $answer->delete();
-   }
-   $id = $this->data['id'];
-   $query = 'forum_rights_person where entry_id="'.$id.'"';
-   $this->db->delete($query);
-   $query = 'forum_rights_group where entry_id="'.$id.'"';
-   $this->db->delete($query);
-   $query = 'forum_relation where entry="'.$id.'" or answer="'.$id.'"';
-   $this->db->delete($query);
-   $query = 'forum where id="'.$id.'"';
-   $this->db->delete($query);
   }
 
   function update($new_data) {
@@ -377,20 +369,17 @@
  
   function get() {
    if (isset($_GET['id'])) {
-    $id = $_GET['id'];
+    $this->id = $_GET['id'];
    }
   }
   
-  function load($id=0,$depth=0,$right='') {
-   $this->id = $id;
+  function load() {
+//   $this->id = $id;
    $this->load_data();
    $this->load_history();
    $this->user_rights();
-   if (!$this->right_to($right)) {
-    redirect('./');
-   }
    $this->load_read();
-   $this->load_answers($depth);
+//   $this->load_answers($depth);
   }
   
   function load_data() {
@@ -493,6 +482,12 @@
     $this->add_rights($parent->rights);
    }  
   }
+  
+  function check_right($right) {
+   if (!$this->right_to($right)) {
+    redirect('./');
+   }
+  }
 
   function load_answers($depth=1,$right='') {
    $pid = $_SESSION['userid'];
@@ -537,7 +532,7 @@
     $id = $data['id'];
     $answer = &$this->entries[$id];
     if (!isset($answer)) {
-     $answer = new sub_entry();
+     $answer = $this->new_entry();
      $answer->set_data($data);
      $answer->depth = $depth - $level;
      $this->levels[$level][$id] = &$answer;

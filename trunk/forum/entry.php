@@ -1,7 +1,7 @@
 <?php
 /*
  * This file is part of Infoschool - a web based school intranet.
- * Copyright (C) 2004 Maikel Linke
+ * Copyright (C) 2006 Maikel Linke
  */
  include 'var.php';
  
@@ -12,7 +12,10 @@
  if (!$id) redirect('./');
 
  $entry = new entry();
- $entry->load($id,$max_depth,'read');
+ $entry->get();
+ $entry->load();
+ $entry->check_right('read');
+ $entry->load_answers($max_depth,'read');
  
  $v['entry'] = $entry->format('entry.html');
  $v['history'] = $entry->fdata['history'];

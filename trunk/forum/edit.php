@@ -1,7 +1,7 @@
 <?php
 /*
  * This file is part of Infoschool - a web based school intranet.
- * Copyright (C) 2004 Maikel Linke
+ * Copyright (C) 2006 Maikel Linke
  */
  include 'var.php';
 
@@ -12,7 +12,9 @@
  if (!$id) redirect('./');
  
  $entry = new entry();
- $entry->load($id,0,'edit');
+ $entry->get();
+ $entry->load();
+ $entry->check_right('edit');
  
  if (!$entry->right_edit()) redirect('./');
 
