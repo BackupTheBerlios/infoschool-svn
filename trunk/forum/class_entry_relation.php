@@ -3,10 +3,8 @@
  * This file is part of Infoschool - a web based school intranet.
  * Copyright (C) 2006 Maikel Linke
  */
- include 'var.php';
+ include 'class_entry.php';
 
- $output->secure();
- 
  class entry_relation extends entry {
  
   function new_entry() {
@@ -56,12 +54,13 @@
    $this->entries = &$parent->entries;
   }
   
+  function rebuild_relation() {
+   $this->id = 0;
+   $this->load();
+   $this->relation_delete();
+   $this->relation_build();
+  }
+  
  }
- 
- $entry = new entry_relation();
- $entry->id = 0;
- $entry->load();
- $entry->relation_delete();
- $entry->relation_build();
  
 ?>

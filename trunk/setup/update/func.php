@@ -6,23 +6,11 @@
 
  /*
   * forum deletion bug workaround
-  * bug still there!
   */
  function update_2006_11_05_18_43() {
-  global $db;
-  $query = 'f1.id from forum as f1 left join forum as f2 on f1.rel_to=f2.id where f1.rel_to!=0 and f2.id is null';
-  do {
-   $db->select($query);
-   $entries = $db->data;
-   foreach ($entries as $i => $e) {
-    $id = $e['id'];
-    $db->query('delete from forum_rights_group where entry_id='.$id);
-    $db->query('delete from forum_rights_person where entry_id='.$id);
-    $db->query('delete from forum_relation where entry='.$id.' or answer='.$id);
-    $db->query('delete from forum where id='.$id);
-   }
-  } 
-  while (count($entries) > 0);
+  include_once '../forum/class_entry_relation.php';
+  $entry = new entry_relation();
+  $entry->rebuild_relation();
  }
   
  /*
