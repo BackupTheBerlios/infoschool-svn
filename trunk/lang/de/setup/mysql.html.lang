@@ -1,0 +1,10 @@
+# Infoschool language file
+# Only edit something between > and < to translate!
+
+Mysql>MySQL-Konfiguration<
+user name>MySQL-Benutzername<
+user password>MySQL-Benutzerpasswort<
+user password confirmation>Passwortbestätigung<
+database name>Datenbankname<
+create config>Konfigurieren<
+

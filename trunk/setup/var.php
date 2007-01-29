@@ -1,7 +1,7 @@
 <?php
 /*
  * This file is part of Infoschool - a web based school intranet.
- * Copyright (C) 2004 Maikel Linke
+ * Copyright (C) 2007 Maikel Linke
  */
  if (!isset($root)) $root = '';
  include $root.'func.php';

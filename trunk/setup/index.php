@@ -1,10 +1,39 @@
 <?php
 /*
  * This file is part of Infoschool - a web based school intranet.
- * Copyright (C) 2004 Maikel Linke
+ * Copyright (C) 2007 Maikel Linke
  */
  include 'var.php';
  
+ if (!is_dir($root.'.htsecret')) {
+ 	echo "No .htsecret directory! Please make it (mkdir .htsecret).";
+ 	exit;
+ }
+ 
+ if (!is_writeable($root.'.htsecret')) {
+ 	$output->out('{chmod}');
+ 	exit;
+ }
+ 
+ if (!is_dir($root.'.htsecret/etc')) {
+ 	mkdir($root.'.htsecret/etc');
+ }
+ 
+ if (!is_file($root.'.htsecret/etc/mysql.php')) {
+ 	if (!mysql_config()) {
+ 		$output->out(new tmpl('mysql.html')); 
+ 	}
+ }
+ 
+ if (!$db->connect()) {
+ 	if ($db->error == 'no connection to database') {
+ 		$output->out('{no connection to database}');
+ 		exit;
+ 	}
+ 	echo $db->error;
+ }
+ 
+ /*
  $v['error'] = array();
  $v['todo'] = 'Todo';
  $v['create_config'][] = array(); 
@@ -48,4 +77,5 @@
  $content = new tmpl('index.html',$v);
  
  $output->out($content);
+ */
 ?>
