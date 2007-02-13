@@ -7,7 +7,6 @@ and install a new version.
 1. Backup your data (files and database)
 2. Replace the old files with the new.
 3. Copy important files from your backup in the new directories.
-   - etc/*
-   - var/*
+   - .htsecret/*/*
    - htdocs/img/person/*
 4. Run htdocs/setup/update/index.php. This will update your database.
