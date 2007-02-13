@@ -19,9 +19,8 @@ installation and configuration
 
 Now the hole project should be in the same directory as this file.
 The webserver needs read access to the whole directory and write access to the following.
- etc/
+ .htsecret/*
  htdocs/img/person
- var/*
  
 Others should have read access to htdocs/ only.
  
@@ -29,8 +28,8 @@ At this point you may let infoschool configure itself:
  http://yourserver/directory_of_infoschool/setup/ 
  
 Otherwise you may configure infoschool manual.
-Everything you need is in etc/.
- cd etc/
+Everything you need is in .htsecret/etc/.
+ cd .htsecret/etc/
 
 You need to configuration files.
  cp tmpl/*.php ./
