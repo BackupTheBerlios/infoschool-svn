@@ -2,7 +2,4 @@
 # Only edit something between > and < to translate!
 
 Setup>Setup<
-setup headline>Setup: unvollständige (!) automatische Konfiguration<
-
-chmod>Das automatische Setup braucht das Schreibrecht auf das Verzeichnis '.htsecret/'. Unter Linux geht dies mit dem Befehl 'chmod 777 .htsecret' im Installationsverzeichnis.<
-no connection to database>Es konnte keine Verbindung zur MySQL-Datenbank hergestellt werden. Ist MySQL richtig installiert und der Server auch gestartet?<
+setup headline>Setup: automatische Konfiguration<
