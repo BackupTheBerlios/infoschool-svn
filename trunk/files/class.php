@@ -359,6 +359,17 @@
    		now(),
    		"'.$name.'")';
    $db->insert($query);
+   if ($this->data['id'] != 0) return;
+   $dir_id = $db->insert_id;
+   $query = 'filesystem_rights_person (
+   			fs_id, person_id, rights
+   		) values (
+	               	"'.$dir_id.'",
+        	       	"'.$_SESSION['userid'].'",
+               	       	"255"
+   		)
+   		';
+   $db->insert($query);
   }
  
   /* file_arr has these informations
