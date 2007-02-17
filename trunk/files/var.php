@@ -32,7 +32,7 @@
  
  $output->headline[] = 'file exchange';
 
- $file_dir = $special_dir.'upload/';
+ $file_dir = $special_dir.'files/';
  check_config(); 
 
  $max_upload_size = get_maximum_upload_size(); // bytes
