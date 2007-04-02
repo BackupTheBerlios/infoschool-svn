@@ -5,7 +5,6 @@
  */
  include 'var.php';
  
- $output->secure();
  $output->headline[] = 'About';
  
  $edit = array();
