@@ -8,7 +8,7 @@
   * forum deletion bug workaround
   */
  function update_2006_11_05_18_43() {
-  include_once '../forum/class_entry_relation.php';
+  include_once '../../forum/class_entry_relation.php';
   $entry = new entry_relation();
   $entry->rebuild_relation();
  }

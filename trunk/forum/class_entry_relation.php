@@ -3,7 +3,7 @@
  * This file is part of Infoschool - a web based school intranet.
  * Copyright (C) 2006 Maikel Linke
  */
- include 'class_entry.php';
+ include 'class.php';
 
  class entry_relation extends entry {
  
