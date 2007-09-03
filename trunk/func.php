@@ -12,19 +12,19 @@
   $p = explode('/',$p);
   $p[sizeof($p)-1] = false;
   $p = implode('/',$p);
-  return $p; // enth�t ein '/' am Ende
+  return $p; // ends with '/'
  }
 
- // entfernt unn�ige Umwege (./ und ../) aus Pfaden
+ // entfernt unnoetige Umwege (./ und ../) aus Pfaden
  function path_clean($p){
   if(strstr($p,'/')) $z = '/'; // es werden Slashes benutzt (Unix)
   else $z = "\\"; // es werden Backslashes benutzt (Windows)
   $a = explode($z,$p); // ein Array mit allen Einzelpfadangaben wie ordner, datei.end oder .. (bergeordnetes Verzeichnis)
-  $c = 0; // Counter fr �ergeordnete Verzeichnisse
+  $c = 0; // Counter fuer uebergeordnete Verzeichnisse
   for($i=sizeof($a)-1;$i>=0;$i--){ // der Pfad wird von hinten nach vorne durchgegangen
    switch($a[$i]){ // jedes Pfadelement wird berprft
     case '.': break; // ein Punkt zeigt auf das aktuelle Verzeichnis, kann im Pfad also weggelassen werden
-    case '..': $c++; break; // zwei Punkte zeigen auf das bergeordnete Verzeichnis, wird gez�lt
+    case '..': $c++; break; // zwei Punkte zeigen auf das bergeordnete Verzeichnis, wird gez���lt
     default: if($c>0){ // statt /foo/ordner/.. fhrt nur zu /foo, deshalb wird fr jedes .. ein ordner ausgelassen
      $c--;
     }
@@ -46,7 +46,7 @@
   return $path;
  }
 
- // erstellt einen m�lichst kurzen relativen Pfad
+ // erstellt einen m���lichst kurzen relativen Pfad
  function linkto($dst,$src='./') {
   $src = path_absolute($src);
   $dst = path_absolute($dst);
@@ -398,6 +398,7 @@
 
  // calls a script with password to execute
  function request($script) {
+  $random_passwd = '';
   include $GLOBALS['special_dir'].'etc/random.php';
   global $webdir;
   $script.= '?passwd='.urlencode($random_passwd);

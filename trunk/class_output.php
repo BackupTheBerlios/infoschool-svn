@@ -70,6 +70,7 @@
   function secure($auth='user',$passwd=false) {
    $content = '{authentification failed}';
    if ($passwd && isset($_GET['passwd'])) {
+    $random_passwd = '';
     include $this->root.'.htsecret/etc/random.php';
     if ($random_passwd == $_GET['passwd']) return true;
    }

@@ -50,6 +50,10 @@
 
   function load_config() {
    $file = $GLOBALS['special_dir'].'etc/mysql.php';
+   $mysql_server = '';
+   $mysql_user = '';
+   $mysql_db = '';
+   $mysql_passwd = '';
    if (!@include $file) {
     $this->error_include($file);
     return false;
