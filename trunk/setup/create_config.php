@@ -29,6 +29,7 @@
                         values ("'.$mysql_client.'","'.$mysql_db.'","'.$user_name.'",
                                 "Y","Y","Y","Y","Y","Y","Y","Y","Y","Y","Y","Y")');
   }
+  $cmd = '';
   system($mysqladmin.' -h '.$mysql_server.' -u '.$root_name.' --password="'.$root_passwd .'" reload',$cmd);
   if ($cmd) return 'cannot reload';
  }
