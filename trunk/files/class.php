@@ -234,7 +234,7 @@
    $d['file'] = array();
    if ($this->is_file()) $d['file'][] = array();
    else $d['dir'][] = array();
-   $d['last_change_local'] = local_date($d['last_change']);
+   $d['last_change_local'] = local_date_new($d['last_change']);
    $d['name_html'] = mask_html($d['name']);
    if ($prefix) {
     $d_cache = $d;
