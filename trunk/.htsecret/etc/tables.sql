@@ -52,18 +52,6 @@ CREATE TABLE `cron` (
 ) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 --
--- Table structure for table `dateien_ordner`
---
-
-DROP TABLE IF EXISTS `dateien_ordner`;
-CREATE TABLE `dateien_ordner` (
-  `id` int(11) NOT NULL auto_increment,
-  `ordnername` char(50) default NULL,
-  `besitzer` smallint(5) unsigned default NULL,
-  PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
---
 -- Table structure for table `db_version`
 --
 
