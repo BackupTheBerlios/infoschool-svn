@@ -1,8 +1,10 @@
 <?php
 /*
  * This file is part of Infoschool - a web based school intranet.
- * Copyright (C) 2005 Maikel Linke, Christian Zedler
+ * Copyright (C) 2007 Maikel Linke, Christian Zedler
  */
+ 
+ require_once 'files/class_new_files.php';
 
  class output {
   var $root;
@@ -260,6 +262,12 @@
    $message_num = new_message_num();
    if($message_num>0){
     $loggedin[]['usermenu'] = new tmpl('loggedin_messages.html',array('message_num'=>$msg),$this->root);
+   }
+   
+   $new_files = new new_files();
+   $file_num = $new_files->number();
+   if ($file_num > 0) {
+   	$loggedin[]['usermenu'] = new tmpl('loggedin_files.html',array('file_num'=>$file_num),$this->root);
    }
 
    $entry_num = forum_new_entries();

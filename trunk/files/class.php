@@ -24,8 +24,21 @@
   function load($id) {
    if ($id) {
     global $db;
-    $query = 'fs.id, fs.rel_to, fs.filetype, fs.owner, fs.last_change, fs.name, fs.size, fs_person.rights person_rights, pg.gid, fs_group.rights group_rights
+    $query = 'fs.id,' .
+    		' fs.rel_to,' .
+    		' fs.filetype,' .
+    		' fs.owner,' .
+    		' person.first_name owner_first_name,' .
+    		' person.last_name owner_last_name,' .
+    		' fs.last_change,' .
+    		' fs.name,' .
+    		' fs.size,' .
+    		' fs_person.rights person_rights,' .
+    		' pg.gid,' .
+    		' fs_group.rights group_rights
     		from filesystem as fs 
+    		left join person on
+    		 fs.owner=person.id
     		left join filesystem_rights_person as fs_person on
     		 fs.id="'.$id.'" and
     		 fs.id=fs_person.fs_id and
