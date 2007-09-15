@@ -1,7 +1,7 @@
 <?php
 /*
  * This file is part of Infoschool - a web based school intranet.
- * Copyright (C) 2006 Maikel Linke
+ * Copyright (C) 2007 Maikel Linke
  */
  include 'var.php';
 
@@ -43,7 +43,9 @@
  
  $entry = new entry_insert();
  $entry->id = $rel_to;
- $entry->load();
+ if ($entry->id > 0) {
+  $entry->load();
+ }
  
  if ($rel_to == 0) {
   $entry->user_rights = 2;
