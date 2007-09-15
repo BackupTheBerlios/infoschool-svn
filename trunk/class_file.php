@@ -4,6 +4,8 @@
  * Copyright (C) 2004 Maikel Linke, Christian Zedler
  */
 
+require_once 'class_Path.php';
+
  class file {
   var $path;
   var $name;
@@ -129,7 +131,7 @@
 
   function set($name='',$data='',$path='',$new_root='') {
    $root = $GLOBALS['root'];
-   $this->subdir = linkto($path,$root);
+   $this->subdir = Path::linkto($path,$root);
    $path = $root.$new_root.$this->subdir;
    parent::set($name,'',$path);
   }
@@ -172,7 +174,7 @@
 
   function set($name='',$input='',$path='./') {
    $root = $GLOBALS['root'];
-   $this->subdir = linkto($path,$root);
+   $this->subdir = Path::linkto($path,$root);
    $tmpl_path = $root.'tmpl/'.$this->subdir;
    parent::set($name,'',$tmpl_path);
    $this->set_lang();

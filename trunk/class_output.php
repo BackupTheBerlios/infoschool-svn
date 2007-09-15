@@ -5,6 +5,7 @@
  */
  
  require_once 'files/class_new_files.php';
+ require_once 'class_Path.php';
 
  class output {
   var $root;
@@ -95,7 +96,7 @@
    $dir_num = sizeof(explode('/',$this->root));
    $r = './';
    for ($i=0;$i<$dir_num;$i++) {
-    $file = linkto($r,$this->root).'output.lang';
+    $file = Path::linkto($r,$this->root).'output.lang';
     $this->tmpl->add_lang_file($file);
     $r.= '../';
    }
@@ -322,7 +323,7 @@
   }
   
   function format_menuitem($url,$caption,$level,$dir=false) {
-   $url = linkto($GLOBALS['root'].$url);
+   $url = Path::linkto($GLOBALS['root'].$url);
    $caption = output::mask($caption);
    $m = array(
     'menu_spacer' => array(),
@@ -343,7 +344,7 @@
    }
    $document_root = $_SERVER['DOCUMENT_ROOT'];
    if (substr($document_root,-1) == '/') $document_root = substr($document_root,0,-1);
-   $a = path_absolute($url);
+   $a = Path::absolute($url);
    $b = sessionurl($a);
    $c = $document_root.$_SERVER['REQUEST_URI'];
    if($a==$c || $b==$c) $m['menu_caption_this'][0]['menu_caption'] = $caption;

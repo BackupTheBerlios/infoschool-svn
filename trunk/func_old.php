@@ -8,6 +8,8 @@
  * Unterverzeichnissen gebraucht werden.
  */
 
+require_once 'class_Path.php';
+
  function get_face($file,$vars=array()){
   $fd = fopen($file,'r');
   $face = fread($fd,filesize($file));
@@ -23,8 +25,8 @@
  // gibt den Inhalt einer Datei zurck, ggf. werden Variablen im Text ersetzt
  function get_face_new($file,$vars=array(),$basedir=''){
   if(!$basedir) $basedir = $GLOBALS['root'];
-  $basedir = path_absolute($basedir);
-  $file = path_absolute($file);
+  $basedir = Path::absolute($basedir);
+  $file = Path::absolute($file);
   $error = 'Ein Teil dieser Seite konnte leider nicht geladen werden. ';
   if ($basedir != substr($file,0,strlen($basedir))) return $error.'Es kann nur innerhalb des Hauptverzeichnisses gelesen werden.';
   if (!is_readable($file)) {
@@ -66,8 +68,8 @@
    $path = substr($path,$pos);
   }
   if (!$path) $path = $f;
-  if (substr($path,0,1) != '/') $path = path_rm_last($f).$path;
-  $path = path_clean($path);
+  if (substr($path,0,1) != '/') $path = Path::rm_last($f).$path;
+  $path = Path::clean($path);
   if(strstr($path,'#')){
    list($path,$internal_link) = explode('#',$path);
    if($ilink==false)
@@ -149,8 +151,8 @@
   $v['%sign%'] = $s;
   $v['%url%'] = $u;
   $v['%caption%'] = $c;
-  $a = path_absolute($u);
-  $b = path_absolute($root.substr($_SERVER['REQUEST_URI'],1));
+  $a = Path::absolute($u);
+  $b = Path::absolute($root.substr($_SERVER['REQUEST_URI'],1));
   if($a==$b) $item = get_face($root.'menulinkv.html',$v);
   else $item = get_face($root.'menulink.html',$v);
   return $item;

@@ -22,6 +22,7 @@
  // muss der Pfad relativ korrigiert werden.
  include $root.'func.php';
  include $root.'class.php';
+ require_once $root.'class_Path.php';
 
  // Optionen, die in Cookies gespeichert werden sollen
  $cookieopt[] = 'msg_status';
@@ -133,7 +134,7 @@
  $output->menu['about/'] = 'About';
  
  // subdir of the software
- $webdir = path_clean(path_rm_last($_SERVER['SCRIPT_NAME']).$root);
+ $webdir = Path::clean(Path::rm_last($_SERVER['SCRIPT_NAME']).$root);
  // system-root for the user: http://server.domain.tld/foo/
  $http_root = 'http://'.$_SERVER['SERVER_NAME'].$webdir;
 
