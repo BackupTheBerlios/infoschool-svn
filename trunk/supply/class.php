@@ -187,6 +187,9 @@
    if ($this->teacher_offset && !$show_teachers) {
     $line = array_slice($line,0,$this->teacher_offset);
    }
+   else {
+    array_splice($line,5,($this->teacher_offset-5));
+   }
    $lines = count($line);
    while ($lines && $line[$lines-1] == '') {
     unset($line[$lines-1]);
