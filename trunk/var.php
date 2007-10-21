@@ -101,6 +101,12 @@
 
 /////////////////////// Anfang OOP ///////////////////////
 
+ // handle different magic quotes configurations
+ require_once $root.'class_MagicQuotes.php';
+ $magicQuotes = new MagicQuotes();
+ $magicQuotes->turnOn();
+ unset($magicQuotes);
+
  // object containing every information needed for output
  // $output->out() formates everything and send it to the user
  $output = new output();
