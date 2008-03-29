@@ -18,7 +18,7 @@
  /* the file variable is named 'file'
   * 'tmp_name' contains the whole path of the file
   */
- if (isset($_FILES['file']['tmp_name'])) {
+ if (isset($_FILES['file']['tmp_name']) && $_FILES['file']['tmp_name'] != '') {
   $dir->insert_file($_FILES['file']);
   redirect('./?id='.$rel_to);
  }
