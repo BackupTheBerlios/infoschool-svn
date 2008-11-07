@@ -10,28 +10,6 @@
 
 require_once $root.'class_file.php';
 
- // gibt den Inhalt einer Datei zurck, ggf. werden Variablen im Text ersetzt
- function get_face_new($file,$vars=array(),$basedir=''){
-  if(!$basedir) $basedir = $GLOBALS['root'];
-  $basedir = Path::absolute($basedir);
-  $file = Path::absolute($file);
-  $error = 'Ein Teil dieser Seite konnte leider nicht geladen werden. ';
-  if ($basedir != substr($file,0,strlen($basedir))) return $error.'Es kann nur innerhalb des Hauptverzeichnisses gelesen werden.';
-  if (!is_readable($file)) {
-   $file = str_replace('/','\\',$file);
-   if (!is_readable($file)) return $error.'Die Datei kann nicht gelesen werden.';
-  }
-  $fd = fopen($file,'r');
-  $face = fread($fd,filesize($file));
-  fclose($fd);
-  if(sizeof($vars)>0){
-   foreach($vars as $str => $v){
-    $face = str_replace($str,$v,$face);
-   }
-  }
-  return $face;
- }
-
  // bei gltigem Login wird die Session-ID an die URL geh�gt
  function sessionurl($u){
   if(session_is_registered('userid') && !isset($_COOKIE['PHPSESSID']) && !strstr($u,'PHPSESSID=')){
