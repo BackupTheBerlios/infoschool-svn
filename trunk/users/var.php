@@ -1,12 +1,12 @@
 <?php
 /*
  * This file is part of Infoschool - a web based school intranet.
- * Copyright (C) 2004 Maikel Linke
+ * Copyright (C) 2008 Maikel Linke
  */
- include 'func.php';
-// include 'class.php';
  if(!isset($root)) $root = '';
  $root.= '../';
+ include 'func.php';
+// include 'class.php';
  include $root.'var.php';
 
  $output->menu['users/'] = array(

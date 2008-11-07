@@ -1,17 +1,19 @@
 <?php
 /*
  * This file is part of Infoschool - a web based school intranet.
- * Copyright (C) 2004 Maikel Linke
+ * Copyright (C) 2008 Maikel Linke
  */
 
- // Gibt den Vertretungsplan eines Tages (relativ zu heute) zurueck
+require_once '../class_file.php';
+
+// Gibt den Vertretungsplan eines Tages (relativ zu heute) zurueck
  function get_vplan($d=0){
   $vplan = '';
   $time = strtotime('+'.$d.' day');
   $datum = date('Y-m-d',$time);
   $datei = $GLOBALS['plandir'].$datum.'.txt';
   if(is_readable($datei)){
-   $vplan = get_face($datei,array(),$GLOBALS['plandir']);
+   $vplan = FileReader::readFile($datei);
   }
   return array('text'=>$vplan,'date'=>$datum);
  }
@@ -63,7 +65,7 @@
   $vars = vplan2html_single($vplan['text']);
   $vars['%url%'] = sessionurl('single.php?d='.$pi);
   $vars['%titel%'] = 'Vertretungsplan';
-  echo get_face('single.html',$vars);
+  echo FileReader::readFile('single.html',$vars);
  }
  
  function calc_pixel() {

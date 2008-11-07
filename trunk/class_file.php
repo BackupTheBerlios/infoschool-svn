@@ -6,6 +6,20 @@
 
 require_once 'class_Path.php';
 
+class FileReader {
+	
+	public function readFile($fileName, $replacements = array()) {
+		$filePointer = fopen($fileName, 'r');
+		$fileData = fread($filePointer, filesize($fileName));
+		fclose($filePointer);
+		foreach ($replacements as $key => $replacement) {
+			$fileData = str_replace($key, $replacement, $fileData);
+		}
+		return $fileData;
+	}
+
+}
+
  class file {
   var $path;
   var $name;

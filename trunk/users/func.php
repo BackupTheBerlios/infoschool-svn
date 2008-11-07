@@ -1,5 +1,7 @@
 <?php
 
+require_once $root.'class_file.php';
+
  // berprft, ob jemand eine Mitgliedschaft beantragt hat
  function in_neu_pg($pid,$gid){
   $mc = get_mc();
@@ -20,7 +22,7 @@
   if(!isset($person['mail'])) $person['mail'] = '';
   if(!isset($person['passwd1'])) $person['passwd1'] = '';
   if(!isset($person['passwd2'])) $person['passwd2'] = '';
-  $vars['%bedingungen%'] = get_face($dir.'bedingungen.html');
+  $vars['%bedingungen%'] = FileReader::readFile($dir.'bedingungen.html');
   $vars['%accept%'] = $person['accept'];
   $vars['%vorname%'] = text2html($person['vorname']);
   $vars['%nachname%'] = text2html($person['nachname']);
@@ -33,7 +35,7 @@
   $vars['%mail%'] = $person['mail'];
   $vars['%passwd1%'] = text2html($person['passwd1']);
   $vars['%passwd2%'] = text2html($person['passwd2']);
-  $form = get_face($dir.'neu_person.html',$vars);
+  $form = FileReader::readFile($dir.'neu_person.html',$vars);
   return $form;
  }
 

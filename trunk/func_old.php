@@ -8,19 +8,7 @@
  * Unterverzeichnissen gebraucht werden.
  */
 
-require_once 'class_Path.php';
-
- function get_face($file,$vars=array()){
-  $fd = fopen($file,'r');
-  $face = fread($fd,filesize($file));
-  fclose($fd);
-  if(sizeof($vars)>0){
-   foreach($vars as $str => $v){
-    $face = str_replace($str,$v,$face);
-   }
-  }
-  return $face;
- }
+require_once $root.'class_file.php';
 
  // gibt den Inhalt einer Datei zurck, ggf. werden Variablen im Text ersetzt
  function get_face_new($file,$vars=array(),$basedir=''){
@@ -153,8 +141,8 @@ require_once 'class_Path.php';
   $v['%caption%'] = $c;
   $a = Path::absolute($u);
   $b = Path::absolute($root.substr($_SERVER['REQUEST_URI'],1));
-  if($a==$b) $item = get_face($root.'menulinkv.html',$v);
-  else $item = get_face($root.'menulink.html',$v);
+  if($a==$b) $item = FileReader::readFile($root.'menulinkv.html',$v);
+  else $item = FileReader::readFile($root.'menulink.html',$v);
   return $item;
  }
 
@@ -288,7 +276,7 @@ GROUP BY d.id";
   $v['%name%'] = $name;
   $v['%message%'] = $message;
   $v['%url%'] = $url;
-  return get_face($GLOBALS['root'].'mail.txt',$v);
+  return FileReader::readFile($GLOBALS['root'].'mail.txt',$v);
  }
 
  // gibt ein Formular zurck
@@ -298,7 +286,7 @@ GROUP BY d.id";
   $v['%buttontitel%'] = $titel;
   $v['%ziel%'] = $file;
   $v['%align%'] = $align;
-  return get_face($GLOBALS['root'].'form.html',$v);
+  return FileReader::readFile($GLOBALS['root'].'form.html',$v);
  }
 
  // -- obsolete --> db::connect()
