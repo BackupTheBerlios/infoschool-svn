@@ -23,6 +23,9 @@
               person_to.id is null
              ');
  $v['orphaned messages'] = $db->data[0][0];
+ 
+ $db->select('count(f.id) from forum f left join forum g on f.rel_to=g.id where f.rel_to>0 and g.id is null');
+ $v['orphaned forum entries'] = $db->data[0][0];
 
  $prow_zahl = mysql_query('select count(id) from person');
  $pletzter = mysql_query('select last_login from person order by last_login desc limit 1');
