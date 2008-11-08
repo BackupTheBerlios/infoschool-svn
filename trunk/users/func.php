@@ -4,10 +4,9 @@ require_once $root.'class_file.php';
 
  // berprft, ob jemand eine Mitgliedschaft beantragt hat
  function in_neu_pg($pid,$gid){
-  $mc = get_mc();
-  $neu = mysql_query('select pid from neu_pg where pid="'.$pid.'" and gid="'.$gid.'"');
-  mysql_close($mc);
-  return mysql_num_rows($neu);
+ 	global $db;
+ 	$neu = $db->query('select pid from neu_pg where pid="'.$pid.'" and gid="'.$gid.'"');
+ 	return mysql_num_rows($neu);
  }
 
  // gibt ein Formular fr eine neue Person zurck

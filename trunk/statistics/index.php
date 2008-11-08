@@ -24,7 +24,6 @@
              ');
  $v['orphaned messages'] = $db->data[0][0];
 
- get_mc();
  $prow_zahl = mysql_query('select count(id) from person');
  $pletzter = mysql_query('select last_login from person order by last_login desc limit 1');
  $prow_wartend = mysql_query('select count(id) from neu_account');

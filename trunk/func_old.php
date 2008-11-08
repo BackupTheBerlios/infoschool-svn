@@ -10,54 +10,6 @@
 
 require_once $root.'class_file.php';
 
- // bei gltigem Login wird die Session-ID an die URL geh�gt
- function sessionurl($u){
-  if(session_is_registered('userid') && !isset($_COOKIE['PHPSESSID']) && !strstr($u,'PHPSESSID=')){
-   if(strstr($u,'?')) $z = '&';
-   else $z = '?';
-   $u.= $z.'PHPSESSID='.session_id();
-  }
-  return $u;
- }
-
- // wandelt eine relative URL in eine absolute um und modifiziert den HTTP-Header(Location)
- function redirect($path='',$arg=array(),$ilink=''){
-  $p = 'http://';
-  $h = $_SERVER['HTTP_HOST'];
-  $f = $_SERVER['PHP_SELF'];
-  if ($pos = strpos($path,'://')) {
-   $pos+= 3;
-   $p = substr($path,0,$pos);
-   $path = substr($path,$pos);
-   $pos = strpos($path,'/');
-   $h = substr($path,0,$pos);
-   $path = substr($path,$pos);
-  }
-  if (!$path) $path = $f;
-  if (substr($path,0,1) != '/') $path = Path::rm_last($f).$path;
-  $path = Path::clean($path);
-  if(strstr($path,'#')){
-   list($path,$internal_link) = explode('#',$path);
-   if($ilink==false)
-    $ilink = $internal_link;
-  }
-  if(is_array($arg) && sizeof($arg)>0){
-   if(strstr($path,'?')) $z = '&';
-   else $z = '?';
-   foreach($arg as $n => $v){
-    $path.= $z.$n.'='.$v;
-    $z = '&';
-   }
-  }
-  $path = sessionurl($path);
-  if($ilink && substr($_SERVER['HTTP_USER_AGENT'],0,5)!='Opera'){
-   $path.= '#'.$ilink;
-  }
-  if(substr($path,0,7)!=$p) $path = $p.$h.$path;
-  header('Location:'.$path);
-  exit;
- }
-
  // wandelt Sonderzeichen im Text in normale HTML um (�=> &auml;)
  function text2html($text){
   $text = str_replace("\xE2\x82\xAC",'[euro]',$text);
@@ -111,39 +63,6 @@ require_once $root.'class_file.php';
   return stripslashes(strip_tags($html));
  }
 
- // -- obsolete
- // formatiert einen Menpunkt
- function htmlformat_menuitem($root,$s,$u,$c){
-  $v['%sign%'] = $s;
-  $v['%url%'] = $u;
-  $v['%caption%'] = $c;
-  $a = Path::absolute($u);
-  $b = Path::absolute($root.substr($_SERVER['REQUEST_URI'],1));
-  if($a==$b) $item = FileReader::readFile($root.'menulinkv.html',$v);
-  else $item = FileReader::readFile($root.'menulink.html',$v);
-  return $item;
- }
-
- // -- obsolete
- // rekursive Funktion, gibt zusammengeh�ige Menpunkte zurck
- // und ruft sich fr Untermens wieder auf
- function get_menuitem($root,$url,$caption='',$s=''){
-  $item = '';
-  if(is_array($url) && sizeof($url)>0){
-   if($caption){
-    $item = htmlformat_menuitem($root,$s.'++',$url['0'],$caption);
-    unset($url['0']);
-   }
-   foreach($url as $c => $u){
-    $item.= get_menuitem($root,$u,$c,'&#160;'.$s);
-   }
-  }
-  else{
-   $item = htmlformat_menuitem($root,$s.'+-',$url,$caption);
-  }
-  return $item;
- }
-
  // gibt Messages einer Person wieder; die man bekommen hat, die man versendet hat, neue Messages
  function get_msgs_number($pid){
   return new_message_num();
@@ -184,32 +103,6 @@ GROUP BY d.id";
   $result = $db->query($query);
   echo mysql_error();
   return mysql_num_rows($result);
- }
-
- //gibt Informationen auf freischaltbare News-Eintr�e zurck
- function get_news_meldung($userid)
- {
- $level = get_level($userid);
- $query = "SELECT count(id) zahl, level FROM news_eintraege WHERE level < $level GROUP BY level";
- $result = mysql_abfrage($query);
-
- $news_meldung = "";
- while($row = mysql_fetch_array($result))
- {
-	 if ($row['level'] == 0)
-	 {
-	 $news_meldung .= '<a href="'.$GLOBALS['root'].'/news/index.php">Level 0:</a> '.$row['zahl'].'<br>';
-	 }
-	 if ($row['level'] == 1)
-	 {
- 	 $news_meldung .= '<a href="'.$GLOBALS['root'].'/news/index.php">Level 1:</a> '.$row['zahl'].'<br>';
-	 }
- }
- if(strlen($news_meldung) > 1)
- {
- $news_meldung = '<div class="menu">Freizuschaltende News:<br>'.$news_meldung.'</div>';
- }
- return $news_meldung;
  }
 
  // -- obsolete
@@ -733,24 +626,5 @@ GROUP BY d.id";
  return $return;
  }
 
-
- //gibt das Berechtigungslevel einer bestimmten Person (fr News, usw.) zurck
-function get_level($id)
-{
-  	$query = "SELECT nlp.level level FROM news_level_person nlp WHERE
-nlp.person_id = $id";
-  	$result = mysql_abfrage($query);
-
-	if (mysql_num_rows($result) == 0) //falls kein Level fr diese Person speziell gesetzt war
-	{
-		$query = "SELECT MAX(nlg.level) level FROM news_level_gruppe
-nlg LEFT JOIN pg ON nlg.gruppe_id = pg.gid AND pg.pid = $id LEFT JOIN gruppe
-ON pg.gid = gruppe.id GROUP BY pg.pid";
-	  	$result = mysql_abfrage($query);
-	}
-	
-	$row = mysql_fetch_array($result);
-	return (int) $row['level'];
-}
 
 ?>

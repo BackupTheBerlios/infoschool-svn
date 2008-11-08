@@ -535,5 +535,53 @@
   return $rights;
  }
 
+  function sessionurl($url) {
+  	if (session_is_registered('userid') && !isset($_COOKIE['PHPSESSID']) && !strstr($url,'PHPSESSID=')) {
+  		if(strstr($url,'?')) $z = '&';
+  		else $z = '?';
+  		$url.= $z.'PHPSESSID='.session_id();
+  	}
+  	return $url;
+  }
+  
+ // wandelt eine relative URL in eine absolute um und modifiziert den HTTP-Header(Location)
+ function redirect($path='',$arg=array(),$ilink=''){
+  $p = 'http://';
+  $h = $_SERVER['HTTP_HOST'];
+  $f = $_SERVER['PHP_SELF'];
+  if ($pos = strpos($path,'://')) {
+   $pos+= 3;
+   $p = substr($path,0,$pos);
+   $path = substr($path,$pos);
+   $pos = strpos($path,'/');
+   $h = substr($path,0,$pos);
+   $path = substr($path,$pos);
+  }
+  if (!$path) $path = $f;
+  if (substr($path,0,1) != '/') $path = Path::rm_last($f).$path;
+  $path = Path::clean($path);
+  if(strstr($path,'#')){
+   list($path,$internal_link) = explode('#',$path);
+   if($ilink==false)
+    $ilink = $internal_link;
+  }
+  if(is_array($arg) && sizeof($arg)>0){
+   if(strstr($path,'?')) $z = '&';
+   else $z = '?';
+   foreach($arg as $n => $v){
+    $path.= $z.$n.'='.$v;
+    $z = '&';
+   }
+  }
+  $path = sessionurl($path);
+  if($ilink && substr($_SERVER['HTTP_USER_AGENT'],0,5)!='Opera'){
+   $path.= '#'.$ilink;
+  }
+  if(substr($path,0,7)!=$p) $path = $p.$h.$path;
+  header('Location:'.$path);
+  exit;
+ }
+
+  
 
 ?>
