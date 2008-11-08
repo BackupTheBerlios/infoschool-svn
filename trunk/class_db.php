@@ -167,26 +167,6 @@
    return $this->result;
   }
 
-  function query_array($query) {
-   $this->query($query);
-   $array = array();
-   if ($this->result){
-    $array = mysql_fetch_array($this->result);
-   }
-   return $array;
-  }
-
-  function query_arrays($query,$index='') {
-   $this->query($query);
-   $arrays = array();
-   if ($this->result) {
-    while ($array = mysql_fetch_array($this->result)) {
-     if ($index) $arrays[$array[$index]] = $array;
-     else $arrays[] = $array;
-    }
-   }
-   return $arrays;
-  }
  }
 
 ?>
