@@ -10,7 +10,7 @@ function avatar_loeschen()
   //Variabel $datei dient nur der Vereinfachung
   $datei = $GLOBALS[img_person_dir][intern].$_SESSION[userid];
 
-  //Löschen evtl. vorhandener alter Dateien (mit anderer Endung
+  //Lï¿½schen evtl. vorhandener alter Dateien (mit anderer Endung
   if (file_exists($datei.'.jpg')) unlink($datei.'.jpg');
   if (file_exists($datei.'.gif')) unlink($datei.'.gif');
 
@@ -43,7 +43,7 @@ function mod_avatar($file){
 
 $pic_info = GetImageSize($file);
 
-  //Zu große Dateien herausfiltern
+  //Zu groï¿½e Dateien herausfiltern
   if (filesize($file) > $GLOBALS["max_avatar_groesse"])
  	{
      $_SESSION['meldungen'][] = 'Fehler beim Upload: Die Datei ist zu gro&szlig;!';
@@ -80,7 +80,7 @@ $pic_info = GetImageSize($file);
   //Variabel $datei dient nur der Vereinfachung
   $datei = $GLOBALS[img_person_dir][intern].$_SESSION[userid];
 
-  //Löschen evtl. vorhandener alter Dateien (mit anderer Endung
+  //Lï¿½schen evtl. vorhandener alter Dateien (mit anderer Endung
   if (file_exists($datei.'.jpg')) unlink($datei.'.jpg');
   if (file_exists($datei.'.gif')) unlink($datei.'.gif');
 
@@ -88,7 +88,7 @@ $pic_info = GetImageSize($file);
   copy($file, $datei.$endung);
   if (file_exists($file)) unlink($file);
 
-  //Änderungen in der Datenbank einfügen
+  //ï¿½nderungen in der Datenbank einfï¿½gen
   $mc = get_mc();
   mysql_query('update person set opt=(opt | 8) where id="'.$_SESSION['userid'].'"');
   mysql_close($mc);
@@ -102,5 +102,5 @@ if(session_is_registered('userid')){
  }
  else $inhalt = get_anmeldung_link();
 
- echo face($inhalt);
+ $output->out($inhalt);
 ?>

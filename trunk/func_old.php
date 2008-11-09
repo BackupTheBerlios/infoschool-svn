@@ -126,14 +126,6 @@ GROUP BY d.id";
 
 
  // -- obsolete
- // gibt das allgemeine Layout zurck
- function face($inhalt=''){
-  global $output;
-  $output->out($inhalt);
-  return '';
- }
-
- // -- obsolete
  // gibt einen Text mit Link zur Anmeldung zurck
  function get_anmeldung_link(){
   $tmpl = tmpl_register_link();
@@ -266,7 +258,7 @@ GROUP BY d.id";
   global $root;
   $v['%url%'] = $root.'img/'.$name.$end;
   $v['%titel%'] = $titel;
-  return get_face($root.'symbol.html',$v);
+  return FileReader::readFile($root.'symbol.html',$v);
  }
 
  // gibt eine Zeile einer Personenliste zurck
@@ -556,7 +548,7 @@ GROUP BY d.id";
  function ask_name($name='Name',$file='neu.php'){
   $v['%name%'] = $name;
   $v['%file%'] = $file;
-  return get_face($GLOBALS['root'].'form_name.html',$v);
+  return FileReader::readFile($GLOBALS['root'].'form_name.html',$v);
  }
 
  // gibt erlaubte Tags formatiert zurck
@@ -577,7 +569,7 @@ GROUP BY d.id";
   $v['%cols%'] = $cols;
   $v['%rows%'] = $rows;
   $v['%text%'] = html2textarea($text);
-  return get_face($GLOBALS['root'].'textarea_format.html',$v);
+  return FileReader::readFile($GLOBALS['root'].'textarea_format.html',$v);
  }
 
  // rekursive Funktion; berprft, ob ein Wert in einem Array enthalten ist

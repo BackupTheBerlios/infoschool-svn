@@ -7,5 +7,5 @@
  $html_headline[] = '<a title="Frequently Asked Questions (H&auml;ufig gestellte Fragen)">FAQ</a>';
  $inhalt = FileReader::readFile('faq.html');
 
- echo face('<h1><a title="Frequently Asked Questions (H&auml;ufig gestellte Fragen)">FAQ</a></h1>'.$inhalt);
+ $output->out('<h1><a title="Frequently Asked Questions (H&auml;ufig gestellte Fragen)">FAQ</a></h1>'.$inhalt);
 ?>

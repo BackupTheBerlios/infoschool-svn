@@ -7,7 +7,7 @@
   $inhalt = FileReader::readFile($_GET['dok'],array(),'./');
   $html_menu['Hilfe'] = convert_menu($dok_menu);
   $html_menu['Hilfe']['0'] = './';
-  echo face($inhalt);
+  $output->out($inhalt);
  }
  else{
   redirect('./');

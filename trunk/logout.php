@@ -15,6 +15,6 @@
   $html_titel[] = 'Logout Fehler';
   $html_headline[] = 'Logout Fehler';
   $inhalt = 'Beim Ausloggen ist etwas schief gegangen. Das passiert, wenn man mehrere Fenster offen hatte und versucht sich in mehreren auszuloggen. Es reicht aber einmal.<br>Falls es nicht so ist, sollte der Webmaster benachrichtigt werden.<br>Danke.';
-  echo face($inhalt);
+  $output->out($inhalt);
  }
 ?>
