@@ -170,8 +170,6 @@
    }
    else $javascript = '';
    $this->vars['javascript'] = $javascript;
-   $this->vars['scr_wait'] = get_scr('scr_wait');
-   $this->vars['scr_delay'] = get_scr('scr_delay');
   }
   
   function date2vars() {

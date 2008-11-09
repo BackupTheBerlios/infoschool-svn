@@ -106,26 +106,6 @@ GROUP BY d.id";
  }
 
  // -- obsolete
- // gibt Informationen ber den Login zurck
- function get_scr($art = 'scr_delay')
- {
-   if(session_is_registered('userid'))
-   {
-    $mc = get_mc();
-    $result = mysql_query('select scr_wait, scr_delay from person where id="'.$_SESSION['userid'].'"');
-    mysql_close($mc);
-    $return = mysql_fetch_array($result);
-   }
-   else
-   {
-    $return['scr_delay'] = 1000;
-    $return['scr_wait'] = 0;
-   }
- return $return[$art];
- }
-
-
- // -- obsolete
  // gibt einen Text mit Link zur Anmeldung zurck
  function get_anmeldung_link(){
   $tmpl = tmpl_register_link();
