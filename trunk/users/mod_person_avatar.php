@@ -89,18 +89,15 @@ $pic_info = GetImageSize($file);
   if (file_exists($file)) unlink($file);
 
   //�nderungen in der Datenbank einf�gen
-  $mc = get_mc();
-  mysql_query('update person set opt=(opt | 8) where id="'.$_SESSION['userid'].'"');
-  mysql_close($mc);
+  global $db;
+  $db->query('update person set opt=(opt | 8) where id="'.$_SESSION['userid'].'"');
  }
 
-if(session_is_registered('userid')){
-  if (isset($remote_file)) $file = get_remote_file($remote_file);
-  if (isset($loeschen)) avatar_loeschen();
-  else  mod_avatar($file);
-  redirect('person.php');
- }
- else $inhalt = get_anmeldung_link();
+ $output->secure();
+ 
+ if (isset($remote_file)) $file = get_remote_file($remote_file);
+ if (isset($loeschen)) avatar_loeschen();
+ else  mod_avatar($file);
+ redirect('person.php');
 
- $output->out($inhalt);
 ?>

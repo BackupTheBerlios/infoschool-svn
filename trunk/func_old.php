@@ -66,11 +66,6 @@ require_once $root.'class_file.php';
  // gibt Messages einer Person wieder; die man bekommen hat, die man versendet hat, neue Messages
  function get_msgs_number($pid){
   return new_message_num();
-  $mc = get_mc();
-  $nmysql = mysql_query('select count(msg.id) from msg where msg.status&6=6 and msg.oid='.$pid);
-  mysql_close($mc);
-  $narray = mysql_fetch_row($nmysql);
-  return $narray[0];
  }
 
  // gibt die Anzahl neuer Posts in den Foren zurck
@@ -105,15 +100,6 @@ GROUP BY d.id";
   return mysql_num_rows($result);
  }
 
- // -- obsolete
- // gibt einen Text mit Link zur Anmeldung zurck
- function get_anmeldung_link(){
-  $tmpl = tmpl_register_link();
-  $tmpl->input[0]['root'] = $GLOBALS['root'];
-  $tmpl->input2data();
-  return $tmpl->fdata;
- }
-
  // gibt den Standard-Mailbody zurck
  function get_mailbody($name,$message,$url=''){
   $v['%name%'] = $name;
@@ -132,24 +118,12 @@ GROUP BY d.id";
   return FileReader::readFile($GLOBALS['root'].'form.html',$v);
  }
 
- // -- obsolete --> db::connect()
- // stellt eine Verbindung zur MySQL-Datenbank her
- // und gibt die Verbindungskennung zurck
- function get_mc(){
-  $db = new db();;
-  $db->connect();
-  return $db->link;
- }
-
-
  // -- obsolete --> db::query()
  //stellt eine DB-Verbindung her und fhrt eine Abfrage aus (mit Fehlerbehandlung)
  function mysql_abfrage($query)
  {
- get_mc();
- $return = mysql_query($query);
- echo mysql_error();
- return $return;
+ 	global $db;
+ 	return $db->query($query);
  }
 
  // registriert eine Variable und weist ihr bei Erfolg einen Wert zu
@@ -323,9 +297,8 @@ GROUP BY d.id";
  function get_person($pid,$vorname=0,$nachname=0,$filter=1){
   $q = 'select id,first_name,last_name,nid,birthday,mail,icq,opt,description,homepage,class';
   $q.= ' from person where '.($pid?'id="'.$pid.'"':'first_name="'.text2html($vorname).'" and last_name="'.text2html($nachname).'"');
-  $mc = get_mc();
-  $personenrow = mysql_query($q);
-  mysql_close($mc);
+  global $db;
+  $personenrow = $db->query($q);
   if(mysql_num_rows($personenrow)>1){
    return 'Es wurde mehr als eine Person gefunden.';
   }
@@ -366,9 +339,8 @@ GROUP BY d.id";
    else $query.= ' person.last_name like "'.$buchstabe.'%" or person.last_name like "&'.$buchstabe.'uml;%"';
   }
   $query.= ' order by last_name';
-  $mc = get_mc();
-  $personen = mysql_query($query);
-  mysql_close($mc);
+  global $db;
+  $personen = $db->query($query);
   while(list($p['id'],$p['first_name'],$p['last_name']) = mysql_fetch_row($personen)){
    $p['vorname'] = $p['first_name'];
    $p['nachname'] = $p['last_name'];
@@ -380,10 +352,9 @@ GROUP BY d.id";
 
  // gibt Informationen ber eine Gruppe zurck
  function get_gruppe($gid){
-  $mc = get_mc();
-  $gruppenrow = mysql_query('select gruppe.id,gruppe.name,gruppe.dsc,gruppe.notiz,gruppe.zensuren,person.id as lid,person.first_name as lvorname,person.last_name as lnachname from gruppe,person where gruppe.id="'.$gid.'" and gruppe.leiter=person.id');
-  $stunden = mysql_query('select id,day,time from lesson where gid="'.$gid.'" order by day,time');
-  mysql_close($mc);
+  global $db;
+  $gruppenrow = $db->query('select gruppe.id,gruppe.name,gruppe.dsc,gruppe.notiz,gruppe.zensuren,person.id as lid,person.first_name as lvorname,person.last_name as lnachname from gruppe,person where gruppe.id="'.$gid.'" and gruppe.leiter=person.id');
+  $stunden = $db->query('select id,day,time from lesson where gid="'.$gid.'" order by day,time');
   $gruppe = mysql_fetch_array($gruppenrow);
   if(isset($gruppe['id'])){
    $gruppe['stunde'] = array();
@@ -410,9 +381,8 @@ GROUP BY d.id";
    else $query.= ' name like "'.$buchstabe.'%" or name like "&'.$buchstabe.'uml;%"';
   }
   $query.= ' order by name';
-  $mc = get_mc();
-  $gruppen = mysql_query($query);
-  mysql_close($mc);
+  global $db;
+  $gruppen = $db->query($query);
   while($g = mysql_fetch_row($gruppen)){
    $gruppe[$g[0]] = $g[1];
   }
@@ -421,9 +391,8 @@ GROUP BY d.id";
 
  // gibt alle Informationen ber einen beantragten Account zurck
  function get_neu_account(){
-  $mc = get_mc();
-  $accounts = mysql_query('select id,passwd,vorname,nachname,gebdat,mail from neu_account order by nachname,vorname');
-  mysql_close($mc);
+  global $db;
+  $accounts = $db->query('select id,passwd,vorname,nachname,gebdat,mail from neu_account order by nachname,vorname');
   $account = array();
   while($a = mysql_fetch_row($accounts)){
    $account[] = $a;
@@ -439,9 +408,8 @@ GROUP BY d.id";
   $q.= '  and gruppe.leiter="'.$pid.'"';
   $q.= '  and neu_pg.pid=person.id';
   $q.= ' order by gruppe.name,person.last_name,person.first_name';
-  $mc = get_mc();
-  $pgs = mysql_query($q);
-  mysql_close($mc);
+  global $db;
+  $pgs = $db->query($q);
   $pg = array();
   while($a = mysql_fetch_array($pgs)){
    $pg[] = $a;
@@ -475,9 +443,8 @@ GROUP BY d.id";
   $query['group'].= ' order by gruppe.name';
   $query['gruppe'] = $query['group'];
   $ids = array();
-  get_mc();
-  $typ_rows = mysql_query($query[$typ]);
-  mysql_close();
+  global $db;
+  $typ_rows = $db->query($query[$typ]);
   while(list($id,$name) = mysql_fetch_row($typ_rows)) {
    $ids[$id] = $name;
   }
