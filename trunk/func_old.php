@@ -118,14 +118,6 @@ GROUP BY d.id";
   return FileReader::readFile($GLOBALS['root'].'form.html',$v);
  }
 
- // -- obsolete --> db::query()
- //stellt eine DB-Verbindung her und fhrt eine Abfrage aus (mit Fehlerbehandlung)
- function mysql_abfrage($query)
- {
- 	global $db;
- 	return $db->query($query);
- }
-
  // registriert eine Variable und weist ihr bei Erfolg einen Wert zu
  function sessreg($name,$value=false){
   if(!session_is_registered($name)){
