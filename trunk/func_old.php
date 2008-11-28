@@ -511,17 +511,4 @@ GROUP BY d.id";
   return FileReader::readFile($GLOBALS['root'].'textarea_format.html',$v);
  }
 
- // rekursive Funktion; berprft, ob ein Wert in einem Array enthalten ist
- function is_valid($valid,$v){
-  $e = 0;
-  if(is_array($valid)){
-   foreach($valid as $index => $value){
-    if(is_valid($value,$v))
-     $e=1;
-   }
-  }
-  else $e = ($valid==$v);
-  return $e;
- }
-
 ?>
