@@ -524,38 +524,4 @@ GROUP BY d.id";
   return $e;
  }
 
- // prft, ob eine Personen-ID in einer List enhalten ist
- function ist_mitglied($mitglied,$pid){
-  $e = 0;
-  for($i=0;$i<sizeof($mitglied);$i++){
-   if($mitglied[$i]['id']==$pid)
-    $e = 1;
-  }
-  return $e;
- }
-
- //Gibt einen vollst�digen <img> Tag zurck, falls unter der ID $datei eine Datei vorhanden ist
- function get_avatar_link($datei, $zusatz_tags='')
- {
- $pfad_intern = $GLOBALS['img_person_dir']['intern'];
- $pfad_extern = $GLOBALS['img_person_dir']['extern'];
-
- if (file_exists($pfad_intern.$datei.'.jpg')) $datei .= '.jpg';
- elseif (file_exists($pfad_intern.$datei.'.gif')) $datei .= '.gif';
- else $datei = '';
-
- if ($datei != '')
- {
- $pic_info = GetImageSize($pfad_intern.$datei);
- $return = "<img src=\"";
- $return .= $pfad_extern.$datei;
- $return .= "\" ".$pic_info[3].">";
- $return .= $zusatz_tags; //wird nur bei vorhandenem Bild angefgt
- }
- else $return = '';
-
- return $return;
- }
-
-
 ?>
