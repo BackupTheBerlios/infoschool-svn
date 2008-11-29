@@ -227,7 +227,7 @@ class output {
 		// information about the user
 		$v['username'] = $_SESSION['first_name'].' '.$_SESSION['last_name'];
 		$v['last_login_date'] = local_date($_SESSION['last_login'],'ymdHi');
-		 
+			
 		/*
 		 * active_sessions() is not stable
 		 * and should be rewritten
@@ -257,12 +257,12 @@ class output {
 			$antrag['group'] = $antrag_gruppe;
 			$loggedin[]['usermenu'] = new tmpl('loggedin_request.html',$antrag,$this->root);
 		}
-		$msg = get_msgs_number($_SESSION['userid']);
+
 		$message_num = new_message_num();
 		if($message_num>0){
-			$loggedin[]['usermenu'] = new tmpl('loggedin_messages.html',array('message_num'=>$msg),$this->root);
+			$loggedin[]['usermenu'] = new tmpl('loggedin_messages.html',array('message_num'=>$message_num),$this->root);
 		}
-		 
+			
 		$new_files = new new_files();
 		$file_num = $new_files->number();
 		if ($file_num > 0) {
@@ -288,7 +288,7 @@ class output {
 
 		$this->loggedin_sessinfo($loggedin,'error');
 		$this->loggedin_sessinfo($loggedin,'notice');
-		 
+			
 		$v['usermenu'] = $loggedin;
 		$this->vars['usermenu'] = new tmpl('loggedin.html',$v,$this->root);
 	}
@@ -394,7 +394,34 @@ class output {
 		}
 		return $account;
 	}
+/*
+	// gibt die Anzahl neuer Dateien im Dateiaustausch zurck
+	function get_neu_dateien_zahl(){
 
+		$query = "SELECT d.id
+FROM dateien_ordner o
+LEFT JOIN dateien_dateien d ON o.id = d.ordner_id
+LEFT JOIN pg ON pg.pid = ".$_SESSION['userid']."
+LEFT JOIN dateien_recht_gruppe drg ON  pg.gid = drg.gruppe_id AND
+drg.ordner_id = o.id
+LEFT JOIN dateien_recht_person drp ON drp.ordner_id = o.id AND drp.person_id = ".$_SESSION['userid']."
+
+LEFT JOIN person ON person.id = o.besitzer
+
+WHERE ((drp.recht & 1) OR (drp.recht IS NULL))
+AND (((drp.recht IS NULL) AND (drg.recht & 1)) OR ((drg.recht IS NULL) AND
+(drp.recht & 1)) OR ((drg.recht & 1) AND (drp.recht & 1)))
+AND (d.datum >= \"".$_SESSION['last_login']."\")
+AND (d.besitzer != ".$_SESSION['userid'].")
+GROUP BY d.id";
+
+		global $db;
+
+		$result = $db->query($query);
+		echo mysql_error();
+		return mysql_num_rows($result);
+	}
+*/
 
 }
 

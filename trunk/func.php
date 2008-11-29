@@ -37,6 +37,18 @@
   return $tmpl;
  }
 
+ function html2textarea($html){
+  $wc = '(.*?)';
+  foreach($GLOBALS['code_html'] as $c => $r){
+   $p = '/'.str_replace('%1%',$wc,str_replace('$1',$wc,str_replace('/','\/',$r))).'/s';
+   $s = '['.$c.']'.'$1'.'[/'.$c.']';
+   while(preg_match($p,$html)){
+    $html = preg_replace($p,$s,$html);
+   }
+  }
+  return stripslashes(strip_tags($html));
+ }
+
  // gibt ein textarea mit Formatierungsoptionen aus
  function tmpl_textarea($name='text',$text='',$cols=50,$rows=15){
   $v['name'] = $name;

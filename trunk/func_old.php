@@ -19,11 +19,6 @@ require_once $root.'class_file.php';
   return $text;
  }
 
- function code_url($u){
-  if(!strstr($u,'://')) $u = 'http://'.$u;
-  return $u;
- }
-
  // formatiert einen Text mit Sonderbehandlung spezieller HTML-Tags
  function format_msg($text){
   $func = $GLOBALS['code_func'];
@@ -39,83 +34,6 @@ require_once $root.'class_file.php';
   }
   $text = nl2br($text);
   return $text;
- }
-
- // wandelt HTML-Code in normale Sonderzeichen um (&auml; => �
- function html2text($html){
-  $html = strip_tags($html);
-  $text_html = get_html_translation_table(HTML_ENTITIES);
-  $html_text = array_flip($text_html);
-  $text = strtr($html,$html_text);
-  $text = utf8_encode($text);
-  return $text;
- }
-
- function html2textarea($html){
-  $wc = '(.*?)';
-  foreach($GLOBALS['code_html'] as $c => $r){
-   $p = '/'.str_replace('%1%',$wc,str_replace('$1',$wc,str_replace('/','\/',$r))).'/s';
-   $s = '['.$c.']'.'$1'.'[/'.$c.']';
-   while(preg_match($p,$html)){
-    $html = preg_replace($p,$s,$html);
-   }
-  }
-  return stripslashes(strip_tags($html));
- }
-
- // gibt Messages einer Person wieder; die man bekommen hat, die man versendet hat, neue Messages
- function get_msgs_number($pid){
-  return new_message_num();
- }
-
- // gibt die Anzahl neuer Posts in den Foren zurck
- function get_neu_post_zahl($pid){
-  return forum_new_entries();
- }
-
-  // gibt die Anzahl neuer Dateien im Dateiaustausch zurck
- function get_neu_dateien_zahl(){
-
-  $query = "SELECT d.id
-FROM dateien_ordner o
-LEFT JOIN dateien_dateien d ON o.id = d.ordner_id
-LEFT JOIN pg ON pg.pid = ".$_SESSION['userid']."
-LEFT JOIN dateien_recht_gruppe drg ON  pg.gid = drg.gruppe_id AND
-drg.ordner_id = o.id
-LEFT JOIN dateien_recht_person drp ON drp.ordner_id = o.id AND drp.person_id = ".$_SESSION['userid']."
-
-LEFT JOIN person ON person.id = o.besitzer
-
-WHERE ((drp.recht & 1) OR (drp.recht IS NULL))
-AND (((drp.recht IS NULL) AND (drg.recht & 1)) OR ((drg.recht IS NULL) AND
-(drp.recht & 1)) OR ((drg.recht & 1) AND (drp.recht & 1)))
-AND (d.datum >= \"".$_SESSION['last_login']."\")
-AND (d.besitzer != ".$_SESSION['userid'].")
-GROUP BY d.id";
-
-  global $db;
-
-  $result = $db->query($query);
-  echo mysql_error();
-  return mysql_num_rows($result);
- }
-
- // gibt den Standard-Mailbody zurck
- function get_mailbody($name,$message,$url=''){
-  $v['%name%'] = $name;
-  $v['%message%'] = $message;
-  $v['%url%'] = $url;
-  return FileReader::readFile($GLOBALS['root'].'mail.txt',$v);
- }
-
- // gibt ein Formular zurck
- function get_form($input='',$titel='Senden',$file='',$align='left'){
-  if($file=='') $file = $_SERVER['PHP_SELF'];
-  $v['%input%'] = $input;
-  $v['%buttontitel%'] = $titel;
-  $v['%ziel%'] = $file;
-  $v['%align%'] = $align;
-  return FileReader::readFile($GLOBALS['root'].'form.html',$v);
  }
 
  // registriert eine Variable und weist ihr bei Erfolg einen Wert zu
@@ -172,19 +90,6 @@ GROUP BY d.id";
   return '<span title="'.$dt.'">'.dt2datum($dt,$jl,$s).'</span>';
  }
 
- // htmlformat_datum() und fettgedruckt, falls jnger als der letzte Login
- function htmlformat_datum_neu($dt){
-  if($dt>$_SESSION['last_login']){
-   $b = '<b class="datum_neu">';
-   $be = '</b>';
-  }
-  else{
-   $b = '';
-   $be = '';
-  }
-  return $b.htmlformat_datum($dt).$be;
- }
-
  // htmlformat_datum() und fettgedruckt, falls in den n�hsten 24 Stunden
  function htmlformat_datum_dringend($dt){
   if(substr($dt,0,10) < date('Y-m-d',strtotime('+1 days'))){
@@ -196,15 +101,6 @@ GROUP BY d.id";
    $be = '';
   }
   return $b.htmlformat_datum($dt).$be;
- }
-
- // gibt den HTML-Code fr ein Symbol zurck
- function htmlformat_symbol($name,$titel=0,$end='.gif'){
-  if(!$titel) $titel = $name;
-  global $root;
-  $v['%url%'] = $root.'img/'.$name.$end;
-  $v['%titel%'] = $titel;
-  return FileReader::readFile($root.'symbol.html',$v);
  }
 
  // erg�zt den Namen einer Person
