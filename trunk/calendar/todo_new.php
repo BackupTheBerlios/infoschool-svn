@@ -36,6 +36,31 @@ function add_todo($data,$gids=array()){
 	}
 }
 
+// gibt alle Personen [einer Gruppe] zurck
+function get_personen($gid=0,$buchstabe=0){
+	$person = array();
+	$query = 'select person.id,person.first_name,person.last_name';
+	$query.= ' from person';
+	if($gid)
+	$query.= ',pg where person.id=pg.pid and pg.gid="'.$gid.'"';
+	if($buchstabe){
+		if($gid) $query.= ' and';
+		else $query.= ' where';
+		if($buchstabe == '#') $query.= ' person.last_name regexp "^[0-9]"';
+		else $query.= ' person.last_name like "'.$buchstabe.'%" or person.last_name like "&'.$buchstabe.'uml;%"';
+	}
+	$query.= ' order by last_name';
+	global $db;
+	$personen = $db->query($query);
+	while(list($p['id'],$p['first_name'],$p['last_name']) = mysql_fetch_row($personen)){
+		$p['vorname'] = $p['first_name'];
+		$p['nachname'] = $p['last_name'];
+		$p = complete_name($p);
+		$person[] = $p;
+	}
+	return $person;
+}
+
 $output->secure();
 
 $data = $_POST['data'];
