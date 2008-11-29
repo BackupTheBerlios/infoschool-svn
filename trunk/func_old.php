@@ -207,38 +207,6 @@ GROUP BY d.id";
   return FileReader::readFile($root.'symbol.html',$v);
  }
 
- // gibt eine Zeile einer Personenliste zurck
- function get_person_link($person,$gid,$file){
-  return '<li><a href="'.$file.'?pid='.$person['id'].'">'.$person['nachname'].',&#160;'.$person['vorname'].'</a>'.($gid?' - <a href="rm_pg.php?pid='.$person['id'].'&gid='.$gid.'">'.htmlformat_symbol('rm','entfernen').'</a>':'').'</li>';
- }
-
- // gibt eine Personenliste zurck
- function get_personen_link($person,$gid=0,$file='view_person.php'){
-  $list = '<ul>';
-  for($i=0;$i<sizeof($person);$i++){
-   $list.= get_person_link($person[$i],$gid,$file);
-  }
-  $list.= '</ul>';
-  return $list;
- }
-
- // gibt eine Zeile einer Gruppenliste zurck
- function get_gruppe_link($file,$id,$name){
-  return '<li><a href="'.$file.'?gid='.$id.'">'.$name.'</a></li>';
- }
-
- // gibt eine Gruppenliste zurck
- function get_gruppen_link($gruppe,$file='view_gruppe.php'){
-  if(sizeof($gruppe)>0){
-   $list = '<ul>';
-   foreach($gruppe as $id => $name){
-    $list.= get_gruppe_link($file,$id,$name);
-   }
-   $list.= '</ul>';
-  }
-  return $list;
- }
-
  // erg�zt den Namen einer Person
  function complete_name($person){
   if (isset($person['first_name']) && !isset($person['vorname'])) $person['vorname'] = $person['first_name'];
