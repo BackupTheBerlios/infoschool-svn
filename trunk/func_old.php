@@ -381,15 +381,4 @@ GROUP BY d.id";
   return $gruppe;
  }
 
- // gibt alle Informationen ber einen beantragten Account zurck
- function get_neu_account(){
-  global $db;
-  $accounts = $db->query('select id,passwd,vorname,nachname,gebdat,mail from neu_account order by nachname,vorname');
-  $account = array();
-  while($a = mysql_fetch_row($accounts)){
-   $account[] = $a;
-  }
-  return $account;
- }
-
 ?>
