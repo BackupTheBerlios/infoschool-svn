@@ -392,21 +392,4 @@ GROUP BY d.id";
   return $account;
  }
 
- // gibt alle beantragten Mitgliedschaften wieder
- function get_neu_pg($pid){
-  $q = 'select gruppe.id as gid,gruppe.name as gname,person.id as pid,person.first_name as pvorname,person.last_name as pnachname';
-  $q.= ' from neu_pg,gruppe,person';
-  $q.= ' where neu_pg.gid=gruppe.id';
-  $q.= '  and gruppe.leiter="'.$pid.'"';
-  $q.= '  and neu_pg.pid=person.id';
-  $q.= ' order by gruppe.name,person.last_name,person.first_name';
-  global $db;
-  $pgs = $db->query($q);
-  $pg = array();
-  while($a = mysql_fetch_array($pgs)){
-   $pg[] = $a;
-  }
-  return $pg;
- }
-
 ?>
