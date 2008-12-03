@@ -19,8 +19,8 @@
  	}
 
  	function testPHPUnitUsesGLOBALS2() {
- 		$this->assertTrue(sizeof($GLOBALS));
- 		$this->assertTrue(isset($GLOBALS['test2']));
+ 		$this->assertTrue((boolean) sizeof($GLOBALS));
+ 		$this->assertFalse(isset($GLOBALS['test2']));
  	}
 
 

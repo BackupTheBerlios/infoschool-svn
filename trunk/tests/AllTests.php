@@ -1,0 +1,27 @@
+<?php
+
+require_once 'MagicQuotesTest.php';
+require_once 'PathTest.php';
+require_once 'phpTest.php';
+
+class AllTests extends PHPUnit_Framework_TestSuite {
+	
+	public static function suite() {
+		$suite = new AllTests();
+		$suite->addTestSuite('MagicQuotesTest');
+		$suite->addTestSuite('PathTest');
+		$suite->addTestSuite('phpTest');
+		return $suite;
+	}
+	
+	protected function setUp() {
+		print 'Starting all Tests: ';
+	}
+	
+	protected function tearDown() {
+		print "\n".'Done.';
+	}
+	
+}
+
+?>
