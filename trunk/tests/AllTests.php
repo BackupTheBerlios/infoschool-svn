@@ -1,4 +1,9 @@
 <?php
+/*
+ * This file is part of Infoschool - a web based school intranet.
+ * Copyright (C) 2008 Maikel Linke
+ */
+
 
 require_once 'MagicQuotesTest.php';
 require_once 'PathTest.php';
