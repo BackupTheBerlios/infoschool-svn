@@ -218,6 +218,9 @@ b.datum_neu{
 span.new_date {
  color:#ff0000;
 }
+span.urgent_date {
+ font-weight:bold;
+}
 fieldset{
  margin-bottom:10px;
 }

@@ -4,6 +4,8 @@
  * Copyright (C) 2004 Maikel Linke, Christian Zedler
  */
 
+require_once '../class_DateTimeFormatter.php';
+
  class todo {
   var $db;
   var $table = 'todo';
@@ -83,7 +85,8 @@
    if(isset($data['expire']) && $data['expire']) $expire[] = array();
    $fdata['created'] = htmlformat_datum($data['created']);
    $fdata['deadline_date'] = date_input('data',$data['deadline']);
-   $fdata['deadline'] = htmlformat_datum_dringend($data['deadline']);
+   $dateTimeFormatter = new DateTimeFormatter($data['deadline']);
+   $fdata['deadline'] = $dateTimeFormatter->toStringUrgent();
    $fdata['deadline_year'] = substr($data['deadline'],0,4);
    $fdata['deadline_month'] = tmpl_select_int('data[month]',1,12,$month,'{Month}');
    $fdata['deadline_day'] = tmpl_select_int('data[day]',1,31,$day,'{Day}');

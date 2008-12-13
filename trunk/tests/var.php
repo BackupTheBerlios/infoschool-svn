@@ -5,6 +5,7 @@
  */
 //  include 'func.php';
 //  include 'class.php';
- $root = '../';
+ if (!isset($root)) $root = '';
+ $root .= '../';
  include $root.'var.php';
 ?>

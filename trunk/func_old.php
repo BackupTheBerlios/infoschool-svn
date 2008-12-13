@@ -90,17 +90,4 @@ require_once $root.'class_file.php';
   return '<span title="'.$dt.'">'.dt2datum($dt,$jl,$s).'</span>';
  }
 
- // htmlformat_datum() und fettgedruckt, falls in den n�hsten 24 Stunden
- function htmlformat_datum_dringend($dt){
-  if(substr($dt,0,10) < date('Y-m-d',strtotime('+1 days'))){
-   $b = '<b>';
-   $be = '</b>';
-  }
-  else{
-   $b = '';
-   $be = '';
-  }
-  return $b.htmlformat_datum($dt).$be;
- }
-
 ?>
