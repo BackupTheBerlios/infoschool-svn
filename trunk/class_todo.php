@@ -4,7 +4,7 @@
  * Copyright (C) 2004 Maikel Linke, Christian Zedler
  */
 
-require_once '../class_DateTimeFormatter.php';
+require_once $root.'class_DateTimeFormatter.php';
 
  class todo {
   var $db;
