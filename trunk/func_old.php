@@ -70,19 +70,4 @@ require_once $root.'class_file.php';
   return $m;
  }
 
- // wandelt ein Standarddatum (yyyy-mm-dd hh:ii:ss)
- // in gewohntes Format (hh:ii dd.mm.yy)
- function dt2datum($dt,$jl=2,$s=0){
-  if($dt){
-   $datum = substr($dt,8,2).'.'.substr($dt,5,2).'.'.substr($dt,4-$jl,$jl);
-   if(strlen($dt)>10){
-    $datum.= ' '.substr($dt,11,2).':'.substr($dt,14,2);
-    if($s){
-     $datum.= ':'.substr($dt,17,2);
-    }
-   }
-   return $datum;
-  }
- }
-
 ?>
