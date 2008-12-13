@@ -102,62 +102,44 @@ function person_rm_news($pid) {
 	$db->delete('news_level_person where person_id="'.$pid.'"');
 }
 
- // je nach den in in $p['opt'] gesetzten Bits werden Informationen zurckgegeben function filter_person($p){
- function filter_person($p){
-  if (isset($p['first_name']) && !isset($p['vorname'])) $p['vorname'] = $p['first_name'];
-  if (isset($p['last_name']) && !isset($p['nachname'])) $p['nachname'] = $p['last_name'];
-  if (!isset($p['first_name']) && isset($p['vorname'])) $p['first_name'] = $p['vorname'];
-  if (!isset($p['last_name']) && isset($p['nachname'])) $p['last_name'] = $p['nachname'];
-  $public = decbin($p['opt']);
-  while(strlen($public)<8)$public='0'.$public;
-  $person['id'] = $p['id'];
-  $person['vorname'] = $p['vorname'];
-  $person['nachname']= $p['nachname'];
+// je nach den in in $p['opt'] gesetzten Bits werden Informationen zurckgegeben function filter_person($p){
+function filter_person($p){
+	if (isset($p['first_name']) && !isset($p['vorname'])) $p['vorname'] = $p['first_name'];
+	if (isset($p['last_name']) && !isset($p['nachname'])) $p['nachname'] = $p['last_name'];
+	if (!isset($p['first_name']) && isset($p['vorname'])) $p['first_name'] = $p['vorname'];
+	if (!isset($p['last_name']) && isset($p['nachname'])) $p['last_name'] = $p['nachname'];
+	$public = decbin($p['opt']);
+	while(strlen($public)<8)$public='0'.$public;
+	$person['id'] = $p['id'];
+	$person['vorname'] = $p['vorname'];
+	$person['nachname']= $p['nachname'];
 
-  if (isset($p['icq']))
-  $person['icq']= $p['icq'];
-  if (isset($p['homepage']))
-  $person['homepage']= $p['homepage'];
-  if (isset($p['klasse']))
-  $person['klasse']= $p['klasse'];
-  if (isset($p['beschreibung']))
-  $person['beschreibung']= $p['beschreibung'];
+	if (isset($p['icq']))
+	$person['icq']= $p['icq'];
+	if (isset($p['homepage']))
+	$person['homepage']= $p['homepage'];
+	if (isset($p['klasse']))
+	$person['klasse']= $p['klasse'];
+	if (isset($p['beschreibung']))
+	$person['beschreibung']= $p['beschreibung'];
 
-  if(isset($p['nk'])) $person['nk'] = $p['nk'];
-  if($public[7])$person['gebdat']=$p['gebdat'];
-  if($public[6])$person['mail']=$p['mail'];
-  return $person;
- }
+	if(isset($p['nk'])) $person['nk'] = $p['nk'];
+	if($public[7])$person['gebdat']=$p['gebdat'];
+	if($public[6])$person['mail']=$p['mail'];
+	return $person;
+}
 
 // holt Informationen ber eine Person aus der Datenbank
-function get_person($pid,$vorname=0,$nachname=0,$filter=1){
-	$q = 'select id,first_name,last_name,nid,birthday,mail,icq,opt,description,homepage,class';
-	$q.= ' from person where '.($pid?'id="'.$pid.'"':'first_name="'.text2html($vorname).'" and last_name="'.text2html($nachname).'"');
+function get_person($pid){
+	$q = 'select id,first_name,last_name';
+	$q.= ' from person where id="'.$pid.'"';
 	global $db;
 	$personenrow = $db->query($q);
 	if(mysql_num_rows($personenrow)>1){
 		return 'Es wurde mehr als eine Person gefunden.';
 	}
 	else{
-		if($p=mysql_fetch_array($personenrow)){
-			if($filter){
-				$person = filter_person($p);
-			}
-			else{
-				$person = $p;
-				$person['opt'] = decbin($person['opt']);
-				while(strlen($person['opt'])<8)
-				$person['opt'] = '0'.$person['opt'];
-			}
-			$person = complete_name($person);
-			/*
-			 $person['nk'] = $person['nid'];
-			 $person['gebdat'] = $person['birthday'];
-			 $person['beschreibung'] = $person['description'];
-			 $person['klasse'] = $person['class'];
-			 */
-			return $person;
-		}
+		return mysql_fetch_array($personenrow);
 	}
 }
 

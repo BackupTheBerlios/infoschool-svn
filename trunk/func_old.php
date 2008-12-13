@@ -103,23 +103,4 @@ require_once $root.'class_file.php';
   return $b.htmlformat_datum($dt).$be;
  }
 
- // erg�zt den Namen einer Person
- function complete_name($person){
-  if (isset($person['first_name']) && !isset($person['vorname'])) $person['vorname'] = $person['first_name'];
-  if (isset($person['last_name']) && !isset($person['nachname'])) $person['nachname'] = $person['last_name'];
-  if (!isset($person['first_name']) && isset($person['vorname'])) $person['first_name'] = $person['vorname'];
-  if (!isset($person['last_name']) && isset($person['nachname'])) $person['last_name'] = $person['nachname'];
-  if(isset($person['name']) && !isset($person['first_name']) && !isset($person['last_name'])){
-   $namen = explode(' ',$person['name']);
-   $l = sizeof($namen)-1;
-   $person['last_name'] = $namen[$l];
-   $person['nachname'] = $namen[$l];
-   unset($namen[$l]);
-   $person['first_name'] = implode(' ',$namen);
-   $person['vorname'] = implode(' ',$namen);
-  }
-  else $person['name'] = $person['first_name'].' '.$person['last_name'];
-  return $person;
- }
-
 ?>
