@@ -85,9 +85,4 @@ require_once $root.'class_file.php';
   }
  }
 
- // dt2datum() und fgt das Standarddatum als title hinzu
- function htmlformat_datum($dt,$jl=2,$s=0){
-  return '<span title="'.$dt.'">'.dt2datum($dt,$jl,$s).'</span>';
- }
-
 ?>

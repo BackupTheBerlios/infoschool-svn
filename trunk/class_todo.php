@@ -83,7 +83,7 @@ require_once '../class_DateTimeFormatter.php';
    $second = substr($data['deadline'],17,2);
    $expire = array();
    if(isset($data['expire']) && $data['expire']) $expire[] = array();
-   $fdata['created'] = htmlformat_datum($data['created']);
+   $fdata['created'] = local_datetime_title($data['created']);
    $fdata['deadline_date'] = date_input('data',$data['deadline']);
    $dateTimeFormatter = new DateTimeFormatter($data['deadline']);
    $fdata['deadline'] = $dateTimeFormatter->toStringUrgent();
