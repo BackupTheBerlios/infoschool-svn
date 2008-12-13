@@ -60,7 +60,7 @@ class user {
 			$db->update("person set last_login=now() where id=$this->id");
 			$db->delete("todo where pid=$this->id and deadline<now() and expire=1");
 			$db->delete('forum_read where person_id="'.$this->id.'" and created<"'.$_SESSION['last_login'].'"');
-			$this->loadOptionsFromCookies();
+			self::loadOptionsFromCookies();
 			$origin = './';
 			if (isset($_GET['origin']) && $_GET['origin'] != 'logout.php') $origin = $_GET['origin'];
 			if (isset($_POST['origin']) && $_POST['origin'] != '/logout.php') $origin = $_POST['origin'];
@@ -80,7 +80,7 @@ class user {
 		$_SESSION['last_login'] = $data['last_login'];
 		$_SESSION['admin'] = false;
 		if (isset($data['admin']) && $data['admin']) $_SESSION['admin'] = true;
-		$this->loadOptionsFromCookies();
+		self::loadOptionsFromCookies();
 		if (isset($_COOKIE['userid']) || (isset($_POST['passwd']) && isset($_POST['save']))) {
 			setcookie('userid',$this->id,strtotime('+3 months'),'/');
 			setcookie('passwd',$data['passwd'],strtotime('+3 months'),'/');
@@ -89,11 +89,21 @@ class user {
 		}
 	}
 
+	public static function saveInSession($name, $value) {
+		if(!session_is_registered($name)){
+			if(!session_register($name)){
+				echo 'FATAL ERROR: session variable ' + $name + ' could not be registered';
+				exit;
+			}
+		}
+		$_SESSION[$name] = $value;
+	}
+
 	public static function loadOptionsFromCookies() {
 		global $cookieopt;
 		foreach ($cookieopt as $i => $optionName) {
 			if (isset($_COOKIE[$optionName])) {
-				sessreg($optionName, $_COOKIE[$optionName]);
+				self::saveInSession($optionName, $_COOKIE[$optionName]);
 			}
 		}
 	}

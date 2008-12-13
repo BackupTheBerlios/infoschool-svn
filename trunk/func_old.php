@@ -36,15 +36,4 @@ require_once $root.'class_file.php';
   return $text;
  }
 
- // registriert eine Variable und weist ihr bei Erfolg einen Wert zu
- function sessreg($name,$value=false){
-  if(!session_is_registered($name)){
-   if(!session_register($name)){
-    echo 'Variable '.$name.' konnte nicht registriert werden.';
-    exit;
-   }
-  }
-  $_SESSION[$name] = $value;
- }
-
 ?>
