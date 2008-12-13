@@ -16,6 +16,11 @@ class Date {
 		$this->setDay($day);
 	}
 	
+	/**
+	 * Returns a date in standard format.
+	 *
+	 * @return string
+	 */
 	public function toString() {
 		return $this->year.'-'.$this->month.'-'.$this->day;
 	}

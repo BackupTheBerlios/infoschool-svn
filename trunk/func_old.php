@@ -47,13 +47,4 @@ require_once $root.'class_file.php';
   $_SESSION[$name] = $value;
  }
 
- function load_opt(){
-  global $cookieopt;
-  for($i=0;$i<sizeof($cookieopt);$i++){
-   if(isset($_COOKIE[$cookieopt[$i]])){
-    sessreg($cookieopt[$i],$_COOKIE[$cookieopt[$i]]);
-   }
-  }
- }
-
 ?>
