@@ -15,7 +15,7 @@ class Date {
 		$this->setMonth($month);
 		$this->setDay($day);
 	}
-	
+
 	/**
 	 * Returns a date in standard format.
 	 *
@@ -41,21 +41,12 @@ class Date {
 		if (checkdate($this->month, $day, $this->year)) {
 			$this->day = $day;
 		}
-		else if ($day > 28) {
-			if (checkdate($this->month, 31, $this->year)) {
-				$this->day = 31;
-			}
-			else if (checkdate($this->month, 30, $this->year)) {
-				$this->day = 30;
-			}
-			else if (checkdate($this->month, 29, $this->year)) {
-				$this->day = 29;
-			}
-			else {
-				$this->day = 28;
+		else {
+			if ($day > 28) {
+				$timestamp = strtotime($this->toString());
+				$this->day = date('t', $timestamp); // t: Number of days in the given month
 			}
 		}
 	}
-
 }
 ?>
