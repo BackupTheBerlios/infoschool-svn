@@ -558,20 +558,20 @@ function sessionurl($url) {
 
 // wandelt eine relative URL in eine absolute um und modifiziert den HTTP-Header(Location)
 function redirect($path='',$arg=array(),$ilink=''){
-    $p = 'http://';
-    $h = $_SERVER['HTTP_HOST'];
-    $f = $_SERVER['PHP_SELF'];
+    $protocol = 'http://';
+    $host = $_SERVER['HTTP_HOST'];
+    $file = $_SERVER['PHP_SELF'];
     $pos = strpos($path,'://');
     if ($pos) {
         $pos+= 3;
-        $p = substr($path,0,$pos);
+        $protocol = substr($path,0,$pos);
         $path = substr($path,$pos);
         $pos = strpos($path,'/');
-        $h = substr($path,0,$pos);
+        $host = substr($path,0,$pos);
         $path = substr($path,$pos);
     }
-    if (!$path) $path = $f;
-    if (substr($path,0,1) != '/') $path = Path::rm_last($f).$path;
+    if (!$path) $path = $file;
+    if (substr($path,0,1) != '/') $path = Path::rm_last($file).$path;
     $path = Path::clean($path);
     if(strstr($path,'#')){
         list($path,$internal_link) = explode('#',$path);
@@ -590,7 +590,7 @@ function redirect($path='',$arg=array(),$ilink=''){
     if($ilink && substr($_SERVER['HTTP_USER_AGENT'],0,5)!='Opera'){
         $path.= '#'.$ilink;
     }
-    if(substr($path,0,7)!=$p) $path = $p.$h.$path;
+    if(substr($path,0,7)!=$protocol) $path = $protocol.$host.$path;
     header('Location:'.$path);
     exit;
 }
