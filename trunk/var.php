@@ -91,12 +91,6 @@
   'quote' => '<blockquote>$1</blockquote>',
   'code' => '<code>$1</code>',
   'pre' => '<pre>$1</pre>',
-  'url' => '<a href='.'\"'.'%1%'.'\"'.' target='.'\"'.'_blank'.'\"'.'>$1</a>',
-  'img' => '<img src='.'\"'.'%1%'.'\"'.' border=0 />',
- );
- $code_func = array(
-  'url' => 'code_url',
-  'img' => 'code_url',
  );
 
 /////////////////////// Anfang OOP ///////////////////////
