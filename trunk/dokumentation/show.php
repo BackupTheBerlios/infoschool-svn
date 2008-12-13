@@ -18,11 +18,8 @@ function arrayContainsValue($array, $value) {
 	return false;
 }
 
-$html_menu = add_subdir($html_menu);
 if(arrayContainsValue($dok_menu,$_GET['dok'])){
 	$inhalt = FileReader::readFile($_GET['dok'],array(),'./');
-	$html_menu['Hilfe'] = convert_menu($dok_menu);
-	$html_menu['Hilfe']['0'] = './';
 	$output->out($inhalt);
 }
 else{

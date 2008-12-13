@@ -56,18 +56,4 @@ require_once $root.'class_file.php';
   }
  }
 
- // rekursive Funktion, stellt Strings '../' voran
- // um relative Pfade zu korrigieren
- function add_subdir($m){
-  if(is_array($m)){
-   foreach($m as $index => $value){
-    $m[$index] = add_subdir($value);
-   }
-  }
-  else{
-   $m = '../'.$m;
-  }
-  return $m;
- }
-
 ?>
