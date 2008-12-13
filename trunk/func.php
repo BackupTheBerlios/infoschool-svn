@@ -5,7 +5,6 @@
  *
  * main, central, shared function library
  */
-include 'func_old.php';
 
 function tmpl_select($name,$values,$default='',$title='') {
     $v['name'] = $name;
