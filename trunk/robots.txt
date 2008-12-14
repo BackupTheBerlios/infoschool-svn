@@ -1,0 +1,12 @@
+#  robots.txt for Infoschool
+#
+# Some sites are for logged in users only
+User-agent: *
+Disallow: /calendar/
+Disallow: /files/
+Disallow: /forum/
+Disallow: /messages/
+Disallow: /news/
+Disallow: /supply/
+Disallow: /users/
+
