@@ -27,8 +27,15 @@ class db {
     var $insert_id = 0;
     var $verbose = 0;
 
+    /**
+     * Private constructor to prevent instantiation.
+     */
     private function __construct() {}
 
+    /**
+     * Returns the instance.
+     * @return db the one and only instance
+     */
     public static function getInstance() {
         if (self::$instance == null) {
             self::$instance = new db();
