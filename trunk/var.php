@@ -33,7 +33,7 @@
  $cookieopt[] = 'gruppe_abc';
 
  // object representing the connection to the database (db-layer)
- $db = new db();
+ $db = db::getInstance();
 
  // manages login and session
  $user = new user();
