@@ -1,0 +1,39 @@
+<h1>Schleifen</h1>
+<p>
+    Warum programmiert man? Weil Computern es nichts ausmacht stumpfe Arbeit immer
+    und immer wieder zu wiederholen. Ein wichtiges Element von Programmiersprachen
+    sind deshalb Schleifen. Mit einem Programm ist es ganz einfach hundert mal
+    das gleiche zu tun.
+</p>
+<pre>
+&lt;?php
+   for ($zaehler = 0; $zaehler &lt; 100; $zaehler = $zaehler + 1) {
+       echo 'Hallo Welt!';
+   }
+?&gt;
+</pre>
+<p>
+    Tippe das Beispiel ab und lade das Browserfenster mit deinem Skript neu. Das
+    Ergebnis ist klar. Aber wie funktioniert das? <code>for</code> ist ein Schleifenbefehl,
+    in den runden Klammern dahinter stehen drei Ausdrücke, die den Ablauf der Schleife
+    beschreiben. Und in den geschweiften Klammern steht das, was wiederholt werden
+    soll. Den zweiten Teil müssen wir uns genauer anschauen.
+</p>
+<pre>
+       (<span class="highlight">$i = 0</span>; <span class="highlight">$i < 100</span>; <span class="highlight">$i = $i + 1</span>)
+</pre>
+<p>
+    Die drei Ausdrücke beschreiben
+    <ol>
+        <li>die Initialisierung, </li>
+        <li>die Abbruchbedingung und</li>
+        <li>die Änderung nach jedem Durchlauf.</li>
+    </ol>
+</p>
+<p>
+    Dabei ist <code>$i</code> eine Variable. In Variablen können Werte gespeichert werden.
+    Sie beginnen in PHP immer mit einem Dollarzeichen und danach folgt ihr Name,
+    in diesem Fall einfach <cite>zaehler</cite>. Den Wert kann man sich mit einem
+    Befehl ausgeben lassen: <code>echo $zaehler;</code>. Schreibe den Befehl mit
+    in die Schleife und schau, was passiert.
+</p>

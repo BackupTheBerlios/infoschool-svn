@@ -1,0 +1,39 @@
+<h1>Variablen</h1>
+<p>
+    Und nun? Nun kommt die erste Aufgabe, bei der uns der Computer Arbeit abnehmen kann.
+    Stell dir vor, du hast folgenden Text geschrieben:
+</p>
+
+<blockquote>
+    Hallo Max!
+    Hast du schonmal über deinen Namen nachgedacht? Ich meine "Max". Warum heißt
+    du Max? Und nicht irgendwie anders? Hat sich deine Mutter das ausgedacht? Oder
+    hat dein Vater gesagt: "Mein Sohn wird Max heißen". Haben sich die beiden
+    geeinigt, abgestimmt oder ein Los gezogen? Und auf dem Los stand dann Max?
+    Also ich werde gleich erstmal meine Eltern fragen.
+</blockquote>
+<p>
+    Nun willst du diese Fragen aber mehreren Leuten Stellen: Lisa, Peter, Eva, ...
+    Kein Problem, wir können den Namen in einer Variable speichern und im Text
+    einfügen.
+</p>
+<pre>
+&lt;?php
+
+    $name = 'Max';
+
+    echo 'Hallo ' . $name . '! ';
+    echo 'Hast du schonmal über deinen Namen nachgedacht? ';
+    echo 'Ich meine "' . $name . '". ';
+    echo 'Warum heißt du ' . $name . '? ';
+    echo 'Und nicht irgendwie anders? ';
+    echo 'Hat sich deine Mutter das ausgedacht? ';
+    echo 'Oder hat dein Vater gesagt: ';
+    echo '"Mein Kind wird ' . $name . ' heißen." ';
+    echo 'Haben sich die beiden geeinigt, ';
+    echo 'abgestimmt oder ein Los gezogen? ';
+    echo 'Und auf dem Los stand dann ' . $name. '? ';
+    echo 'Also cih werde gleich erstmal meine Eltern fragen.';
+    
+?&gt;
+</pre>
