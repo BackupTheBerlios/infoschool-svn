@@ -18,9 +18,9 @@
 <ul>
  <tmpl:member><li><a href="person.php?id={member_id}">{last_name}, {first_name}</a></li></tmpl:member>
 </ul>
-<p>
  <form action="pg.php?gid={id}" method="post">
+<p>
   <input type="hidden" name="action" value="{pg_action}" />
   <input type="submit" value="{{pg_action}}" />
- </form>
 </p>
+ </form>

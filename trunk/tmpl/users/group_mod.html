@@ -69,15 +69,15 @@
 <ul>
  <tmpl:member><li><a href="person.php?id={member_id}">{last_name}, {first_name}</a>&nbsp;-&nbsp;<a href="pg.php?gid={id}&pid={member_id}&action=leave%20group"><img src="../img/rm.gif" border="0" alt="{Remove}" /></a></li></tmpl:member>
 </ul>
-<p>
  <form action="pg.php?gid={id}" method="post">
+<p>
   <input type="hidden" name="action" value="{pg_action}" />
   <input type="submit" value="{{pg_action}}" />
- </form>
 </p>
-<p>
+ </form>
  <form action="group_del.php" method="post">
+<p>
   <input type="hidden" name="id" value="{id}" />
   <input type="submit" value="{delete group}" />
- </form>
 </p>
+ </form>

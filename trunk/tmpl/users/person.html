@@ -12,13 +12,17 @@
   <tmpl:homepage><tr><td align="left">{Homepage}</td><td align="left"><a href="{homepage}" target="_blank">{homepage}</a></td></tr></tmpl:homepage>
   <tmpl:icq><tr><td align="left">{ICQ UIN}</td><td align="left">{icq} <img src="http://status.icq.com/online.gif?icq={icq}&img=5" alt="status" title="{ICQ status}" class="intext" /></td></tr></tmpl:icq>
  </table>
- <p><div align="left">{description}</div></p>
- <tmpl:remove>
+ <div align="left">
  <p>
+ {description}
+ </p>
+ </div>
+ <tmpl:remove>
   <form action="person_rm.php" method="post">
+ <p>
    <input type="hidden" name="id" value="{id}" />
    <input type="submit" value="{remove account}" />
-  </form>
  </p>
+  </form>
  </tmpl:remove>
 </div>

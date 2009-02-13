@@ -51,15 +51,15 @@
   </td>
   <td valign="top">{allowed pictures}</td>
  </tr>
+  <tr>
  <form enctype="multipart/form-data" action="mod_person_avatar.php" method=post>
   <input type="hidden" name="person[id]" value="{id}" />
   <input type="hidden" name="MAX_FILE_SIZE" value="100000" />
-  <tr>
    <td>{local file}:</td>
    <td><input name="file" type="file" size="20" maxlength="100000" accept="text/*" /></td>
    <td align="center"><input type="submit" value="{Upload}" /></td>
-   </tr>
  </form>
+   </tr>
 
  <!--form enctype="multipart/form-data" action="mod_person_avatar.php" method=post>
   <input type="hidden" name="person[id]" value="{id}" />
