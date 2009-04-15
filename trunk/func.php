@@ -555,7 +555,14 @@ function sessionurl($url) {
     return $url;
 }
 
-// wandelt eine relative URL in eine absolute um und modifiziert den HTTP-Header(Location)
+/**
+ * Wandelt eine relative URL in eine absolute um und modifiziert den
+ * HTTP-Header(Location). Kehrt nicht zurück.
+ * @param $path Pfad zur aufzurufenden Webseite
+ * @param $arg GET-Argumente (?x=23&y=42)
+ * @param $ilink HTML-interner Link (#foo)
+ * @return never, Funktion terminiert die Ausführung und kehrt nicht zurück.
+ */
 function redirect($path='',$arg=array(),$ilink=''){
     $protocol = 'http://';
     $host = $_SERVER['HTTP_HOST'];

@@ -1,0 +1,35 @@
+<h3>{Step 1}</h3>
+<p>{Step 1 description}</p>
+
+<tmpl:error>
+<p class="error">
+{error {error}}
+</p>
+</tmpl:error>
+
+<form action="write_mysql_config.php" method="post">
+
+<div class="label_input_cols">
+
+<label for="mysql_server">{mysql server}</label>
+<input type="text" id="mysql_server" name="mysql_server" value="{mysql_server}" />
+
+<label for="user_name">{user name}</label>
+<input type="text" id="user_name" name="user_name" value="{user_name}" />
+
+<label for="user_passwd">{user password}</label>
+<input type="password" id="user_passwd" name="user_passwd" value="{user_passwd}" />
+
+<label for="user_passwd2">{user password confirmation}</label>
+<input type="password" id="user_passwd2" name="user_passwd2" value="{user_passwd2}" />
+
+<label for="db">{database name}</label>
+<input type="text" id="db" name="db" value="{db}" />
+
+</div>
+
+<input type="submit" value="{save}" />
+
+</form>
+
+

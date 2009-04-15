@@ -1,0 +1,12 @@
+# Infoschool language file
+# Only edit something between > and < to translate!
+
+Step 2>Schritt 2 - Datenbank initialisieren<
+Step 2 description>Die Datenbank muss mit Anfangsdaten gefüttert werden, sodass
+mindestens ein Account besteht, mit dem man sich anmelden kann. Falls dies die erste
+Installation ist, können nur die Standarddaten hinzugefügt werden. Falls schon eigene
+Datenbank-Backups (<tt>.sql</tt>) existieren, können diese in das Verzeichnis <emph>
+.htsecret/etc/</emph>
+ kopiert werden. Sie können dann auf dieser Seite <a href="./" title="Diese Seite neu
+ laden und hochgeladene Backups anzeigen.">angezeigt</a> werden.<
+insert>Daten hinzufügen<

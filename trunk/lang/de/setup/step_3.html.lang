@@ -1,0 +1,7 @@
+# Infoschool language file
+# Only edit something between > and < to translate!
+
+Step 3>Schritt 3 - Anmelden<
+Step 3 description>Nun besteht eine Datenbankverbindung und es gibt mindestens einen Account
+zum Anmelden. Bei einer Standardinstallation sollten Sie sich jetzt mit dem Nachnamen
+ 'admin' ohne Passwort einloggen.<

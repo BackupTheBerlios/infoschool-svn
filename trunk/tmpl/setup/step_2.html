@@ -1,0 +1,24 @@
+<h3>{Step 2}</h3>
+<p>{Step 2 description}</p>
+
+
+<form action="insert_data.php" method="post" enctype="multipart/form-data">
+
+<ul class="radio">
+<li>
+<input type="radio" id="standard_script" name="sql-script" value="" checked="checked" />
+<label for="standard_script">Standardkonfiguration</label>
+</li>
+<tmpl:backups>
+<li>
+<input type="radio" id="script_{number}" name="sql-script" value="{filename}" />
+<label for="script_{number}">{filename}</label>
+</li>
+</tmpl:backups>
+</ul>
+
+<input type="submit" value="{insert}" />
+
+</form>
+
+

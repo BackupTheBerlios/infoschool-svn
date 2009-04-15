@@ -1,0 +1,15 @@
+# Infoschool language file
+# Only edit something between > and < to translate!
+
+Step 1>Schritt 1 - MySQL-Daten speichern<
+Step 1 description>Infoschool braucht Zugang zu einer MySQL-Datenbank. Mit
+welchen Zugangsdaten soll es arbeiten?<
+mysql server>MySQL-Server<
+user name>Benutzername<
+user password>Benutzerpasswort<
+user password confirmation>Passwortbestätigung<
+database name>Datenbankname<
+save>Speichern<
+error invalid config>Mit den Zugangsdaten ist die Datenbank nicht benutzbar. Existieren alle
+Berechtigungen?<
+error different passwords>Die beiden angegebenen Passwörter stimmen nicht überein.<

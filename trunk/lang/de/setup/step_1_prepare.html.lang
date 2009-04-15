@@ -1,0 +1,8 @@
+# Infoschool language file
+# Only edit something between > and < to translate!
+
+Step 1>Schritt 1 - MySQL-Daten speichern<
+Step 1 prepare>Infoschool braucht Zugang zu einer MySQL-Datenbank. Um die
+Zugangsdaten zu speichern, braucht der Webserver für kurze Zeit Schreibrecht im
+Verzeichnis <tt>.htsecret/etc/</tt>.<
+next>Weiter<

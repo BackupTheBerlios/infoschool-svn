@@ -1,51 +1,57 @@
 <?php
 /*
  * This file is part of Infoschool - a web based school intranet.
- * Copyright (C) 2004 Maikel Linke
+ * Copyright (C) 2009 Maikel Linke
  */
- include 'var.php';
- 
- $v['error'] = array();
- $v['todo'] = 'Todo';
- $v['create_config'][] = array(); 
- $v['create_database'][] = array(); 
- $v['create_tables'][] = array(); 
- $v['insert_data'][] = array(); 
- $v['config_database'][] = array();
- 
- if (isset($_GET['error'])) {
-  $v['error'][]['error'] = $_GET['error'];
- }
+include 'var.php';
 
- $db->connect();
- if ($db->error != 'no login file') {
-  if (substr(mysql_error(),0,13) != 'Access denied') {
-  $v['create_config'] = array(); 
-  }
- }
- $db->select_db();
- if ($db->error != 'cannot select database') {
-  $v['create_database'] = array();
- }
- $db->query('show tables',true);
- if (@mysql_num_rows($db->result) != 0) {
-  $v['create_tables'] = array(); 
- }
- $db->query('select count(passwd) from person',true);
- if (@mysql_num_rows($db->result) != 0) {
-  $v['insert_data'] = array();
- }
- if ($db->error == '') {
-  $v['todo'] = 'login as admin';
-  $v['config_database'] = array();
- }
- 
- if (session_is_registered('userid')) {
-  $output->secure('admin');
-  $v['todo'] = 'nothing to do';
- }
- 
- $content = new tmpl('index.html',$v);
- 
- $output->out($content);
+require_once 'Setup.php';
+
+function list_backups() {
+	$backups = array();
+	$dirIterator = new DirectoryIterator('../.htsecret/etc/');
+	foreach ($dirIterator as $fileInfo) {
+		if ($fileInfo->isDot()) continue;
+		if (!$fileInfo->isFile()) continue;
+		if (!$fileInfo->isReadable()) continue;
+		$fileName = $fileInfo->getFilename();
+		if (substr($fileName, -4) == '.sql') {
+			if ($fileName == 'data.sql') continue;
+			if ($fileName == 'tables.sql') continue;
+			$backups[] = array (
+			'number' => sizeof($backups)
+			, 'filename' => $fileName
+			);
+		}
+	}
+	$tmplData = array(
+	'backups' => $backups
+	);
+	return $tmplData;
+}
+
+$setup = new Setup();
+
+if (session_is_registered('userid')) {
+	$output->secure('admin');
+	$content = new tmpl('step_4.html');
+}
+elseif (!$setup->mysqlConfigExists()) {
+	if ($setup->mysqlConfigWritable()) {
+		require_once 'DatabaseForm.php';
+		$databaseForm = new DatabaseForm();
+		$content = $databaseForm->getForm();
+	}
+	else {
+		$content = new tmpl('step_1_prepare.html');
+	}
+}
+elseif (!$setup->usersExist()) {
+	$content = new tmpl('step_2.html', list_backups());
+}
+else {
+	$content = new tmpl('step_3.html');
+}
+
+$output->out($content);
 ?>

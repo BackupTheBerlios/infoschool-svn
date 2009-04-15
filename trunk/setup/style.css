@@ -1,0 +1,10 @@
+
+/* Displays each label-input-pair in one line, if there is enough space. */
+div.label_input_cols { float: left; }
+div.label_input_cols label { clear: both; float: left; margin-right: 0.5em; }
+div.label_input_cols label:after { content: ":" }
+div.label_input_cols input { float: right; }
+div.label_input_cols+input { clear: left; display: block; }
+
+/* radio-buttons are bullets enough */
+ul.radio { list-style-type: none; }
