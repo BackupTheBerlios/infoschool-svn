@@ -44,6 +44,18 @@ class Setup {
 		return true;
 	}
 
+	public function createUser($mysqlData, $mysqlAdmin) {
+        $link = @mysql_connect($mysqlData['host'], $mysqlAdmin['user'], $mysqlAdmin['passwd']);
+        if (!$link) return false;
+        $granted = @mysql_query('grant all on '
+        . $mysqlData['db'] . '.* to '
+        . $mysqlData['user'] . '@' . $mysqlData['host']
+        . ' identified by "' . $mysqlData['passwd'] . '";'
+        , $link);
+        if (!$granted) return false;
+		return true;
+	}
+
 	public function writeMysqlConfig($mysqlData) {
 		if ($this->mysqlConfigExists()) return false;
 		if (!$this->mysqlConfigWritable()) return false;

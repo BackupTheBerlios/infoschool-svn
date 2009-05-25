@@ -9,6 +9,10 @@ user name>Benutzername<
 user password>Benutzerpasswort<
 user password confirmation>Passwortbestätigung<
 database name>Datenbankname<
+admin name>Datenbankadmin<
+admin password>Adminpasswort<
+create user only>Der Datenbank-Adminstrationszugang wird nur gebraucht, wenn der
+angegebene Benutzer-Account noch erstellt werden muss.<
 save>Speichern<
 error invalid config>Mit den Zugangsdaten ist die Datenbank nicht benutzbar. Existieren alle
 Berechtigungen?<

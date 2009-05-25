@@ -12,7 +12,7 @@ class DatabaseForm {
 
 	public function __construct($tmplData = null, $error = null) {
 		if ($tmplData === null) {
-			$this->setData('localhost', 'infoschool', '', '', 'infoschool');
+			$this->setData('localhost', 'infoschool', '', '', 'infoschool', 'root', '');
 		}
 		else {
 			$this->tmplData = $tmplData;
@@ -27,14 +27,16 @@ class DatabaseForm {
 		return $tmpl;
 	}
 
-	private function setData($mysqlServer, $userName, $userPasswd, $userPasswd2, $db) {
+	private function setData($mysqlServer, $userName, $userPasswd, $userPasswd2, $db, $adminName, $adminPasswd) {
 		$this->tmplData = array(
 		'mysql_server' => $mysqlServer
 		, 'user_name' => $userName
 		, 'user_passwd' => $userPasswd
 		, 'user_passwd2' => $userPasswd2
-		, 'db' => $db
-		, 'error' => array()
+        , 'db' => $db
+        , 'admin_name' => $adminName
+        , 'admin_passwd' => $adminPasswd
+      , 'error' => array()
 		);
 	}
 
