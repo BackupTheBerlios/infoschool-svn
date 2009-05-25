@@ -4,7 +4,10 @@
   <tmpl:menu_link><a href="./?day={day}"><span>&nbsp;{dow {dow}} {date}&nbsp;</span></a></tmpl:menu_link>
  </tmpl:menu>
 </div>
-<div align="center"><a href="show.php">{Fullscreen}</a></div>
+<div align="center">
+<a href="show.php">{Fullscreen}</a>
+<tmpl:admin>| <a href="delete.php?day={day}">{Delete}</a></tmpl:admin>
+</div>
 <pre>
  {data}
 </pre>
