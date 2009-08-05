@@ -259,7 +259,7 @@ class supply {
 	function extract_date() {
 		$dateline = $this->line[0]['text'];
 		$parts = explode(' ',$dateline);
-		$day_month = $parts[1];
+		$day_month = $parts[2];
 		list($day,$month) = explode('.',$day_month);
 		$timestamp = strtotime(date('Y').'-'.$month.'-'.$day);
 		if ($timestamp < strtotime('-1 day')) {
