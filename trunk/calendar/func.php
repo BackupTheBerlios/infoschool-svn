@@ -14,15 +14,6 @@ function w_dif($date){
 }
 
 
-// wandelt Sonderzeichen im Text in normale HTML um (�=> &auml;)
-function text2html($text){
-	$text = str_replace("\xE2\x82\xAC",'[euro]',$text);
-	$text = utf8_decode($text);
-	$text = htmlentities($text);
-	$text = str_replace('[euro]','&euro;',$text);
-	return $text;
-}
-
 // formatiert einen Text mit Sonderbehandlung spezieller HTML-Tags
 function format_msg($text){
 	$text = text2html($text);
